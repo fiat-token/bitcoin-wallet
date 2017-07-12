@@ -100,7 +100,7 @@ public abstract class InputParser {
                 try {
                     final BitcoinURI bitcoinUri = new BitcoinURI(null, input);
                     final Address address = bitcoinUri.getAddress();
-                    if (address != null && !Constants.NETWORK_PARAMETERS.equals(address.getParameters()))
+                    if (address != null && !Constants.NETWORK_PARAMETERS.equals(address.getParameters()) && false)  //TODO added for Regtest
                         throw new BitcoinURIParseException("mismatched network");
 
                     handlePaymentIntent(PaymentIntent.fromBitcoinUri(bitcoinUri));

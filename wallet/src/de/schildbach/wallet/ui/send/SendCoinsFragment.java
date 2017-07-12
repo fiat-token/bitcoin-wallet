@@ -914,7 +914,8 @@ public final class SendCoinsFragment extends Fragment {
         try {
             final String addressStr = receivingAddressView.getText().toString().trim();
             if (!addressStr.isEmpty()
-                    && Constants.NETWORK_PARAMETERS.equals(Address.getParametersFromAddress(addressStr))) {
+                    && (Constants.NETWORK_PARAMETERS.equals(Address.getParametersFromAddress(addressStr))
+                        || true ) ) {  //TODO added true because regtest address are not supported
                 final String label = AddressBookProvider.resolveLabel(activity, addressStr);
                 validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, addressStr, label);
                 receivingAddressView.setText(null);
