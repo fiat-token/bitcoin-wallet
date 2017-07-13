@@ -17,24 +17,6 @@
 
 package de.schildbach.wallet.ui;
 
-import javax.annotation.Nullable;
-
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.wallet.Wallet;
-
-import de.schildbach.wallet.Configuration;
-import de.schildbach.wallet.Constants;
-import de.schildbach.wallet.WalletApplication;
-import de.schildbach.wallet.data.ExchangeRate;
-import de.schildbach.wallet.data.ExchangeRatesLoader;
-import de.schildbach.wallet.data.ExchangeRatesProvider;
-import de.schildbach.wallet.service.BlockchainState;
-import de.schildbach.wallet.service.BlockchainStateLoader;
-import de.schildbach.wallet.ui.send.FeeCategory;
-import de.schildbach.wallet.ui.send.SendCoinsActivity;
-import de.schildbach.wallet_test.R;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
@@ -54,6 +36,23 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.bitcoinj.core.Coin;
+import org.bitcoinj.wallet.Wallet;
+
+import javax.annotation.Nullable;
+
+import de.schildbach.wallet.Configuration;
+import de.schildbach.wallet.Constants;
+import de.schildbach.wallet.WalletApplication;
+import de.schildbach.wallet.data.ExchangeRate;
+import de.schildbach.wallet.data.ExchangeRatesLoader;
+import de.schildbach.wallet.data.ExchangeRatesProvider;
+import de.schildbach.wallet.service.BlockchainState;
+import de.schildbach.wallet.service.BlockchainStateLoader;
+import de.schildbach.wallet.ui.send.FeeCategory;
+import de.schildbach.wallet.ui.send.SendCoinsActivity;
+import de.schildbach.wallet_test.R;
+
 /**
  * @author Andreas Schildbach
  */
@@ -67,10 +66,10 @@ public final class WalletBalanceFragment extends Fragment {
     private View viewBalance;
     private CurrencyTextView viewBalanceBtc;
     private TextView viewBalanceWarning;
-    private CurrencyTextView viewBalanceLocal;
+    //private CurrencyTextView viewBalanceLocal;
     private TextView viewProgress;
 
-    private boolean showLocalBalance;
+    private boolean showLocalBalance=false;
     private boolean installedFromGooglePlay;
 
     @Nullable
@@ -140,9 +139,11 @@ public final class WalletBalanceFragment extends Fragment {
 
         viewBalanceWarning = (TextView) view.findViewById(R.id.wallet_balance_warning);
 
+        /*
         viewBalanceLocal = (CurrencyTextView) view.findViewById(R.id.wallet_balance_local);
         viewBalanceLocal.setInsignificantRelativeSize(1);
         viewBalanceLocal.setStrikeThru(Constants.TEST);
+        */
 
         viewProgress = (TextView) view.findViewById(R.id.wallet_balance_progress);
     }
@@ -236,14 +237,18 @@ public final class WalletBalanceFragment extends Fragment {
         if (!showProgress) {
             viewBalance.setVisibility(View.VISIBLE);
 
+            /*
             if (!showLocalBalance)
                 viewBalanceLocal.setVisibility(View.GONE);
+            */
 
             if (balance != null) {
                 viewBalanceBtc.setVisibility(View.VISIBLE);
-                viewBalanceBtc.setFormat(config.getFormat());
+
+                viewBalanceBtc.setFormat(Constants.vEUR);
                 viewBalanceBtc.setAmount(balance);
 
+                /*
                 if (showLocalBalance) {
                     if (exchangeRate != null) {
                         final Fiat localValue = exchangeRate.rate.coinToFiat(balance);
@@ -256,6 +261,7 @@ public final class WalletBalanceFragment extends Fragment {
                         viewBalanceLocal.setVisibility(View.INVISIBLE);
                     }
                 }
+                */
             } else {
                 viewBalanceBtc.setVisibility(View.INVISIBLE);
             }

@@ -55,7 +55,7 @@
   <string name="wallet_version_dialog_button_binary">Last ned</string>
   <string name="wallet_old_sdk_dialog_title">Android-versjon er utdatert</string>
   <string name="wallet_old_sdk_dialog_message">Der er risiko for at en av de neste utgivelsene av Bitcoin Wallet ikke vil støtte din enhet lenger. I noen tilfeller kan det være vanskelig å bruke mynter på denne enheten.\n\nMed mindre du vet hva du gjør, anbefales det å straks flytte dine mynter vekk.</string>
-  <string name="send_coins_activity_title">Send bitcoins</string>
+  <string name="send_coins_activity_title">Send Virtual Euro</string>
   <string name="send_coins_fragment_request_payment_request_progress">Henter signatur fra %s…</string>
   <string name="send_coins_fragment_request_payment_request_failed_title">Henting av signatur mislyktes</string>
   <string name="send_coins_fragment_request_payment_request_wrong_signature">Feil signatur!</string>

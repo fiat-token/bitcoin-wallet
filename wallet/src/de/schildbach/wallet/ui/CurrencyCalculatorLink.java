@@ -17,16 +17,16 @@
 
 package de.schildbach.wallet.ui;
 
-import javax.annotation.Nullable;
+import android.view.View;
 
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.utils.ExchangeRate;
 import org.bitcoinj.utils.Fiat;
 
+import javax.annotation.Nullable;
+
 import de.schildbach.wallet.Constants;
 import de.schildbach.wallet.ui.CurrencyAmountView.Listener;
-
-import android.view.View;
 
 /**
  * @author Andreas Schildbach
@@ -139,7 +139,7 @@ public final class CurrencyCalculatorLink {
         if (exchangeRate != null) {
             localAmountView.setEnabled(enabled);
             localAmountView.setCurrencySymbol(exchangeRate.fiat.currencyCode);
-
+/*
             if (exchangeDirection) {
                 final Coin btcAmount = (Coin) btcAmountView.getAmount();
                 if (btcAmount != null) {
@@ -162,6 +162,7 @@ public final class CurrencyCalculatorLink {
                     }
                 }
             }
+            */
         } else {
             localAmountView.setEnabled(false);
             localAmountView.setHint(null);
