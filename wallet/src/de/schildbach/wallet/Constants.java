@@ -47,7 +47,7 @@ public final class Constants {
     /** Network this wallet is on (e.g. testnet or mainnet). */
     //public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
     public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
-    public static final MonetaryFormat vEUR = new MonetaryFormat().shift(5).minDecimals(2).optionalDecimals(0).code(5, "vEUR");
+    public static final MonetaryFormat vEUR = new MonetaryFormat().shift(3).minDecimals(2).optionalDecimals(0).code(3, "vEUR");
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);
