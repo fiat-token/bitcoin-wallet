@@ -111,7 +111,7 @@ public final class CurrencyCalculatorLink {
     @Nullable
     public Coin getAmount() {
         if (exchangeDirection) {
-            return (Coin) btcAmountView.getAmount();
+            return (Coin)btcAmountView.getAmount();
         } else if (exchangeRate != null) {
             final Fiat localAmount = (Fiat) localAmountView.getAmount();
             if (localAmount == null)

@@ -186,6 +186,8 @@ public final class CurrencyAmountView extends FrameLayout {
         final String amountStr = textView.getText().toString().trim();
         if (localCurrencyCode == null)
             return inputFormat.parse(amountStr);
+        else if (localCurrencyCode.equals("vEUR"))
+            return inputFormat.parse(amountStr);
         else
             return inputFormat.parseFiat(localCurrencyCode, amountStr);
     }
