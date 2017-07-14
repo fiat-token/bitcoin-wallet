@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.math.RoundingMode;
 import java.util.concurrent.TimeUnit;
 
 import de.schildbach.wallet_test.R;
@@ -47,7 +48,8 @@ public final class Constants {
     /** Network this wallet is on (e.g. testnet or mainnet). */
     //public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
     public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
-    public static final MonetaryFormat vEUR = new MonetaryFormat().shift(3).minDecimals(2).optionalDecimals(0).code(3, "vEUR");
+    public static final MonetaryFormat vEUR = new MonetaryFormat().minDecimals(2).repeatOptionalDecimals(2,
+            0).code(4,"vEUR").shift(4);
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);

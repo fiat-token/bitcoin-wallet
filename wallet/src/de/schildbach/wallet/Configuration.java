@@ -110,11 +110,13 @@ public class Configuration {
     }
 
     public MonetaryFormat getFormat() {
-        final int shift = getBtcShift();
+        /*final int shift = getBtcShift();
         final int minPrecision = shift <= 3 ? 2 : 0;
         final int decimalRepetitions = (getBtcPrecision() - minPrecision) / 2;
         return new MonetaryFormat().shift(shift).minDecimals(minPrecision).repeatOptionalDecimals(2,
-                decimalRepetitions);
+                decimalRepetitions);*/
+        return Constants.vEUR;
+
     }
 
     public MonetaryFormat getMaxPrecisionFormat() {

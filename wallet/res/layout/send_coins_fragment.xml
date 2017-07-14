@@ -116,11 +116,11 @@
                 </de.schildbach.wallet.ui.CurrencyAmountView>
 
                 <de.schildbach.wallet.ui.CurrencyAmountView
-                    android:visibility="invisible"
                     android:id="@+id/send_coins_amount_local"
                     android:layout_width="0px"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:visibility="invisible">
 
                     <EditText
                         android:id="@+id/send_coins_amount_local_edittext"
