@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="de.schildbach.wallet_test"
+    package="com.eternitywall.regtest"
     android:installLocation="internalOnly"
     android:versionCode="305"
     android:versionName="5.25-test" >
@@ -58,12 +58,12 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name="de.schildbach.wallet.WalletApplication"
+        android:name="com.eternitywall.regtest.WalletApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_app_color_48dp"
         android:label="@string/app_name" >
         <activity
-            android:name="de.schildbach.wallet.ui.WalletActivity"
+            android:name="com.eternitywall.regtest.ui.WalletActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:exported="true"
             android:label="@string/app_name_short"
@@ -71,8 +71,8 @@
             android:theme="@style/My.Theme" />
 
         <activity-alias
-            android:name="de.schildbach.wallet.WalletActivity"
-            android:targetActivity="de.schildbach.wallet.ui.WalletActivity" >
+            android:name="com.eternitywall.regtest.WalletActivity"
+            android:targetActivity="com.eternitywall.regtest.ui.WalletActivity" >
             <intent-filter android:label="@string/app_name_short" >
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,7 +92,7 @@
         </activity-alias>
 
         <activity
-            android:name="de.schildbach.wallet.ui.send.SendCoinsActivity"
+            android:name="com.eternitywall.regtest.ui.send.SendCoinsActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/send_coins_activity_title"
             android:screenOrientation="behind"
@@ -129,42 +129,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.schildbach.wallet.ui.SendCoinsQrActivity"
+            android:name="com.eternitywall.regtest.ui.SendCoinsQrActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
-            android:name="de.schildbach.wallet.ui.RequestCoinsActivity"
+            android:name="com.eternitywall.regtest.ui.RequestCoinsActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/request_coins_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="de.schildbach.wallet.ui.AddressBookActivity"
+            android:name="com.eternitywall.regtest.ui.AddressBookActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/address_book_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="de.schildbach.wallet.ui.ExchangeRatesActivity"
+            android:name="com.eternitywall.regtest.ui.ExchangeRatesActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/exchange_rates_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="de.schildbach.wallet.ui.NetworkMonitorActivity"
+            android:name="com.eternitywall.regtest.ui.NetworkMonitorActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/network_monitor_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="de.schildbach.wallet.ui.preference.PreferenceActivity"
+            android:name="com.eternitywall.regtest.ui.preference.PreferenceActivity"
             android:label="@string/preferences_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="de.schildbach.wallet.ui.RestoreWalletActivity"
+            android:name="com.eternitywall.regtest.ui.RestoreWalletActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:theme="@style/My.Theme.Dialog" >
             <intent-filter android:label="@string/import_keys_intent_filter_action" >
@@ -176,14 +176,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="de.schildbach.wallet.ui.ScanActivity"
+            android:name="com.eternitywall.regtest.ui.ScanActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:theme="@style/My.Theme.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="de.schildbach.wallet.ui.send.SweepWalletActivity"
+            android:name="com.eternitywall.regtest.ui.send.SweepWalletActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/sweep_wallet_activity_title"
             android:screenOrientation="behind"
@@ -191,21 +191,21 @@
             android:windowSoftInputMode="adjustResize" />
 
         <provider
-            android:name="de.schildbach.wallet.data.AddressBookProvider"
-            android:authorities="de.schildbach.wallet_test.address_book"
+            android:name="com.eternitywall.regtest.data.AddressBookProvider"
+            android:authorities="com.eternitywall.regtest.address_book"
             android:exported="false" />
         <provider
-            android:name="de.schildbach.wallet.data.ExchangeRatesProvider"
-            android:authorities="de.schildbach.wallet_test.exchange_rates"
+            android:name="com.eternitywall.regtest.data.ExchangeRatesProvider"
+            android:authorities="com.eternitywall.regtest.exchange_rates"
             android:exported="false" />
         <provider
-            android:name="de.schildbach.wallet.util.FileAttachmentProvider"
-            android:authorities="de.schildbach.wallet_test.file_attachment"
+            android:name="com.eternitywall.regtest.util.FileAttachmentProvider"
+            android:authorities="com.eternitywall.regtest.file_attachment"
             android:exported="false"
             android:grantUriPermissions="true" />
 
         <receiver
-            android:name="de.schildbach.wallet.WalletBalanceWidgetProvider"
+            android:name="com.eternitywall.regtest.WalletBalanceWidgetProvider"
             android:label="@string/appwidget_wallet_balance_title" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -217,13 +217,13 @@
         </receiver>
 
         <service
-            android:name="de.schildbach.wallet.service.BlockchainServiceImpl"
+            android:name="com.eternitywall.regtest.service.BlockchainServiceImpl"
             android:exported="false" />
         <service
-            android:name="de.schildbach.wallet.offline.AcceptBluetoothService"
+            android:name="com.eternitywall.regtest.offline.AcceptBluetoothService"
             android:exported="false" />
 
-        <receiver android:name="de.schildbach.wallet.service.BootstrapReceiver" >
+        <receiver android:name="com.eternitywall.regtest.service.BootstrapReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -233,10 +233,10 @@
         </receiver>
 
         <service
-            android:name="de.schildbach.wallet.service.UpgradeWalletService"
+            android:name="com.eternitywall.regtest.service.UpgradeWalletService"
             android:exported="false" />
         <service
-            android:name="de.schildbach.wallet.service.InactivityNotificationService"
+            android:name="com.eternitywall.regtest.service.InactivityNotificationService"
             android:exported="false" />
 
         <meta-data

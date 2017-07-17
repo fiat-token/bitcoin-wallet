@@ -62,7 +62,7 @@
     <string name="send_coins_fragment_request_payment_request_wrong_signature">Wrong signature!</string>
     <string name="send_coins_fragment_payee_verified_by">verified by: %s</string>
     <string name="send_coins_fragment_payee_verified_by_unknown">unknown</string>
-    <string name="send_coins_fragment_receiving_address_label">Pay to</string>
+    <string name="send_coins_fragment_receiving_address_label">Pay to vEUR address</string>
     <string name="send_coins_fragment_receiving_address_hint">type address or name</string>
     <string name="send_coins_fragment_receiving_address_error">Invalid Bitcoin address!</string>
     <string name="send_coins_fragment_receiving_address_own">You\'re about to send to yourself!</string>
@@ -348,5 +348,7 @@
     <string name="error_parse">Parse error: %s</string>
     <string name="error_http">HTTP error %1$s:\n%2$s</string>
     <string name="error_bluetooth">Bluetooth error: %1$s</string>
+    <string name="send_coins_fragment_receiving_iban_label">Send to IBAN</string>
+    <string name="send_coins_fragment_to_iban">Send to IBAN</string>
 
 </resources>

@@ -4,7 +4,9 @@
     android:divider="?android:attr/dividerHorizontal"
     android:dividerPadding="0dp"
     android:orientation="vertical"
-    android:showDividers="middle" >
+    android:showDividers="middle"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,12 +16,19 @@
         android:layout_weight="1"
         android:orientation="vertical" >
 
+        <CheckBox
+            android:id="@+id/cbIBAN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/send_coins_fragment_to_iban" />
+
         <LinearLayout
             android:id="@+id/send_coins_payee_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -58,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/send_coins_receiving_static_label"
@@ -77,6 +86,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/list_entry_padding_horizontal" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/send_coins_iban_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_coins_fragment_receiving_iban_label"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/send_coins_iban_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/send_coins_iban_verified_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/fg_less_significant"
+                android:textSize="@dimen/font_size_small"
+                android:visibility="gone" />
+
+            <AutoCompleteTextView
+                android:id="@+id/send_coins_receiving_iban"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="@string/send_coins_fragment_receiving_address_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -100,11 +151,11 @@
                 android:orientation="horizontal"
                 android:showDividers="middle" >
 
-                <de.schildbach.wallet.ui.CurrencyAmountView
+                <com.eternitywall.regtest.ui.CurrencyAmountView
                     android:id="@+id/send_coins_amount_btc"
-                    android:layout_width="0px"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" >
+                    android:layout_weight="1">
 
                     <EditText
                         android:id="@+id/send_coins_amount_btc_edittext"
@@ -113,9 +164,9 @@
                         android:imeOptions="flagNoExtractUi"
                         android:textSize="@dimen/font_size_large"
                         tools:ignore="TextFields" />
-                </de.schildbach.wallet.ui.CurrencyAmountView>
+                </com.eternitywall.regtest.ui.CurrencyAmountView>
 
-                <de.schildbach.wallet.ui.CurrencyAmountView
+                <com.eternitywall.regtest.ui.CurrencyAmountView
                     android:id="@+id/send_coins_amount_local"
                     android:layout_width="0px"
                     android:layout_height="wrap_content"
@@ -129,7 +180,7 @@
                         android:imeOptions="flagNoExtractUi"
                         android:textSize="@dimen/font_size_large"
                         tools:ignore="TextFields" />
-                </de.schildbach.wallet.ui.CurrencyAmountView>
+                </com.eternitywall.regtest.ui.CurrencyAmountView>
             </LinearLayout>
         </LinearLayout>
 
