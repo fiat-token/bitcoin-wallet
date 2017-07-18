@@ -350,5 +350,6 @@
     <string name="error_bluetooth">Bluetooth error: %1$s</string>
     <string name="send_coins_fragment_receiving_iban_label">Send to IBAN</string>
     <string name="send_coins_fragment_to_iban">Send to IBAN</string>
+    <string name="send_coins_fragment_receiving_iban_hint">type IBAN</string>
 
 </resources>

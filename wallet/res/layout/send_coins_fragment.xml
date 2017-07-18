@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
-                android:hint="@string/send_coins_fragment_receiving_address_hint"
+                android:hint="@string/send_coins_fragment_receiving_iban_hint"
                 android:imeOptions="flagNoExtractUi"
                 android:singleLine="true" />
 

@@ -724,26 +724,33 @@ public final class SendCoinsFragment extends Fragment {
         sendCoinsReceivingIban = (AutoCompleteTextView) view.findViewById(R.id.send_coins_receiving_iban);
         sendCoinsIbanGroup = (LinearLayout) view.findViewById(R.id.send_coins_iban_group);
 
-        // Check on IBAN checkbos choice
-        showIBAN(false);
+        // Check on IBAN checkbox choice
+        hideIBAN();
         cbIBAN.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                showIBAN(b);
+                if(b==true)
+                    showIBAN();
+                else
+                    hideIBAN();
             }
         });
 
         return view;
     }
 
-    private void showIBAN(boolean success){
-        if(success == true){
-            sendCoinsIbanGroup.setVisibility(View.VISIBLE);
-            payeeGroup.setVisibility(View.GONE);
-        } else {
-            sendCoinsIbanGroup.setVisibility(View.GONE);
-            payeeGroup.setVisibility(View.VISIBLE);
-        }
+    // show/hide iban
+    private void showIBAN(){
+        sendCoinsIbanGroup.setVisibility(View.VISIBLE);
+        payeeGroup.setVisibility(View.GONE);
+    }
+    private void hideIBAN(){
+        sendCoinsIbanGroup.setVisibility(View.GONE);
+        payeeGroup.setVisibility(View.VISIBLE);
+    }
+    // check if iban is selected
+    private boolean isIBANselected(){
+        return cbIBAN.isChecked();
     }
 
     @Override
@@ -1265,7 +1272,7 @@ public final class SendCoinsFragment extends Fragment {
             }
 
             if (paymentIntent.hasOutputs()) {
-                payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(
                         !paymentIntent.hasPayee() || paymentIntent.payeeVerifiedBy == null ? View.VISIBLE : View.GONE);
@@ -1278,7 +1285,7 @@ public final class SendCoinsFragment extends Fragment {
                 else
                     receivingStaticAddressView.setText(R.string.send_coins_fragment_receiving_address_complex);
             } else if (validatedAddress != null) {
-                payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(View.VISIBLE);
 
@@ -1297,11 +1304,11 @@ public final class SendCoinsFragment extends Fragment {
                 receivingStaticLabelView.setTextColor(getResources()
                         .getColor(validatedAddress.label != null ? R.color.fg_significant : R.color.fg_insignificant));
             } else if (paymentIntent.standard == null) {
-                payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingStaticView.setVisibility(View.GONE);
                 receivingAddressView.setVisibility(View.VISIBLE);
             } else {
-                payeeGroup.setVisibility(View.GONE);
+                if(!isIBANselected()) payeeGroup.setVisibility(View.GONE);
             }
 
             receivingAddressView.setEnabled(state == State.INPUT);
