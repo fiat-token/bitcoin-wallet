@@ -55,6 +55,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -137,6 +138,8 @@ import com.eternitywall.regtest.util.Bluetooth;
 import com.eternitywall.regtest.util.Nfc;
 import com.eternitywall.regtest.util.WalletUtils;
 import com.eternitywall.regtest.R;
+
+import nl.garvelink.iban.IBAN;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -719,6 +722,13 @@ public final class SendCoinsFragment extends Fragment {
             }
         });
 
+        initIBAN(view);
+
+        return view;
+    }
+
+    /* START IBAN */
+    private void initIBAN(View view){
         // Add IBAN UI
         cbIBAN = (CheckBox) view.findViewById(R.id.cbIBAN);
         sendCoinsReceivingIban = (AutoCompleteTextView) view.findViewById(R.id.send_coins_receiving_iban);
@@ -729,16 +739,24 @@ public final class SendCoinsFragment extends Fragment {
         cbIBAN.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b==true)
+                if(b == true)
                     showIBAN();
                 else
                     hideIBAN();
             }
         });
+        sendCoinsReceivingIban.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b == false) {
+                    validateIBAN();
+                }
+            }
+        });
 
-        return view;
+        // set default IBAN
+        sendCoinsReceivingIban.setText("IT40S0542811101000000123456");
     }
-
     // show/hide iban
     private void showIBAN(){
         sendCoinsIbanGroup.setVisibility(View.VISIBLE);
@@ -752,6 +770,29 @@ public final class SendCoinsFragment extends Fragment {
     private boolean isIBANselected(){
         return cbIBAN.isChecked();
     }
+    // validate IBAN
+    private boolean validateIBAN(){
+        try {
+            IBAN iban = IBAN.valueOf(sendCoinsReceivingIban.getText().toString());
+            if(iban.isSEPA()){
+                hintView.setVisibility(View.VISIBLE);
+                hintView.setTextColor(getResources().getColor(R.color.fg_less_significant));
+                hintView.setText(getString(R.string.iban_sepa));
+            } else {
+                hintView.setVisibility(View.VISIBLE);
+                hintView.setTextColor(getResources().getColor(R.color.fg_less_significant));
+                hintView.setText(getString(R.string.iban_not_sepa));
+            }
+        }catch (Exception e){
+            hintView.setVisibility(View.VISIBLE);
+            hintView.setTextColor(getResources().getColor(R.color.fg_error));
+            hintView.setText(getString(R.string.invalid_iban));
+            return false;
+        }
+        return true;
+    }
+
+    /* END IBAN */
 
     @Override
     public void onDestroyView() {
@@ -1395,9 +1436,14 @@ public final class SendCoinsFragment extends Fragment {
 
             viewCancel.setEnabled(
                     state != State.REQUEST_PAYMENT_REQUEST && state != State.DECRYPTING && state != State.SIGNING);
-            viewGo.setEnabled(everythingPlausible() && dryrunTransaction != null && fees != null
-                    && (blockchainState == null || !blockchainState.replaying));
 
+            if(isIBANselected()) {
+                viewGo.setEnabled(validateIBAN() && dryrunTransaction != null && fees != null
+                        && (blockchainState == null || !blockchainState.replaying));
+            } else {
+                viewGo.setEnabled(everythingPlausible() && dryrunTransaction != null && fees != null
+                        && (blockchainState == null || !blockchainState.replaying));
+            }
             if (state == null || state == State.REQUEST_PAYMENT_REQUEST) {
                 viewCancel.setText(R.string.button_cancel);
                 viewGo.setText(null);
