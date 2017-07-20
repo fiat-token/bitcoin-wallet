@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
@@ -44,10 +43,6 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
     @Override
     public Boolean loadInBackground() {
         try {
-            final File blockchainFile = new File(getContext().getFilesDir(), Constants.Files.BLOCKCHAIN_FILENAME);
-            if (!blockchainFile.exists())
-                return false;
-
             final Stopwatch watch = Stopwatch.createStarted();
             final Request.Builder request = new Request.Builder();
             request.url(url);
@@ -72,17 +67,9 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
                     }
                     br.close();
                     log.info("" + sb.toString());
-                        /*final FileOutputStream os = new FileOutputStream(tempFile);
-                        Io.copy(body.byteStream(), os);
-                        os.close();
-                        final Date lastModified = response.headers().getDate("Last-Modified");
-                        if (lastModified != null)
-                            tempFile.setLastModified(lastModified.getTime());
-                        body.close();
-                        if (!tempFile.renameTo(targetFile))
-                            throw new IllegalStateException("Cannot rename " + tempFile + " to " + targetFile);*/
+
                     watch.stop();
-                    log.info("Dynamic fees fetched from {}, took {}", url, watch);
+                    log.info("called {}, took {}", url, watch);
 
                     return true;
                 } else {

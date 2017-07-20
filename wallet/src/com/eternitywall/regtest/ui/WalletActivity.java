@@ -89,6 +89,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -173,7 +174,13 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
         MaybeMaintenanceFragment.add(getFragmentManager());
 
-        registerAddress();
+        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        if (prefs.getBoolean("firstrun", true)) {
+            registerAddress();
+            prefs.edit().putBoolean("firstrun", false).apply();
+        }
+
+
     }
 
 
