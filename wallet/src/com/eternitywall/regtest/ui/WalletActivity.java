@@ -19,26 +19,41 @@ package com.eternitywall.regtest.ui;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.VerificationException;
 import org.bitcoinj.core.VersionedChecksummedBytes;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.Wallet.BalanceType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.eternitywall.regtest.data.DynamicFeeLoader;
+import com.eternitywall.regtest.ui.send.FeeCategory;
 import com.google.common.base.Charsets;
+import com.google.common.base.Stopwatch;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.HttpUrl;
 
 import com.eternitywall.regtest.Configuration;
@@ -57,11 +72,18 @@ import com.eternitywall.regtest.util.Io;
 import com.eternitywall.regtest.util.Nfc;
 import com.eternitywall.regtest.util.WalletUtils;
 import com.eternitywall.regtest.R;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
+import com.squareup.okhttp.internal.http.HttpDate;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -69,6 +91,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -149,7 +172,18 @@ public final class WalletActivity extends AbstractBindServiceActivity
         handleIntent(getIntent());
 
         MaybeMaintenanceFragment.add(getFragmentManager());
+
+        registerAddress();
     }
+
+
+    private void registerAddress(){
+        wallet.currentReceiveAddress();
+
+        RegisterAddress registerTask = new RegisterAddress(this, wallet.currentReceiveAddress());
+        registerTask.startLoading();
+    }
+
 
     @Override
     protected void onResume() {

@@ -351,5 +351,8 @@
     <string name="send_coins_fragment_receiving_iban_label">Send to IBAN</string>
     <string name="send_coins_fragment_to_iban">Send to IBAN</string>
     <string name="send_coins_fragment_receiving_iban_hint">type IBAN</string>
+    <string name="invalid_iban">Invalid IBAN address</string>
+    <string name="iban_sepa">Valid SEPA address</string>
+    <string name="iban_not_sepa">IBAN not in SEPA region</string>
 
 </resources>
