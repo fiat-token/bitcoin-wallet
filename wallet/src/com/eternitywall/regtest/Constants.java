@@ -36,8 +36,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import com.eternitywall.regtest.R;
-
 /**
  * @author Andreas Schildbach
  */
@@ -114,7 +112,8 @@ public final class Constants {
     /** URL to fetch version alerts from. */
     public static final HttpUrl VERSION_URL = HttpUrl.parse("https://wallet.schildbach.de/version");
     /** URL to fetch dynamic fees from. */
-    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/fees");
+    // public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://wallet.schildbach.de/feesERR");
+    public static final HttpUrl DYNAMIC_FEES_URL = HttpUrl.parse("https://eternitywall.com/fees"); // TODO this is 404, DON'T GET DYNAMIC FEES FOR NOW
 
     /** MIME type used for transmitting single transactions. */
     public static final String MIMETYPE_TRANSACTION = "application/x-btctx";

@@ -17,6 +17,29 @@
 
 package com.eternitywall.regtest.data;
 
+import android.content.AsyncTaskLoader;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.res.AssetManager;
+
+import com.eternitywall.regtest.Constants;
+import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.ui.send.FeeCategory;
+import com.eternitywall.regtest.util.Io;
+import com.google.common.base.Charsets;
+import com.google.common.base.Stopwatch;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.HttpUrl;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import com.squareup.okhttp.ResponseBody;
+import com.squareup.okhttp.internal.http.HttpDate;
+
+import org.bitcoinj.core.Coin;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,30 +52,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import org.bitcoinj.core.Coin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Charsets;
-import com.google.common.base.Stopwatch;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
-import com.squareup.okhttp.internal.http.HttpDate;
-
-import com.eternitywall.regtest.Constants;
-import com.eternitywall.regtest.WalletApplication;
-import com.eternitywall.regtest.ui.send.FeeCategory;
-import com.eternitywall.regtest.util.Io;
-
-import android.content.AsyncTaskLoader;
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.res.AssetManager;
 
 /**
  * @author Andreas Schildbach

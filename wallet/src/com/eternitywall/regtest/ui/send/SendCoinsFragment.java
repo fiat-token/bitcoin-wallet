@@ -55,7 +55,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -68,6 +67,34 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eternitywall.regtest.Configuration;
+import com.eternitywall.regtest.Constants;
+import com.eternitywall.regtest.R;
+import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.data.AddressBookProvider;
+import com.eternitywall.regtest.data.DynamicFeeLoader;
+import com.eternitywall.regtest.data.ExchangeRate;
+import com.eternitywall.regtest.data.ExchangeRatesLoader;
+import com.eternitywall.regtest.data.ExchangeRatesProvider;
+import com.eternitywall.regtest.data.PaymentIntent;
+import com.eternitywall.regtest.data.PaymentIntent.Standard;
+import com.eternitywall.regtest.integration.android.BitcoinIntegration;
+import com.eternitywall.regtest.offline.DirectPaymentTask;
+import com.eternitywall.regtest.service.BlockchainState;
+import com.eternitywall.regtest.service.BlockchainStateLoader;
+import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
+import com.eternitywall.regtest.ui.AddressAndLabel;
+import com.eternitywall.regtest.ui.CurrencyAmountView;
+import com.eternitywall.regtest.ui.DialogBuilder;
+import com.eternitywall.regtest.ui.InputParser.BinaryInputParser;
+import com.eternitywall.regtest.ui.InputParser.StreamInputParser;
+import com.eternitywall.regtest.ui.InputParser.StringInputParser;
+import com.eternitywall.regtest.ui.ProgressDialogFragment;
+import com.eternitywall.regtest.ui.ScanActivity;
+import com.eternitywall.regtest.ui.TransactionsAdapter;
+import com.eternitywall.regtest.util.Bluetooth;
+import com.eternitywall.regtest.util.Nfc;
+import com.eternitywall.regtest.util.WalletUtils;
 import com.google.common.base.Strings;
 import com.netki.WalletNameResolver;
 import com.netki.dns.DNSBootstrapService;
@@ -109,35 +136,6 @@ import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
 import javax.annotation.Nullable;
-
-import com.eternitywall.regtest.Configuration;
-import com.eternitywall.regtest.Constants;
-import com.eternitywall.regtest.WalletApplication;
-import com.eternitywall.regtest.data.AddressBookProvider;
-import com.eternitywall.regtest.data.DynamicFeeLoader;
-import com.eternitywall.regtest.data.ExchangeRate;
-import com.eternitywall.regtest.data.ExchangeRatesLoader;
-import com.eternitywall.regtest.data.ExchangeRatesProvider;
-import com.eternitywall.regtest.data.PaymentIntent;
-import com.eternitywall.regtest.data.PaymentIntent.Standard;
-import com.eternitywall.regtest.integration.android.BitcoinIntegration;
-import com.eternitywall.regtest.offline.DirectPaymentTask;
-import com.eternitywall.regtest.service.BlockchainState;
-import com.eternitywall.regtest.service.BlockchainStateLoader;
-import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
-import com.eternitywall.regtest.ui.AddressAndLabel;
-import com.eternitywall.regtest.ui.CurrencyAmountView;
-import com.eternitywall.regtest.ui.DialogBuilder;
-import com.eternitywall.regtest.ui.InputParser.BinaryInputParser;
-import com.eternitywall.regtest.ui.InputParser.StreamInputParser;
-import com.eternitywall.regtest.ui.InputParser.StringInputParser;
-import com.eternitywall.regtest.ui.ProgressDialogFragment;
-import com.eternitywall.regtest.ui.ScanActivity;
-import com.eternitywall.regtest.ui.TransactionsAdapter;
-import com.eternitywall.regtest.util.Bluetooth;
-import com.eternitywall.regtest.util.Nfc;
-import com.eternitywall.regtest.util.WalletUtils;
-import com.eternitywall.regtest.R;
 
 import nl.garvelink.iban.IBAN;
 
@@ -1092,6 +1090,8 @@ public final class SendCoinsFragment extends Fragment {
         sendRequest.memo = paymentIntent.memo;
         //sendRequest.exchangeRate = amountCalculatorLink.getExchangeRate();
         sendRequest.aesKey = encryptionKey;
+        sendRequest.ensureMinRequiredFee = false;
+
 
         new SendCoinsOfflineTask(wallet, backgroundHandler) {
             @Override
@@ -1273,6 +1273,7 @@ public final class SendCoinsFragment extends Fragment {
                     sendRequest.emptyWallet = paymentIntent.mayEditAmount()
                             && amount.equals(wallet.getBalance(BalanceType.AVAILABLE));
                     sendRequest.feePerKb = fees.get(feeCategory);
+                    sendRequest.ensureMinRequiredFee = false;
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
                 } catch (final Exception x) {
