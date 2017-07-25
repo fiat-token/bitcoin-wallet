@@ -29,7 +29,7 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
     private final String userAgent;
     private final Address address;
     private final Logger log = LoggerFactory.getLogger(WalletActivity.class);
-    private final String URL = "http://40.68.213.193:8000";
+    private final String URL = "http://regtest1.eternitywall.com:8000";
 
     public RegisterAddress(final Context context, Address address) {
         super(context);

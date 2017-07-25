@@ -39,6 +39,17 @@ import android.os.PowerManager.WakeLock;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
+import com.eternitywall.regtest.Configuration;
+import com.eternitywall.regtest.Constants;
+import com.eternitywall.regtest.R;
+import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.WalletBalanceWidgetProvider;
+import com.eternitywall.regtest.data.AddressBookProvider;
+import com.eternitywall.regtest.service.BlockchainState.Impediment;
+import com.eternitywall.regtest.ui.WalletActivity;
+import com.eternitywall.regtest.util.CrashReporter;
+import com.eternitywall.regtest.util.ThrottlingWalletChangeListener;
+import com.eternitywall.regtest.util.WalletUtils;
 import com.google.common.base.Stopwatch;
 
 import org.bitcoinj.core.Address;
@@ -83,18 +94,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.Nullable;
-
-import com.eternitywall.regtest.Configuration;
-import com.eternitywall.regtest.Constants;
-import com.eternitywall.regtest.WalletApplication;
-import com.eternitywall.regtest.WalletBalanceWidgetProvider;
-import com.eternitywall.regtest.data.AddressBookProvider;
-import com.eternitywall.regtest.service.BlockchainState.Impediment;
-import com.eternitywall.regtest.ui.WalletActivity;
-import com.eternitywall.regtest.util.CrashReporter;
-import com.eternitywall.regtest.util.ThrottlingWalletChangeListener;
-import com.eternitywall.regtest.util.WalletUtils;
-import com.eternitywall.regtest.R;
 
 /**
  * @author Andreas Schildbach
@@ -386,7 +385,11 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 //peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
                 try {
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("52.166.5.175"), 19010 ));
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("40.68.213.193"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("40.68.213.193"), 18444 ));
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest1.eternitywall.com"), 18444 ));
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest2.eternitywall.com"), 18444 ));
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest3.eternitywall.com"), 18444 ));
+
 
                 } catch (UnknownHostException e) {
                     log.info("problem adding peer address");
