@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.StrictMode;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
@@ -349,6 +350,10 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 
         @SuppressLint("Wakelock")
         private void check() {
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+
             final Wallet wallet = application.getWallet();
 
             if (impediments.isEmpty() && peerGroup == null && Constants.ENABLE_BLOCKCHAIN_SYNC) {
@@ -392,6 +397,9 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
 
 
                 } catch (UnknownHostException e) {
+                    log.info("problem adding peer address");
+                    e.printStackTrace();
+                } catch (Exception e) {
                     log.info("problem adding peer address");
                     e.printStackTrace();
                 }
