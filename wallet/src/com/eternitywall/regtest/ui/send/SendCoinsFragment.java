@@ -131,6 +131,7 @@ import org.spongycastle.crypto.params.KeyParameter;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
@@ -703,7 +704,7 @@ public final class SendCoinsFragment extends Fragment {
             public void onClick(final View v) {
                 validateReceivingAddress();
 
-                if (everythingPlausible())
+                if (everythingPlausible() || isIBANselected())
                     handleGo();
                 else
                     requestFocusFirst();
@@ -788,6 +789,14 @@ public final class SendCoinsFragment extends Fragment {
             return false;
         }
         return true;
+    }
+    private byte[] getIBAN(){
+        try {
+            String string = sendCoinsReceivingIban.getText().toString();
+            return string.getBytes("UTF-8");
+        }catch (Exception e){
+            return null;
+        }
     }
 
     /* END IBAN */
@@ -1079,7 +1088,12 @@ public final class SendCoinsFragment extends Fragment {
 
         // final payment intent
         Coin coin = (Coin) btcAmountView.getAmount();
-        final PaymentIntent finalPaymentIntent = paymentIntent.mergeWithEditedValues(coin, validatedAddress != null ? validatedAddress.address : null);
+        final PaymentIntent finalPaymentIntent;
+        if (isIBANselected()) {
+            finalPaymentIntent = paymentIntent.mergeWithIBANValues(coin, getIBAN());
+        } else {
+            finalPaymentIntent = paymentIntent.mergeWithEditedValues(coin, validatedAddress != null ? validatedAddress.address : null);
+        }
         final Coin finalAmount = finalPaymentIntent.getAmount();
 
         // prepare send request
