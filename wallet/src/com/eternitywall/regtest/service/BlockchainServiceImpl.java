@@ -351,8 +351,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
         @SuppressLint("Wakelock")
         private void check() {
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
+            //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            //StrictMode.setThreadPolicy(policy);
 
             final Wallet wallet = application.getWallet();
 
@@ -391,14 +391,41 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 try {
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("52.166.5.175"), 19010 ));
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("40.68.213.193"), 18444 ));
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest1.eternitywall.com"), 18444 ));
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest2.eternitywall.com"), 18444 ));
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest3.eternitywall.com"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest1.eternitywall.com"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest2.eternitywall.com"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest3.eternitywall.com"), 18444 ));
 
+                    // Resolve InetAddress of the peers
+                    final List<String> dnss = new ArrayList<>();
+                    final List<InetAddress> peers = new ArrayList<>();
+                    final List<Thread> threads = new ArrayList<>();
 
-                } catch (UnknownHostException e) {
-                    log.info("problem adding peer address");
-                    e.printStackTrace();
+                    dnss.add("regtest1.eternitywall.com");
+                    dnss.add("regtest2.eternitywall.com");
+                    dnss.add("regtest3.eternitywall.com");
+
+                    for (final String dns : dnss){
+                        Thread thread = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    peers.add( InetAddress.getByName(dns) );
+                                } catch (UnknownHostException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                        thread.start();
+                        threads.add(thread);
+                    }
+
+                    for(Thread thread : threads){
+                        thread.join();
+                    }
+                    for(InetAddress peer : peers){
+                        peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, 18444 ));
+                    }
+
                 } catch (Exception e) {
                     log.info("problem adding peer address");
                     e.printStackTrace();
