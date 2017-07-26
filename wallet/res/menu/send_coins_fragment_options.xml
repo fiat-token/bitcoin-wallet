@@ -9,7 +9,8 @@
     <item
         android:id="@+id/send_coins_options_fee_category"
         android:showAsAction="never"
-        android:title="@string/send_coins_options_fee_category">
+        android:title="@string/send_coins_options_fee_category"
+        android:visible="false">
         <menu>
             <group android:checkableBehavior="single" >
                 <item
@@ -27,6 +28,7 @@
     <item
         android:id="@+id/send_coins_options_empty"
         android:showAsAction="never"
-        android:title="@string/send_coins_options_empty"/>
+        android:title="@string/send_coins_options_empty"
+        android:visible="false"/>
 
 </menu>
