@@ -36,6 +36,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.StrictMode;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
@@ -350,9 +351,6 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
         @SuppressLint("Wakelock")
         private void check() {
 
-            //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            //StrictMode.setThreadPolicy(policy);
-
             final Wallet wallet = application.getWallet();
 
             if (impediments.isEmpty() && peerGroup == null && Constants.ENABLE_BLOCKCHAIN_SYNC) {
@@ -388,24 +386,12 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 peerGroup.setConnectTimeoutMillis(Constants.PEER_TIMEOUT_MS);
                 //peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
                 try {
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("52.166.5.175"), 19010 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("40.68.213.193"), 18444 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest1.eternitywall.com"), 18444 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest2.eternitywall.com"), 18444 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest3.eternitywall.com"), 18444 ));
-
                     // Resolve InetAddress of the peers
-
                     final List<String> dnss = new ArrayList<>();
                     final List<InetAddress> peers = new ArrayList<>();
                     final List<Thread> threads = new ArrayList<>();
 
-                    dnss.add("regtest1.eternitywall.com");
-                    dnss.add("regtest2.eternitywall.com");
-                    dnss.add("regtest3.eternitywall.com");
-
-                    for (final String dns : dnss){
+                    for (final String dns : Constants.DNSPEERS){
                         Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -432,50 +418,19 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     e.printStackTrace();
                 }
 
-                /*
-                peerGroup.addPeerDiscovery(new PeerDiscovery() {
-                    private final PeerDiscovery normalPeerDiscovery = MultiplexingDiscovery
-                            .forServices(Constants.NETWORK_PARAMETERS, 0);
+                // TEST PEERS
+                /*try {
+                    // relay1.eternitywall.com : 163.172.139.9
+                    // relay2.eternitywall.com : 35.158.144.110
+                    // relay4.eternitywall.com : 213.149.211.77
+                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                    StrictMode.setThreadPolicy(policy);
 
-                    @Override
-                    public InetSocketAddress[] getPeers(final long services, final long timeoutValue,
-                            final TimeUnit timeoutUnit) throws PeerDiscoveryException {
-                        final List<InetSocketAddress> peers = new LinkedList<InetSocketAddress>();
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("relay4.eternitywall.com"), 18444 ));
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }*/
 
-                        boolean needsTrimPeersWorkaround = false;
-
-                        if (hasTrustedPeer) {
-                            log.info(
-                                    "trusted peer '" + trustedPeerHost + "'" + (connectTrustedPeerOnly ? " only" : ""));
-
-                            final InetSocketAddress addr = new InetSocketAddress(trustedPeerHost,
-                                    Constants.NETWORK_PARAMETERS.getPort());
-                            if (addr.getAddress() != null) {
-                                peers.add(addr);
-                                needsTrimPeersWorkaround = true;
-                            }
-                        }
-
-                        if (!connectTrustedPeerOnly)
-                            peers.addAll(
-                                    Arrays.asList(normalPeerDiscovery.getPeers(services, timeoutValue, timeoutUnit)));
-
-                        // workaround because PeerGroup will shuffle peers
-                        if (needsTrimPeersWorkaround)
-                            while (peers.size() >= maxConnectedPeers)
-                                peers.remove(peers.size() - 1);
-
-                        return peers.toArray(new InetSocketAddress[0]);
-                    }
-
-                    @Override
-                    public void shutdown() {
-                        normalPeerDiscovery.shutdown();
-                    }
-                });
-                */
-
-                // start peergroup
                 peerGroup.startAsync();
                 peerGroup.startBlockChainDownload(blockchainDownloadListener);
             } else if (!impediments.isEmpty() && peerGroup != null) {

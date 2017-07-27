@@ -213,4 +213,12 @@ public final class Constants {
     }
 
     private static final Logger log = LoggerFactory.getLogger(Constants.class);
+
+    public static final String[] DNSPEERS = {
+            "relay1.eternitywall.com",
+            "relay2.eternitywall.com",
+            "relay3.eternitywall.com",
+            "relay4.eternitywall.com",
+            "relay5.eternitywall.com",
+    };
 }
