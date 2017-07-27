@@ -29,12 +29,13 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
     private final String userAgent;
     private final Address address;
     private final Logger log = LoggerFactory.getLogger(WalletActivity.class);
-    private final String URL = "http://regtest1.eternitywall.com:8000";
+    private final String URL = "http://relay1.eternitywall.com:8000";
 
     public RegisterAddress(final Context context, Address address) {
         super(context);
         final PackageInfo packageInfo = WalletApplication.packageInfoFromContext(context);
         this.url = HttpUrl.parse(URL+"/"+address.toBase58());
+        log.info("calling " + URL.toString());
         this.userAgent = WalletApplication.httpUserAgent(packageInfo.versionName);
         this.address = address;
     }
