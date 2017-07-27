@@ -246,6 +246,8 @@ public final class CurrencyAmountView extends FrameLayout {
                     amount = inputFormat.parse(str);
                     if (((Coin) amount).isGreaterThan(Constants.NETWORK_PARAMETERS.getMaxMoney()))
                         return false;
+                } else if (localCurrencyCode.equals("vEUR")) {
+                    amount = inputFormat.parse(str);
                 } else {
                     amount = inputFormat.parseFiat(localCurrencyCode, str);
                 }
