@@ -56,7 +56,7 @@
     <string name="wallet_version_dialog_button_binary">Download</string>
     <string name="wallet_old_sdk_dialog_title">Android version is out of date</string>
     <string name="wallet_old_sdk_dialog_message">Chances are that one of the next releases of Virtual Euro Wallet will not support your device any more. In some cases, it can get difficult to spend coins on this device.\n\nUnless you know what you are doing, it is recommended to move out your coins soon.</string>
-    <string name="send_coins_activity_title">Send Virtual Euro</string>
+    <string name="send_coins_activity_title">Send</string>
     <string name="send_coins_fragment_request_payment_request_progress">Fetching signature from %s…</string>
     <string name="send_coins_fragment_request_payment_request_failed_title">Fetching signature failed</string>
     <string name="send_coins_fragment_request_payment_request_wrong_signature">Wrong signature!</string>
@@ -126,7 +126,7 @@
     <string name="maintenance_dialog_state_decrypting">Decrypting…</string>
     <string name="maintenance_dialog_state_done">Done.</string>
     <string name="maintenance_dialog_button_move">Move</string>
-    <string name="request_coins_activity_title">Request Virtual Euros</string>
+    <string name="request_coins_activity_title">Receive</string>
     <string name="request_coins_fragment_amount_label">Requested amount (optional)</string>
     <string name="request_coins_fragment_accept_bluetooth_payment">Accept payment via Bluetooth for more reliable processing</string>
     <string name="request_coins_fragment_initiate_request_qr">Have this code scanned by the sender.</string>
@@ -140,7 +140,7 @@
     <string name="address_book_list_receiving_random">Old addresses</string>
     <string name="address_book_list_sending_title">Sending addresses</string>
     <string name="address_book_empty_text">No entries in address book</string>
-    <string name="address_book_context_send_title">Send Virtual Euros to address</string>
+    <string name="address_book_context_send_title">Send to address</string>
     <string name="address_book_context_edit_title">Edit address</string>
     <string name="address_book_context_remove_title">Remove address</string>
     <string name="address_book_context_copy_to_clipboard_title">Copy to clipboard</string>
