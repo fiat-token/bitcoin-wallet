@@ -36,7 +36,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.StrictMode;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
@@ -389,6 +388,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 peerGroup.setConnectTimeoutMillis(Constants.PEER_TIMEOUT_MS);
                 //peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
                 try {
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("52.166.5.175"), 19010 ));
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("40.68.213.193"), 18444 ));
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest1.eternitywall.com"), 18444 ));
@@ -396,6 +396,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("regtest3.eternitywall.com"), 18444 ));
 
                     // Resolve InetAddress of the peers
+
                     final List<String> dnss = new ArrayList<>();
                     final List<InetAddress> peers = new ArrayList<>();
                     final List<Thread> threads = new ArrayList<>();
