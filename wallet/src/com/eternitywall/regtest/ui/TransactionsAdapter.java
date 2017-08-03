@@ -17,6 +17,7 @@
 
 package com.eternitywall.regtest.ui;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -33,6 +34,9 @@ import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.Transaction.Purpose;
 import org.bitcoinj.core.TransactionConfidence;
 import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
+import org.bitcoinj.core.TransactionOutPoint;
+import org.bitcoinj.core.TransactionOutput;
+import org.bitcoinj.script.ScriptChunk;
 import org.bitcoinj.utils.ExchangeRate;
 import org.bitcoinj.utils.MonetaryFormat;
 import org.bitcoinj.wallet.DefaultCoinSelector;
@@ -490,6 +494,26 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 addressView.setTextColor(lessSignificantColor);
                 addressView.setTypeface(Typeface.DEFAULT);
                 addressView.setText("?");
+
+
+                boolean isOpReturn=false;
+                String iban = "";
+                for (TransactionOutput output : tx.getOutputs()){
+                    for (ScriptChunk chunk : output.getScriptPubKey().getChunks()) {
+                        if(chunk.opcode==106) {
+                            isOpReturn = true;
+                        } else if(chunk.opcode==27){
+                            try {
+                                iban = new String(chunk.data, "UTF-8");
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+                if(isOpReturn){
+                    addressView.setText(iban);
+                }
             }
             addressView.setSingleLine(!itemView.isActivated());
             extendAddressView

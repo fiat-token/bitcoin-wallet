@@ -54,7 +54,7 @@
   <string name="wallet_version_dialog_button_binary">Scarica</string>
   <string name="wallet_old_sdk_dialog_title">La versione Android non è aggiornata</string>
   <string name="wallet_old_sdk_dialog_message">Potrebbe essere che le prossime versioni di Virtual Euro Wallet non supporterà più il tuo dispositivo. In questi casi, potrebbe essere difficile spendere i Virtual Euro su questo dispositivo.\n\nA meno che tu non sappia quello che stai facendo, ti raccomandiamo di spostare il tuo denaro al più presto.</string>
-  <string name="send_coins_activity_title">Invia Virtual Euro</string>
+  <string name="send_coins_activity_title">Invia</string>
   <string name="send_coins_fragment_request_payment_request_progress">Acquisizione firma da %s…</string>
   <string name="send_coins_fragment_request_payment_request_failed_title">Acquisizione firma fallita</string>
   <string name="send_coins_fragment_request_payment_request_wrong_signature">Firma errata!</string>
@@ -324,8 +324,8 @@
   <string name="button_paste">Incolla</string>
   <string name="button_share">Condividi</string>
   <string name="button_set_as_default">Imposta come predefinito</string>
-  <string name="button_request_coins">Richiedi Virtual Euros</string>
-  <string name="button_send_coins">Invia Virtual Euros</string>
+  <string name="button_request_coins">Ricevi</string>
+  <string name="button_send_coins">Invia</string>
   <string name="button_scan">Analizza</string>
   <string name="button_settings">Impostazioni</string>
   <string name="action_show_qr">Mostra codice QR</string>
