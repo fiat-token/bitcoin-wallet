@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -79,6 +78,18 @@ public class DynamicFeeLoader extends AsyncTaskLoader<Map<FeeCategory, Coin>> {
         forceLoad();
     }
 
+    @Override
+    public Map<FeeCategory, Coin> loadInBackground() {
+        try {
+            final Map<FeeCategory, Coin> staticFees = parseFees(assets.open(Constants.Files.FEES_FILENAME));
+            return staticFees;
+        } catch (final IOException x) {
+            // Should not happen
+            throw new RuntimeException(x);
+        }
+    }
+
+    /*
     @Override
     public Map<FeeCategory, Coin> loadInBackground() {
         try {
@@ -120,6 +131,7 @@ public class DynamicFeeLoader extends AsyncTaskLoader<Map<FeeCategory, Coin>> {
             throw new RuntimeException(x);
         }
     }
+    */
 
     private static Map<FeeCategory, Coin> parseFees(final InputStream is) throws IOException {
         final Map<FeeCategory, Coin> dynamicFees = new HashMap<FeeCategory, Coin>();

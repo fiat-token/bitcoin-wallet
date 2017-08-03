@@ -165,7 +165,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
             if (slideInBottomView != null)
                 slideInBottomView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_bottom));
 
-            checkAlerts();
+            //checkAlerts();
         }
 
         config.touchLastUsed();

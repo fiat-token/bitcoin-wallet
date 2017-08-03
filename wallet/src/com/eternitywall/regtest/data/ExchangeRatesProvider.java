@@ -17,33 +17,6 @@
 
 package com.eternitywall.regtest.data;
 
-import java.math.BigDecimal;
-import java.util.Currency;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
-
-import javax.annotation.Nullable;
-
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.utils.Fiat;
-import org.bitcoinj.utils.MonetaryFormat;
-import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Stopwatch;
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import com.eternitywall.regtest.Configuration;
-import com.eternitywall.regtest.Constants;
-import com.eternitywall.regtest.WalletApplication;
-import com.eternitywall.regtest.util.GenericUtils;
-
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
@@ -53,6 +26,25 @@ import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.text.format.DateUtils;
+
+import com.eternitywall.regtest.Configuration;
+import com.eternitywall.regtest.Constants;
+import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.util.GenericUtils;
+import com.squareup.okhttp.HttpUrl;
+
+import org.bitcoinj.core.Coin;
+import org.bitcoinj.utils.Fiat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.Currency;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Andreas Schildbach
@@ -225,6 +217,9 @@ public class ExchangeRatesProvider extends ContentProvider {
     }
 
     private Map<String, ExchangeRate> requestExchangeRates() {
+        return null;
+    }
+    /*private Map<String, ExchangeRate> requestExchangeRates() {
         final Stopwatch watch = Stopwatch.createStarted();
 
         final Request.Builder request = new Request.Builder();
@@ -274,7 +269,7 @@ public class ExchangeRatesProvider extends ContentProvider {
         }
 
         return null;
-    }
+    }*/
 
     // backport from bitcoinj 0.15
     private static Fiat parseFiatInexact(final String currencyCode, final String str) {
