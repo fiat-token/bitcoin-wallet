@@ -414,7 +414,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
 
-        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null));
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","veur"));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
