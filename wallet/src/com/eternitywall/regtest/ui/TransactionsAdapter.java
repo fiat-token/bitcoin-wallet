@@ -617,7 +617,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
 
             // menu
-            menuView.setVisibility(itemView.isActivated() ? View.VISIBLE : View.GONE);
+            //menuView.setVisibility(itemView.isActivated() ? View.VISIBLE : View.GONE);
         }
     }
 
