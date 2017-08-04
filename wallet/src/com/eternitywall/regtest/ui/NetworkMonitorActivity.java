@@ -20,8 +20,11 @@ package com.eternitywall.regtest.ui;
 import com.eternitywall.regtest.util.ViewPagerTabs;
 import com.eternitywall.regtest.R;
 
+import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -39,6 +42,16 @@ public final class NetworkMonitorActivity extends AbstractWalletActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.network_monitor_content);
+
+        // App version on title
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            String version = "("+pInfo.versionName+" v."+pInfo.versionCode+")";
+            ActionBar actionBar = getActionBar();
+            actionBar.setTitle(getResources().getString(R.string.network_monitor_activity_title)+" "+version);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         final ViewPager pager = (ViewPager) findViewById(R.id.network_monitor_pager);
 
