@@ -340,4 +340,5 @@
   <string name="error_parse">Errore di analisi: %s</string>
   <string name="error_http">Errore HTTP %1$s:\n%2$s</string>
   <string name="error_bluetooth">Errore bluetooth: %1$s</string>
+  <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Ammontare < vEUR 500]]></string>
 </resources>

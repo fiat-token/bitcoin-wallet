@@ -221,4 +221,6 @@ public final class Constants {
             "relay4.eternitywall.com",
             "relay5.eternitywall.com",
     };
+
+    public static int MAX_TRANSACTION_AMOUNT = 500*10000; // vEUR 500
 }

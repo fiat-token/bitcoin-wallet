@@ -128,6 +128,7 @@ import org.bitcoinj.wallet.Wallet.DustySendRequested;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.crypto.params.KeyParameter;
+import org.spongycastle.math.ec.ECCurve;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -1290,6 +1291,13 @@ public final class SendCoinsFragment extends Fragment {
                     sendRequest.ensureMinRequiredFee = false;
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
+
+                    if((amount.isLessThan( Coin.valueOf(1000*1000*10000)) && (amount.isGreaterThan( Coin.valueOf(Constants.MAX_TRANSACTION_AMOUNT))))) {
+                        dryrunTransaction = null;
+                        throw new VerificationException.ExcessiveValue();
+                    }
+
+
                 } catch (final Exception x) {
                     dryrunException = x;
                 }
@@ -1385,6 +1393,14 @@ public final class SendCoinsFragment extends Fragment {
             directPaymentEnableView.setVisibility(directPaymentVisible ? View.VISIBLE : View.GONE);
             directPaymentEnableView.setEnabled(state == State.INPUT);
 
+            if(isIBANselected()) {
+                viewGo.setEnabled(validateIBAN() && dryrunTransaction != null && fees != null
+                        && (blockchainState == null || !blockchainState.replaying));
+            } else {
+                viewGo.setEnabled(everythingPlausible() && dryrunTransaction != null && fees != null
+                        && (blockchainState == null || !blockchainState.replaying));
+            }
+
             hintView.setVisibility(View.GONE);
             if (state == State.INPUT) {
                 if (blockchainState != null && blockchainState.replaying) {
@@ -1406,6 +1422,8 @@ public final class SendCoinsFragment extends Fragment {
                                 btcFormat.format(((InsufficientMoneyException) dryrunException).missing)));
                     else if (dryrunException instanceof CouldNotAdjustDownwards)
                         hintView.setText(getString(R.string.send_coins_fragment_hint_empty_wallet_failed));
+                    else if(dryrunException instanceof VerificationException.ExcessiveValue)
+                        hintView.setText(getString(R.string.send_coins_fragment_hint_too_much_money));
                     else
                         hintView.setText(dryrunException.toString());
                 } else if (dryrunTransaction != null && dryrunTransaction.getFee() != null) {
@@ -1452,13 +1470,7 @@ public final class SendCoinsFragment extends Fragment {
             viewCancel.setEnabled(
                     state != State.REQUEST_PAYMENT_REQUEST && state != State.DECRYPTING && state != State.SIGNING);
 
-            if(isIBANselected()) {
-                viewGo.setEnabled(validateIBAN() && dryrunTransaction != null && fees != null
-                        && (blockchainState == null || !blockchainState.replaying));
-            } else {
-                viewGo.setEnabled(everythingPlausible() && dryrunTransaction != null && fees != null
-                        && (blockchainState == null || !blockchainState.replaying));
-            }
+
             if (state == null || state == State.REQUEST_PAYMENT_REQUEST) {
                 viewCancel.setText(R.string.button_cancel);
                 viewGo.setText(null);

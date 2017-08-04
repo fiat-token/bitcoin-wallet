@@ -354,5 +354,6 @@
     <string name="invalid_iban">Invalid IBAN address</string>
     <string name="iban_sepa">Valid SEPA address</string>
     <string name="iban_not_sepa">IBAN not in SEPA region</string>
+    <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Amount < vEUR 500]]></string>
 
 </resources>
