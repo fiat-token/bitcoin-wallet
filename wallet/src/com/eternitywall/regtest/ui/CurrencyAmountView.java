@@ -187,8 +187,7 @@ public final class CurrencyAmountView extends FrameLayout {
         if (localCurrencyCode == null)
             return inputFormat.parse(amountStr);
         else if (localCurrencyCode.equals("vEUR")) {
-            // adjust VEUR decimal part before pass to bitcoinj library
-            return inputFormat.parse(amountStr).divide(10);
+            return inputFormat.parse(amountStr);
         } else
             return inputFormat.parseFiat(localCurrencyCode, amountStr);
     }

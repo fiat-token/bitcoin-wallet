@@ -187,9 +187,13 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         });
 
         final CurrencyAmountView btcAmountView = (CurrencyAmountView) view.findViewById(R.id.request_coins_amount_btc);
-        btcAmountView.setCurrencySymbol(config.getFormat().code());
+
+        btcAmountView.setCurrencySymbol(Constants.vEUR.code());  //Config.vEUR.code()
+        btcAmountView.setInputFormat(Constants.vEUR);
+        btcAmountView.setHintFormat(Constants.vEUR);
+        /*btcAmountView.setCurrencySymbol(config.getFormat().code());
         btcAmountView.setInputFormat(config.getMaxPrecisionFormat());
-        btcAmountView.setHintFormat(config.getFormat());
+        btcAmountView.setHintFormat(config.getFormat());*/
 
         final CurrencyAmountView localAmountView = (CurrencyAmountView) view
                 .findViewById(R.id.request_coins_amount_local);
