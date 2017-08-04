@@ -46,6 +46,7 @@ public final class Constants {
     //public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
     public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
     public static final MonetaryFormat vEUR = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vEUR").shift(4);
+    public static final int vEUR_SMALLEST_UNIT_EXPONENT = 7;
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);

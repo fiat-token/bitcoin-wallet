@@ -1615,6 +1615,7 @@ public final class SendCoinsFragment extends Fragment {
                     setState(State.INPUT);
 
                     receivingAddressView.setText(null);
+                    btcAmountView.setAmount(paymentIntent.getAmount(),true);
                     //amountCalculatorLink.setBtcAmount(paymentIntent.getAmount());
 
                     if (paymentIntent.isBluetoothPaymentUrl())

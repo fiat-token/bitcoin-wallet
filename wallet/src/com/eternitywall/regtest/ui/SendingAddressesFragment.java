@@ -389,7 +389,7 @@ public final class SendingAddressesFragment extends FancyListFragment
             if (clipUri == null)
                 return null;
             try {
-                return new BitcoinURI(clipUri.toString()).getAddress();
+                return new BitcoinURI(clipUri.toString().replace("veur","bitcoin")).getAddress();
             } catch (final BitcoinURIParseException x) {
                 return null;
             }
