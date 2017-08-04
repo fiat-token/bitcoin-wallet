@@ -90,7 +90,7 @@ public class WalletAddressDialogFragment extends DialogFragment {
 
         final ImageView imageView = (ImageView) dialog.findViewById(R.id.wallet_address_dialog_image);
         final int size = getResources().getDimensionPixelSize(R.dimen.bitmap_dialog_qr_size);
-        final String uri = BitcoinURI.convertToBitcoinURI(address, null, addressLabel, null);
+        final String uri = BitcoinURI.convertToBitcoinURI(address, null, addressLabel, null).replace("bitcoin","veur");
         imageView.setImageBitmap(Qr.bitmap(uri, size));
 
         final View labelButtonView = dialog.findViewById(R.id.wallet_address_dialog_label_button);

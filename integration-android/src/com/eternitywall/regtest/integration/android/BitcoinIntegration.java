@@ -31,7 +31,7 @@ public final class BitcoinIntegration {
     private static final String INTENT_EXTRA_PAYMENT = "payment";
     private static final String INTENT_EXTRA_TRANSACTION_HASH = "transaction_hash";
 
-    private static final String MIMETYPE_PAYMENTREQUEST = "application/bitcoin-paymentrequest"; // BIP 71
+    private static final String MIMETYPE_PAYMENTREQUEST = "application/veur-paymentrequest"; // BIP 71
 
     /**
      * Request any amount of Bitcoins (probably a donation) from user, without feedback from the app.
@@ -221,7 +221,7 @@ public final class BitcoinIntegration {
     private static final int SATOSHIS_PER_COIN = 100000000;
 
     private static Intent makeBitcoinUriIntent(final String address, final Long amount) {
-        final StringBuilder uri = new StringBuilder("bitcoin:");
+        final StringBuilder uri = new StringBuilder("veur:");
         if (address != null)
             uri.append(address);
         if (amount != null)
