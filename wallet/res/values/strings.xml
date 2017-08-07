@@ -348,6 +348,7 @@
     <string name="error_parse">Parse error: %s</string>
     <string name="error_http">HTTP error %1$s:\n%2$s</string>
     <string name="error_bluetooth">Bluetooth error: %1$s</string>
+
     <string name="send_coins_fragment_receiving_iban_label">Send to IBAN</string>
     <string name="send_coins_fragment_to_iban">Send to IBAN</string>
     <string name="send_coins_fragment_receiving_iban_hint">type IBAN</string>
@@ -355,5 +356,14 @@
     <string name="iban_sepa">Valid SEPA address</string>
     <string name="iban_not_sepa">IBAN not in SEPA region</string>
     <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Amount < vEUR 500]]></string>
+
+    <string name="recharge_activity_title">Recharge</string>
+    <string name="sent_recharge">Sent recharge of vEUR 10.00</string>
+    <string name="invalid_recharge">Only one recharge per day available.</string>
+    <string name="request_recharge">Request recharge</string>
+    <string name="to_recharge_your_wallet_please_make_a_sepa_direct_debit_to_the_following_iban_with_the_wished_amount">To recharge your wallet please make a Sepa Direct Debit to the following Iban with the wished amount.</string>
+    <string name="itxxt1927501600393471018002">ITXXT1927501600393471018002</string>
+    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">For test, we provide to recharge your wallet, max once a day, with a fixed amount of</string>
+    <string name="veur_10_00">vEUR 10.00</string>
 
 </resources>

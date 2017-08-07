@@ -383,6 +383,10 @@ public final class WalletActivity extends AbstractBindServiceActivity
         case R.id.wallet_options_help:
             HelpDialogFragment.page(getFragmentManager(), R.string.help_wallet);
             return true;
+
+        case R.id.wallet_options_recharge:
+            startActivity(new Intent(this, RechargeActivity.class));
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

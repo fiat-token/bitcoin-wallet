@@ -340,5 +340,22 @@
   <string name="error_parse">Errore di analisi: %s</string>
   <string name="error_http">Errore HTTP %1$s:\n%2$s</string>
   <string name="error_bluetooth">Errore bluetooth: %1$s</string>
+
+
+  <string name="send_coins_fragment_receiving_iban_label">Invia a IBAN</string>
+  <string name="send_coins_fragment_to_iban">Invia a IBAN</string>
+  <string name="send_coins_fragment_receiving_iban_hint">IBAN</string>
+  <string name="invalid_iban">Indirizzo IBAN non valido</string>
+  <string name="iban_sepa">Indirizzo SEPA valido</string>
+  <string name="iban_not_sepa">Indirizzo non in regione SEPA</string>
   <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Ammontare < vEUR 500]]></string>
+
+  <string name="recharge_activity_title">Ricarica</string>
+  <string name="sent_recharge">Invia ricarica di vEUR 10.00</string>
+  <string name="invalid_recharge">Il servizio fornisce al massimo una ricarica al giorno.</string>
+  <string name="request_recharge">Richiedi ricarica</string>
+  <string name="to_recharge_your_wallet_please_make_a_sepa_direct_debit_to_the_following_iban_with_the_wished_amount">Effettua un bonifico al seguente IBAN con l\'ammontare desiderato per ricaricare il tuo wallet</string>
+  <string name="itxxt1927501600393471018002">ITXXT1927501600393471018002</string>
+  <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">Il sistema mette a disposizione gratuitamente una operazione di ricarica al giorno di ammontare</string>
+  <string name="veur_10_00">vEUR 10.00</string>
 </resources>
