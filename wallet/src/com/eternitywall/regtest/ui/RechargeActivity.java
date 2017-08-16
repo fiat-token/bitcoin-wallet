@@ -56,7 +56,7 @@ public class RechargeActivity extends  AbstractBindServiceActivity{
         btnRecharge = (Button) findViewById(R.id.recharge_go);
         btnCancel = (Button) findViewById(R.id.recharge_cancel);
 
-        btnRecharge.setText(getString(R.string.recharge_activity_title));
+        btnRecharge.setText(getString(R.string.button_top_up));
         btnCancel.setText(getString(R.string.button_cancel));
 
         btnCancel.setOnClickListener(new View.OnClickListener() {

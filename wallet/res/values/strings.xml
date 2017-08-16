@@ -361,9 +361,14 @@
     <string name="sent_recharge">Sent recharge of vEUR 10.00</string>
     <string name="invalid_recharge">Only one recharge per day available.</string>
     <string name="request_recharge">Request recharge</string>
-    <string name="to_recharge_your_wallet_please_make_a_sepa_direct_debit_to_the_following_iban_with_the_wished_amount">To recharge your wallet please make a Sepa Direct Debit to the following Iban with the wished amount.</string>
-    <string name="itxxt1927501600393471018002">ITXXT1927501600393471018002</string>
-    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">For test, we provide to recharge your wallet, max once a day, with a fixed amount of</string>
+    <string name="to_recharge_your_wallet_please">To top-up your wallet app please instruct a SEPA Credit Transfer (i.e. a wire transfer) to:</string>
+
+    <string name="itxxt1927501600393471018002">IBAN IT98A0000000000000000000000</string>
+    <string name="iban_BIC">BIC BCITITMM</string>
+    <string name="button_top_up">Top-Up</string>
+
+    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">This facility is not active during the current alpha-test. Instead, top-up can be simulated freely once per day with a fixed amount of:</string>
+    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Please remember that, for the time being, this is just fictitious money!</string>
     <string name="veur_10_00">vEUR 10.00</string>
 
 </resources>
