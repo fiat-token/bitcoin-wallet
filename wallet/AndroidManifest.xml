@@ -191,6 +191,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ui.RechargeActivity"
             android:theme="@style/My.Theme.ChildActivity"
+            android:parentActivityName=".ui.WalletActivity"
             />
 
         <provider
