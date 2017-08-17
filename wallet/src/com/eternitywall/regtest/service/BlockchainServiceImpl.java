@@ -36,7 +36,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
-import android.os.StrictMode;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.DateUtils;
 
@@ -387,17 +386,18 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 //peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
                 try {
                     // Resolve InetAddress of the peers
-                    final List<String> dnss = new ArrayList<>();
                     final List<InetAddress> peers = new ArrayList<>();
                     final List<Thread> threads = new ArrayList<>();
 
                     for (final String dns : Constants.DNSPEERS){
+                        log.info("asking dns ip for " + dns );
                         Thread thread = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     peers.add( InetAddress.getByName(dns) );
                                 } catch (UnknownHostException e) {
+                                    log.info("exception on dnsres " + e);
                                     e.printStackTrace();
                                 }
                             }
@@ -409,6 +409,11 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     for(Thread thread : threads){
                         thread.join();
                     }
+                    log.info("Thread finishing");
+
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
+                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("163.172.139.9"), 18444 ));
+
                     for(InetAddress peer : peers){
                         peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, 18444 ));
                     }
