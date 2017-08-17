@@ -353,7 +353,7 @@
   <string name="recharge_activity_title">Ricarica</string>
   <string name="sent_recharge">Invia ricarica di vEUR 10.00</string>
   <string name="invalid_recharge">Il servizio fornisce al massimo una ricarica al giorno.</string>
-  <string name="request_recharge">Richiedi ricarica</string>
+  <string name="request_recharge">Ricarica</string>
   <string name="to_recharge_your_wallet_please">Per ricaricare questa applicazione portafoglio è necessario disporre un SEPA Credit Transfer (bonifico) a:</string>
   <string name="itxxt1927501600393471018002">IBAN IT98A0000000000000000000000</string>
   <string name="iban_BIC">BIC BCITITMM</string>
