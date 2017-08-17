@@ -2,12 +2,29 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_form"
+    android:fillViewport="true"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:divider="?android:attr/dividerHorizontal"
+        android:dividerPadding="0dp"
+        android:orientation="vertical"
+        android:showDividers="middle"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_marginLeft="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_marginRight="@dimen/list_entry_padding_horizontal_lax"
+        android:layout_weight="1"
+        android:orientation="vertical" >
 
 
         <TextView
@@ -81,12 +98,12 @@
             android:text="@string/for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2" />
 
 
-        <Space
+        </LinearLayout>
+
+        <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <include layout="@layout/recharge_buttons_include" />
+            layout="@layout/recharge_buttons_include" />
 
     </LinearLayout>
 </ScrollView>
