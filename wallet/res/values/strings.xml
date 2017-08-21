@@ -371,4 +371,13 @@
     <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Please remember that, for the time being, this is just fictitious money!</string>
     <string name="veur_10_00">vEUR 10.00</string>
 
+    <string name="phone_verification">Phone verification</string>
+    <string name="_39">+39</string>
+    <string name="verify">VERIFY</string>
+    <string name="phone_verification_invalid">Invalid phone number</string>
+    <string name="phone_skip">skip</string>
+    <string name="insert_the_pincode_received_from_sms_to_verify_your_phone">Insert the PINCODE received from SMS to verify your phone</string>
+    <string name="confirm">confirm</string>
+    <string name="phone_back">back</string>
+
 </resources>

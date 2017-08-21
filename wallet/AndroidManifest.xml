@@ -4,7 +4,7 @@
     package="com.eternitywall.regtest"
     android:installLocation="internalOnly"
     android:versionCode="313"
-    android:versionName="beach" >
+    android:versionName="beach">
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -57,13 +57,15 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
-        android:name="com.eternitywall.regtest.WalletApplication"
+        android:name=".WalletApplication"
         android:allowBackup="false"
         android:icon="@drawable/launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name">
         <activity
-            android:name="com.eternitywall.regtest.ui.WalletActivity"
+            android:name=".ui.WalletActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:exported="true"
             android:label="@string/app_name_short"
@@ -71,9 +73,9 @@
             android:theme="@style/My.Theme" />
 
         <activity-alias
-            android:name="com.eternitywall.regtest.WalletActivity"
-            android:targetActivity="com.eternitywall.regtest.ui.WalletActivity" >
-            <intent-filter android:label="@string/app_name_short" >
+            android:name=".WalletActivity"
+            android:targetActivity=".ui.WalletActivity">
+            <intent-filter android:label="@string/app_name_short">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -92,13 +94,13 @@
         </activity-alias>
 
         <activity
-            android:name="com.eternitywall.regtest.ui.send.SendCoinsActivity"
+            android:name=".ui.send.SendCoinsActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/send_coins_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity"
-            android:windowSoftInputMode="adjustResize" >
-            <intent-filter android:label="@string/send_coins_activity_title" >
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.intent.action.VIEW" />
 
                 <data android:scheme="veur" />
@@ -106,21 +108,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
-            <intent-filter android:label="@string/send_coins_activity_title" >
+            <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
                 <data android:scheme="veur" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter android:label="@string/send_coins_activity_title" >
+            <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.intent.action.VIEW" />
 
                 <data android:mimeType="application/veur-paymentrequest" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            <intent-filter android:label="@string/send_coins_activity_title" >
+            <intent-filter android:label="@string/send_coins_activity_title">
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
                 <data android:mimeType="application/veur-paymentrequest" />
@@ -129,45 +131,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.eternitywall.regtest.ui.SendCoinsQrActivity"
+            android:name=".ui.SendCoinsQrActivity"
             android:configChanges="keyboard|keyboardHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <activity
-            android:name="com.eternitywall.regtest.ui.RequestCoinsActivity"
+            android:name=".ui.RequestCoinsActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/request_coins_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.eternitywall.regtest.ui.AddressBookActivity"
+            android:name=".ui.AddressBookActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/address_book_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="com.eternitywall.regtest.ui.ExchangeRatesActivity"
+            android:name=".ui.ExchangeRatesActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/exchange_rates_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="com.eternitywall.regtest.ui.NetworkMonitorActivity"
+            android:name=".ui.NetworkMonitorActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/network_monitor_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="com.eternitywall.regtest.ui.preference.PreferenceActivity"
+            android:name=".ui.preference.PreferenceActivity"
             android:label="@string/preferences_activity_title"
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity
-            android:name="com.eternitywall.regtest.ui.RestoreWalletActivity"
+            android:name=".ui.RestoreWalletActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
-            android:theme="@style/My.Theme.Dialog" >
-            <intent-filter android:label="@string/import_keys_intent_filter_action" >
+            android:theme="@style/My.Theme.Dialog">
+            <intent-filter android:label="@string/import_keys_intent_filter_action">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -176,14 +177,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.eternitywall.regtest.ui.ScanActivity"
+            android:name=".ui.ScanActivity"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:theme="@style/My.Theme.Fullscreen"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name="com.eternitywall.regtest.ui.send.SweepWalletActivity"
+            android:name=".ui.send.SweepWalletActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/sweep_wallet_activity_title"
             android:screenOrientation="behind"
@@ -192,22 +193,22 @@
         <activity android:name=".ui.RechargeActivity" />
 
         <provider
-            android:name="com.eternitywall.regtest.data.AddressBookProvider"
+            android:name=".data.AddressBookProvider"
             android:authorities="com.eternitywall.regtest.address_book"
             android:exported="false" />
         <provider
-            android:name="com.eternitywall.regtest.data.ExchangeRatesProvider"
+            android:name=".data.ExchangeRatesProvider"
             android:authorities="com.eternitywall.regtest.exchange_rates"
             android:exported="false" />
         <provider
-            android:name="com.eternitywall.regtest.util.FileAttachmentProvider"
+            android:name=".util.FileAttachmentProvider"
             android:authorities="com.eternitywall.regtest.file_attachment"
             android:exported="false"
             android:grantUriPermissions="true" />
 
         <receiver
-            android:name="com.eternitywall.regtest.WalletBalanceWidgetProvider"
-            android:label="@string/appwidget_wallet_balance_title" >
+            android:name=".WalletBalanceWidgetProvider"
+            android:label="@string/appwidget_wallet_balance_title">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -218,13 +219,13 @@
         </receiver>
 
         <service
-            android:name="com.eternitywall.regtest.service.BlockchainServiceImpl"
+            android:name=".service.BlockchainServiceImpl"
             android:exported="false" />
         <service
-            android:name="com.eternitywall.regtest.offline.AcceptBluetoothService"
+            android:name=".offline.AcceptBluetoothService"
             android:exported="false" />
 
-        <receiver android:name="com.eternitywall.regtest.service.BootstrapReceiver" >
+        <receiver android:name=".service.BootstrapReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -234,15 +235,18 @@
         </receiver>
 
         <service
-            android:name="com.eternitywall.regtest.service.UpgradeWalletService"
+            android:name=".service.UpgradeWalletService"
             android:exported="false" />
         <service
-            android:name="com.eternitywall.regtest.service.InactivityNotificationService"
+            android:name=".service.InactivityNotificationService"
             android:exported="false" />
 
         <meta-data
             android:name="android.nfc.disable_beam_default"
             android:value="true" />
+
+        <activity android:name=".ui.PhoneActivity"
+            android:theme="@style/My.Theme.ChildActivity"></activity>
     </application>
 
 </manifest>

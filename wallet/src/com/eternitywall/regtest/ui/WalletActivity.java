@@ -178,6 +178,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
         if (prefs.getBoolean("firstrun", true)) {
             registerAddress();
             prefs.edit().putBoolean("firstrun", false).apply();
+            startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
         }
 
 
@@ -324,69 +325,73 @@ public final class WalletActivity extends AbstractBindServiceActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.wallet_options_request:
-            handleRequestCoins();
-            return true;
+            case R.id.wallet_options_request:
+                handleRequestCoins();
+                return true;
 
-        case R.id.wallet_options_send:
-            handleSendCoins();
-            return true;
+            case R.id.wallet_options_send:
+                handleSendCoins();
+                return true;
 
-        case R.id.wallet_options_scan:
-            handleScan();
-            return true;
+            case R.id.wallet_options_scan:
+                handleScan();
+                return true;
 
-        case R.id.wallet_options_address_book:
-            AddressBookActivity.start(this);
-            return true;
+            case R.id.wallet_options_address_book:
+                AddressBookActivity.start(this);
+                return true;
 
-        case R.id.wallet_options_exchange_rates:
-            startActivity(new Intent(this, ExchangeRatesActivity.class));
-            return true;
+            case R.id.wallet_options_exchange_rates:
+                startActivity(new Intent(this, ExchangeRatesActivity.class));
+                return true;
 
-        case R.id.wallet_options_sweep_wallet:
-            SweepWalletActivity.start(this);
-            return true;
+            case R.id.wallet_options_sweep_wallet:
+                SweepWalletActivity.start(this);
+                return true;
 
-        case R.id.wallet_options_network_monitor:
-            startActivity(new Intent(this, NetworkMonitorActivity.class));
-            return true;
+            case R.id.wallet_options_network_monitor:
+                startActivity(new Intent(this, NetworkMonitorActivity.class));
+                return true;
 
-        case R.id.wallet_options_restore_wallet:
-            handleRestoreWallet();
-            return true;
+            case R.id.wallet_options_restore_wallet:
+                handleRestoreWallet();
+                return true;
 
-        case R.id.wallet_options_backup_wallet:
-            handleBackupWallet();
-            return true;
+            case R.id.wallet_options_backup_wallet:
+                handleBackupWallet();
+                return true;
 
-        case R.id.wallet_options_encrypt_keys:
-            handleEncryptKeys();
-            return true;
+            case R.id.wallet_options_encrypt_keys:
+                handleEncryptKeys();
+                return true;
 
-        case R.id.wallet_options_preferences:
-            startActivity(new Intent(this, PreferenceActivity.class));
-            return true;
+            case R.id.wallet_options_preferences:
+                startActivity(new Intent(this, PreferenceActivity.class));
+                return true;
 
-        case R.id.wallet_options_safety:
-            HelpDialogFragment.page(getFragmentManager(), R.string.help_safety);
-            return true;
+            case R.id.wallet_options_safety:
+                HelpDialogFragment.page(getFragmentManager(), R.string.help_safety);
+                return true;
 
-        case R.id.wallet_options_technical_notes:
-            HelpDialogFragment.page(getFragmentManager(), R.string.help_technical_notes);
-            return true;
+            case R.id.wallet_options_technical_notes:
+                HelpDialogFragment.page(getFragmentManager(), R.string.help_technical_notes);
+                return true;
 
-        case R.id.wallet_options_report_issue:
-            handleReportIssue();
-            return true;
+            case R.id.wallet_options_report_issue:
+                handleReportIssue();
+                return true;
 
-        case R.id.wallet_options_help:
-            HelpDialogFragment.page(getFragmentManager(), R.string.help_wallet);
-            return true;
+            case R.id.wallet_options_help:
+                HelpDialogFragment.page(getFragmentManager(), R.string.help_wallet);
+                return true;
 
-        case R.id.wallet_options_recharge:
-            startActivity(new Intent(this, RechargeActivity.class));
-            return true;
+            case R.id.wallet_options_recharge:
+                startActivity(new Intent(this, RechargeActivity.class));
+                return true;
+
+            case R.id.wallet_options_phone_verification:
+                startActivity(new Intent(this, PhoneActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

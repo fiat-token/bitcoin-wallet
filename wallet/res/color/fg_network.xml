@@ -4,4 +4,5 @@
     <item android:state_enabled="false" android:color="@color/fg_network_insignificant"/>
     <item android:color="@color/fg_network_significant"/>
 
+
 </selector>
