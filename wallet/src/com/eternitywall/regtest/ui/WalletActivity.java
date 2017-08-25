@@ -178,7 +178,10 @@ public final class WalletActivity extends AbstractBindServiceActivity
         if (prefs.getBoolean("firstrun", true)) {
             registerAddress();
             prefs.edit().putBoolean("firstrun", false).apply();
-            startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
+
+            if (prefs.getBoolean("phone_verification", false) == false) {
+                startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
+            }
         }
 
 
@@ -390,7 +393,22 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 return true;
 
             case R.id.wallet_options_phone_verification:
-                startActivity(new Intent(this, PhoneActivity.class));
+                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                if (prefs.getBoolean("phone_verification", false) == false) {
+                    startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
+                } else {
+
+                    new AlertDialog.Builder(this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(getString(R.string.phone_verification_just_happened))
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ;
+                                }
+                            })
+                            .show();
+                }
                 return true;
         }
 

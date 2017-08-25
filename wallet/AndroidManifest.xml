@@ -189,7 +189,10 @@
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.RechargeActivity" />
+        <activity android:name=".ui.RechargeActivity"
+            android:theme="@style/My.Theme.ChildActivity" />
+        <activity android:name=".ui.PhoneActivity"
+            android:theme="@style/My.Theme.ChildActivity" />
 
         <provider
             android:name="com.eternitywall.regtest.data.AddressBookProvider"

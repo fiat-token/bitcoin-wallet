@@ -27,7 +27,6 @@
         android:layout_marginBottom="16dp"
         android:ems="10"
         android:inputType="phone"
-        android:text="@string/_39"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="44dp" />
 

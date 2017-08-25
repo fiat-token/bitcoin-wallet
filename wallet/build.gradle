@@ -33,6 +33,7 @@ dependencies {
     compile 'com.google.code.findbugs:jsr305:2.0.3'
     compile 'nl.garvelink.oss:iban:1.5.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     testCompile 'junit:junit:4.12'
 }
 

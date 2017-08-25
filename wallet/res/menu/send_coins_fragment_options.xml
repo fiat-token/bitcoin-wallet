@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+
+    <item
+        android:id="@+id/send_coins_options_address_book"
+        android:icon="@drawable/ic_local_offer_white_24dp"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/address_book_activity_title"/>
+
     <item
         android:id="@+id/send_coins_options_scan"
         android:icon="@drawable/ic_photo_camera_white_24dp"
