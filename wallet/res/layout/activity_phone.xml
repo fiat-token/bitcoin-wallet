@@ -10,25 +10,46 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/phone_verification"
+        android:textAlignment="viewStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Light.Widget.PopupMenu.Large"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <EditText
-        android:id="@+id/etPhone"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:inputType="phone"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="44dp" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etPrefix"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="5"
+            android:ems="10"
+            android:inputType="phone"
+            android:text="0039"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="44dp" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="phone"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="44dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnPhoneVerify"

@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -41,13 +43,15 @@ import static com.eternitywall.regtest.Constants.EW_URL;
 
 public class PhoneActivity extends AbstractBindServiceActivity {
 
-    EditText etPhone;
+    EditText etPhone, etPrefix;
     Button btnPhoneVerify, btnPhoneSkip;
 
 
     Wallet wallet;
     WalletApplication application;
     Configuration config;
+    String number;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         setContentView(R.layout.activity_phone);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
+        etPrefix = (EditText) findViewById(R.id.etPrefix);
         btnPhoneVerify = (Button) findViewById(R.id.btnPhoneVerify);
         btnPhoneSkip = (Button) findViewById(R.id.btnPhoneSkip);
 
@@ -66,7 +71,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
 
-                String number = etPhone.getText().toString();
+                number = etPrefix.getText().toString() + etPhone.getText().toString();
                 if (number != null && number.length() > 8) {
                     // pass checking
                     phoneSendSms(number);
@@ -94,6 +99,18 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 PhoneActivity.this.finish();
             }
         });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void phoneSendSms(String phone) {
@@ -141,7 +158,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
                 // PIN verify : remote call
-                phoneVerify(etPhone.getText().toString(), etPin.getText().toString(), wallet.currentReceiveAddress());
+                phoneVerify(number, etPin.getText().toString(), wallet.currentReceiveAddress());
 
             }
         });
@@ -161,20 +178,34 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 super.onSuccess(statusCode, headers, response);
                 progress(false);
 
-                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
-                prefs.edit().putBoolean("phone_verification", true).apply();
+                try {
+                    if(response.getString("status").equals("ko")){
+                        Toast.makeText(PhoneActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
-                new AlertDialog.Builder(PhoneActivity.this)
-                        .setTitle(getString(R.string.app_name))
-                        .setMessage(getString(R.string.verification_success))
-                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                PhoneActivity.this.finish();
-                            }
-                        })
-                        .setCancelable(false)
-                        .show();
+                    SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                    prefs.edit().putBoolean("phone_verification", true).apply();
+
+                    RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
+                    registerTask.startLoading();
+
+                    new AlertDialog.Builder(PhoneActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(getString(R.string.verification_success))
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    PhoneActivity.this.finish();
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override

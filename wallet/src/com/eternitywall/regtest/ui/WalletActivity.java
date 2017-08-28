@@ -176,7 +176,6 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
         SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {
-            registerAddress();
             prefs.edit().putBoolean("firstrun", false).apply();
 
             if (prefs.getBoolean("phone_verification", false) == false) {
@@ -187,13 +186,6 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
     }
 
-
-    private void registerAddress(){
-        wallet.currentReceiveAddress();
-
-        RegisterAddress registerTask = new RegisterAddress(this, wallet.currentReceiveAddress());
-        registerTask.startLoading();
-    }
 
 
     @Override
