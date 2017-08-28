@@ -161,10 +161,12 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
         final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
 
         Phonenumber.PhoneNumber phoneNumber = null;
+        phone = phone.replace("+","00");
+        phone = phone.replace(" ","");
         boolean internationalFormat = false;
         for (Locale locale : Locale.getAvailableLocales()){
             int prefix = phoneNumberUtil.getCountryCodeForRegion(locale.getCountry());
-            if(phone.startsWith(String.valueOf(prefix))){
+            if(phone.startsWith("00"+String.valueOf(prefix))){
                 internationalFormat = true;
                 phoneNumber = phoneNumberUtil.parse(phone, locale.getCountry());
             }
@@ -177,8 +179,10 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
 
         String number = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
         number = number.replace("+","00");
+        number = number.replace(" ","");
         return number;
     }
+
     private void resolveToAddress(String phone) {
         address = null;
         progress(true);
