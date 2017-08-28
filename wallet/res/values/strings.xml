@@ -374,7 +374,7 @@
     <string name="phone_verification">Phone verification</string>
     <string name="_39">+39</string>
     <string name="verify">VERIFY</string>
-    <string name="phone_verification_invalid">Invalid phone number</string>
+    <string name="phone_verification_invalid">SMS code doesn\'t match</string>
     <string name="phone_skip">skip</string>
     <string name="insert_the_pincode_received_from_sms_to_verify_your_phone">Insert the PINCODE received from SMS to verify your phone</string>
     <string name="confirm">confirm</string>
