@@ -36,6 +36,9 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
+import static com.eternitywall.regtest.Constants.EW_API_KEY;
+import static com.eternitywall.regtest.Constants.EW_URL;
+
 public class PhoneActivity extends AbstractBindServiceActivity {
 
     EditText etPhone;
@@ -93,15 +96,11 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         });
     }
 
-
-    String URL = "https://api.eternitywall.com/pn2a/v1";
-    String API_KEY = "ETxYGDXTV8O63Wv";
-
     private void phoneSendSms(String phone) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", API_KEY);
-        client.post(URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
+        client.addHeader("api_key", EW_API_KEY);
+        client.post(EW_URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -151,11 +150,11 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     private void phoneVerify(String phone, String secret, Address address) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", API_KEY);
+        client.addHeader("api_key", EW_API_KEY);
         RequestParams params = new RequestParams();
         params.add("secret_code", secret);
         params.add("genesis_address", address.toBase58().toString());
-        client.post(URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
+        client.post(EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

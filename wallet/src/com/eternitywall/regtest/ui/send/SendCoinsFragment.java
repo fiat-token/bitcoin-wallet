@@ -1711,4 +1711,10 @@ public final class SendCoinsFragment extends Fragment {
             new RequestPaymentRequestTask.BluetoothRequestTask(backgroundHandler, callback, bluetoothAdapter)
                     .requestPaymentRequest(paymentIntent.paymentRequestUrl);
     }
+
+
+    public void setAddress(String address){
+        validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address, "");
+        receivingAddressView.setText(null);
+    }
 }
