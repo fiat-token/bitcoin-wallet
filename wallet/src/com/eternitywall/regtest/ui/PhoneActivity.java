@@ -148,7 +148,9 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+
+                numberIsDefined = false;
+                phoneSendSms(number);
             }
         });
     }
