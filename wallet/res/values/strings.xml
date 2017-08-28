@@ -27,7 +27,7 @@
     <string name="exchange_rates_options_search">Search exchange rate</string>
     <string name="wallet_transactions_fragment_empty_text_received">Nothing received so far.</string>
     <string name="wallet_transactions_fragment_empty_text_sent">Nothing sent so far.</string>
-    <string name="wallet_transactions_fragment_empty_text_howto">How to get coins?\n\nThey are on the arrival...</string>
+    <string name="wallet_transactions_fragment_empty_text_howto">How to get coins?\n\nRegister your phone number...</string>
     <string name="wallet_transactions_row_warning_backup">Congratulations, you received your first payment! Have you already &lt;u&gt;backed up your wallet&lt;/u&gt;, to protect against loss?</string>
     <string name="wallet_transactions_row_warning_storage_encryption">Hint: to increase the safety of your wallet, you can &lt;u&gt;encrypt your device&lt;/u&gt;. This also protects data of other apps.</string>
     <string name="wallet_transactions_row_warning_chain_forking">The network is undergoing maintenance. You\'re advised to not send or receive until maintenance is finished. &lt;u&gt;More information.&lt;/u&gt;</string>
