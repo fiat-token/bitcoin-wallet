@@ -111,6 +111,14 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.send_coins_options_address_book:
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                startActivityForResult(intent, PICK_CONTACT);
+                return true;
+            case R.id.send_coins_options_help:
+                HelpDialogFragment.page(getFragmentManager(), R.string.help_send_coins);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -151,12 +159,24 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
 
     private String normalizePhone(String phone) throws NumberParseException {
         final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-        Phonenumber.PhoneNumber phoneNumber = phoneNumberUtil.parse(phone, Locale.getDefault().getCountry());
-        String number = "";
-        for (int i=0;i<phoneNumber.getNumberOfLeadingZeros();i++){
-            number+="0";
+
+        Phonenumber.PhoneNumber phoneNumber = null;
+        boolean internationalFormat = false;
+        for (Locale locale : Locale.getAvailableLocales()){
+            int prefix = phoneNumberUtil.getCountryCodeForRegion(locale.getCountry());
+            if(phone.startsWith(String.valueOf(prefix))){
+                internationalFormat = true;
+                phoneNumber = phoneNumberUtil.parse(phone, locale.getCountry());
+            }
         }
-        number+=String.valueOf(phoneNumber.getNationalNumber());
+        if(internationalFormat==false){
+            Locale locale = Locale.ITALY;
+            int prefix = phoneNumberUtil.getCountryCodeForRegion(locale.getCountry());
+            phoneNumber = phoneNumberUtil.parse(String.valueOf(prefix)+phone, locale.getCountry());
+        }
+
+        String number = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+        number = number.replace("+","00");
         return number;
     }
     private void resolveToAddress(String phone) {
@@ -188,7 +208,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(SendCoinsActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SendCoinsActivity.this, getString(R.string.phone_verificatiuon_user_not_found), Toast.LENGTH_SHORT).show();
             }
         });
     }

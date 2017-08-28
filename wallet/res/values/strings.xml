@@ -382,5 +382,6 @@
     <string name="network_error">Network error</string>
     <string name="verification_success">Phone verification success</string>
     <string name="phone_verification_just_happened">Phone number just verified</string>
+    <string name="phone_verification_user_not_found">User not registered</string>
 
 </resources>
