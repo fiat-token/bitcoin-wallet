@@ -208,7 +208,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(SendCoinsActivity.this, getString(R.string.phone_verificatiuon_user_not_found), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SendCoinsActivity.this, getString(R.string.phone_verification_user_not_found), Toast.LENGTH_SHORT).show();
             }
         });
     }
