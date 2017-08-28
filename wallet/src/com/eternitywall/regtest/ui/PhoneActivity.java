@@ -52,6 +52,8 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     Configuration config;
     String number;
 
+    Boolean numberIsDefined = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 number = etPrefix.getText().toString() + etPhone.getText().toString();
                 if (number != null && number.length() > 8) {
                     // pass checking
-                    phoneSendSms(number);
+                    phoneValidNumber(number);
 
                 } else {
                     // phone invalid
@@ -112,6 +114,46 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    private void phoneValidNumber(String phone) {
+        progress(true);
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.addHeader("api_key", EW_API_KEY);
+        client.get(EW_URL + "/address/" + phone, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                progress(false);
+
+                try {
+                    if (response.getString("status").equals("ok")) {
+                        numberIsDefined = true;
+                    } else {
+                        numberIsDefined = false;
+                    }
+
+                    phoneSendSms(number);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+                progress(false);
+                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 
     private void phoneSendSms(String phone) {
         progress(true);
@@ -184,12 +226,17 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                         return;
                     }
 
+                    // set preferences for UI
                     SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
                     prefs.edit().putBoolean("phone_verification", true).apply();
 
-                    RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
-                    registerTask.startLoading();
+                    // send coupon only if the phone number was not just registered
+                    if(numberIsDefined == false){
+                        RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
+                        registerTask.startLoading();
+                    }
 
+                    // popup confirmation
                     new AlertDialog.Builder(PhoneActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.verification_success))
