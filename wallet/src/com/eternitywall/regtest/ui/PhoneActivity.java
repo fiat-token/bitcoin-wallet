@@ -202,7 +202,9 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
                 // PIN verify : remote call
+                alertDialog.dismiss();
                 phoneVerify(number, etPin.getText().toString(), wallet.currentReceiveAddress());
+
 
             }
         });
@@ -270,7 +272,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
     private void progress(boolean visible) {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this);
+            progressDialog = new ProgressDialog(this,android.R.style.Theme_Material_Dialog);
             progressDialog.setCancelable(false);
             progressDialog.getWindow().setLayout(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         }
