@@ -362,5 +362,19 @@
   <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Ricordate che, per ora, sono soldi puramente fittizzi!</string>
   <string name="veur_10_00">vEUR 10.00</string>
 
+  <string name="_39">+39</string>
+  <string name="verify">VERIFICA</string>
   <string name="phone_verification_invalid">Il codice inviato via SMS non corrisponde</string>
+  <string name="phone_skip">salta</string>
+  <string name="insert_the_pincode_received_from_sms_to_verify_your_phone">Inserisci il PINCODE ricevuto tramite SMS per verificare il tuo numero telefonico</string>
+  <string name="confirm">conferma</string>
+  <string name="phone_back">back</string>
+  <string name="network_error">Problema di rete</string>
+  <string name="verification_success">Verifica telefonica effettuata con successo</string>
+
+  <string name="phone_verification_just_happened">Telefono già verificato</string>
+  <string name="phone_verification_user_not_found">Utente non registrato</string>
+  <string name="phone_verification_sendcoins_popup">Utente non registrato. Notifica al tuo contatto l\'app VitualToken.</string>
+  <string name="phone_verification_sendcoins_sms">Installa VirtualToken da Play Store http://bit.ly/2x95eS6</string>
+
 </resources>

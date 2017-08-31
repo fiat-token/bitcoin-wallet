@@ -383,5 +383,7 @@
     <string name="verification_success">Phone verification success</string>
     <string name="phone_verification_just_happened">Phone number just verified</string>
     <string name="phone_verification_user_not_found">User not registered</string>
+    <string name="phone_verification_sendcoins_popup">User not registered. Notify VitualToken app to your contact.</string>
+    <string name="phone_verification_sendcoins_sms">Install VirtualToken from Play Store http://bit.ly/2x95eS6</string>
 
 </resources>
