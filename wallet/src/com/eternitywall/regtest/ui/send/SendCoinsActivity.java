@@ -220,7 +220,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
     ProgressDialog progressDialog = null;
     private void progress(boolean visible) {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this, R.style.Widget_AppCompat_ProgressBar);
+            progressDialog = new ProgressDialog(this, R.style.CustomAlertDialog);
             progressDialog.setCancelable(false);
         }
         if (visible == true) {

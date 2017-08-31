@@ -272,7 +272,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
     private void progress(boolean visible) {
         if (progressDialog == null) {
-            progressDialog = new ProgressDialog(this,android.R.style.Theme_Material_Dialog);
+            progressDialog = new ProgressDialog(this, R.style.CustomAlertDialog);
             progressDialog.setCancelable(false);
             progressDialog.getWindow().setLayout(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         }
