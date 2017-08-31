@@ -389,5 +389,7 @@
     <string name="phone_verification_terms_of_service">Accept the Terms of Service</string>
     <string name="phone_verification_link_terms_of_service">Tap here to see Terms of Service</string>
     <string name="phone_verification_popup_terms_of_service">Accept the Terms of Service to continue</string>
+    <string name="recharge_noregistration">Register your phone number before continue</string>
+    <string name="register">Register</string>
 
 </resources>

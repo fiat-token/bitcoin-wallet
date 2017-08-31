@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -68,7 +69,28 @@ public class RechargeActivity extends  AbstractBindServiceActivity{
         btnRecharge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+
+                final SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                boolean phoneVerification = prefs.getBoolean("phone_verification",false);
+                if (phoneVerification == false){
+                    new AlertDialog.Builder(RechargeActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(R.string.recharge_noregistration)
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(RechargeActivity.this, PhoneActivity.class));
+                                }
+                            }).show();
+                    return ;
+                }
+
                 Long lastTimestamp = prefs.getLong(LAST_RECHARGE,0);
                 Date lastDate = new Date(lastTimestamp);
                 Date nowDate = new Date();

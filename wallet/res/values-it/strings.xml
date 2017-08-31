@@ -380,4 +380,6 @@
     <string name="phone_verification_terms_of_service">Accetta i Termini del Servizio</string>
     <string name="phone_verification_link_terms_of_service">Clicca qui per visualizzare i Termini del Servizio</string>
     <string name="phone_verification_popup_terms_of_service">Accetta i Termini del Servizio per continuare</string>
+    <string name="recharge_noregistration">Registra il numero di telefono per continuare</string>
+    <string name="register">Registra</string>
 </resources>
