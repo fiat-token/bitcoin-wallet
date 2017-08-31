@@ -386,4 +386,8 @@
     <string name="phone_verification_sendcoins_popup">User not registered. Notify VitualToken app to your contact.</string>
     <string name="phone_verification_sendcoins_sms">Install VirtualToken from Play Store http://bit.ly/2x95eS6</string>
 
+    <string name="phone_verification_terms_of_service">Accept the Terms of Service</string>
+    <string name="phone_verification_link_terms_of_service">Tap here to see Terms of Service</string>
+    <string name="phone_verification_popup_terms_of_service">Accept the Terms of Service to continue</string>
+
 </resources>

@@ -1,23 +1,18 @@
 package com.eternitywall.regtest.ui;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eternitywall.regtest.Configuration;
@@ -29,12 +24,8 @@ import com.loopj.android.http.RequestParams;
 
 import org.bitcoinj.core.Address;
 import org.bitcoinj.wallet.Wallet;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -45,7 +36,8 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
     EditText etPhone, etPrefix;
     Button btnPhoneVerify, btnPhoneSkip;
-
+    TextView tvTerms;
+    CheckBox cbTerms;
 
     Wallet wallet;
     WalletApplication application;
@@ -58,10 +50,12 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone);
+        setContentView(R.layout.phone_activity);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
         etPrefix = (EditText) findViewById(R.id.etPrefix);
+        tvTerms = (TextView) findViewById(R.id.tvTerms);
+        cbTerms = (CheckBox) findViewById(R.id.cbTerms);
         btnPhoneVerify = (Button) findViewById(R.id.btnPhoneVerify);
         btnPhoneSkip = (Button) findViewById(R.id.btnPhoneSkip);
 
@@ -73,16 +67,10 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
 
-                number = etPrefix.getText().toString() + etPhone.getText().toString();
-                if (number != null && number.length() > 8) {
-                    // pass checking
-                    phoneValidNumber(number);
-
-                } else {
-                    // phone invalid
+                if (cbTerms.isChecked() == false) {
                     new AlertDialog.Builder(PhoneActivity.this)
                             .setTitle(getString(R.string.app_name))
-                            .setMessage(getString(R.string.phone_verification_invalid))
+                            .setMessage(getString(R.string.phone_verification_popup_terms_of_service))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -90,7 +78,30 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                                 }
                             })
                             .show();
+                    return;
                 }
+
+                number = etPrefix.getText().toString() + etPhone.getText().toString();
+                if (number != null && number.length() > 8) {
+                    // pass checking
+                    phoneValidNumber(number);
+                    return;
+
+                }
+
+
+                // phone invalid
+                new AlertDialog.Builder(PhoneActivity.this)
+                        .setTitle(getString(R.string.app_name))
+                        .setMessage(getString(R.string.phone_verification_invalid))
+                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ;
+                            }
+                        })
+                        .show();
+
 
             }
         });
@@ -101,6 +112,14 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 PhoneActivity.this.finish();
             }
         });
+
+        tvTerms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
     }
 
 
@@ -183,7 +202,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     private void phoneInsertPin() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PhoneActivity.this);
         LayoutInflater inflater = PhoneActivity.this.getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.popup_phone, null);
+        final View dialogView = inflater.inflate(R.layout.phone_popup, null);
         dialogBuilder.setView(dialogView);
 
         final AlertDialog alertDialog = dialogBuilder.create();

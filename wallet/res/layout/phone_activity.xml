@@ -49,16 +49,31 @@
             android:inputType="phone"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="44dp" />
+
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cbTerms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_verification_terms_of_service" />
+
+    <TextView
+        android:id="@+id/tvTerms"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="8dp"
+        android:text="@string/phone_verification_link_terms_of_service" />
 
     <Button
         android:id="@+id/btnPhoneVerify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/verify"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="114dp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/verify" />
 
     <Space
         android:layout_width="match_parent"
