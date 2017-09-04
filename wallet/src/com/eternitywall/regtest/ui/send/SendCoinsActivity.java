@@ -199,7 +199,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
                     Toast.makeText(SendCoinsActivity.this, address, Toast.LENGTH_SHORT).show();
 
                     SendCoinsFragment coinsFragment = (SendCoinsFragment) getFragmentManager().findFragmentById(R.id.send_coins_fragment);
-                    coinsFragment.setAddress(address);
+                    coinsFragment.setAddress(phone, address);
 
 
                 }catch (Exception e){

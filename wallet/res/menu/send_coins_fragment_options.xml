@@ -6,6 +6,7 @@
         android:id="@+id/send_coins_options_address_book"
         android:icon="@drawable/ic_local_offer_white_24dp"
         android:showAsAction="ifRoom|withText"
+        android:visible="false"
         android:title="@string/address_book_activity_title"/>
 
     <item

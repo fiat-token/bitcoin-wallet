@@ -44,6 +44,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -66,6 +67,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.Constants;
@@ -141,6 +143,7 @@ import javax.annotation.Nullable;
 
 import nl.garvelink.iban.IBAN;
 
+import static com.eternitywall.regtest.ui.send.SendCoinsActivity.PICK_CONTACT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -191,6 +194,10 @@ public final class SendCoinsFragment extends Fragment {
     private AutoCompleteTextView sendCoinsReceivingIban;
     private LinearLayout sendCoinsIbanGroup;
 
+    // Add Address Book
+    LinearLayout sendCoinsAddressbookGroup;
+    AutoCompleteTextView sendCoinsAddressbook;
+    Boolean addressBookEnable=true;
 
     @Nullable
     private State state = null;
@@ -722,9 +729,33 @@ public final class SendCoinsFragment extends Fragment {
             }
         });
 
+        initAddressBook(view);
         initIBAN(view);
 
         return view;
+    }
+
+    /* START Address Book */
+    private void initAddressBook(View view){
+        sendCoinsAddressbookGroup = (LinearLayout) view.findViewById(R.id.send_coins_addressbook_group);
+        sendCoinsAddressbook = (AutoCompleteTextView) view.findViewById(R.id.send_coins_addressbook);
+        sendCoinsAddressbook.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                getActivity().startActivityForResult(intent, PICK_CONTACT);
+            }
+        });
+        setAddressBookEnabled(true);
+    }
+    // check if address book is enabled
+    private boolean isAddressBookEnabled(){
+        return this.addressBookEnable;
+    }
+    // set enable address book
+    private void setAddressBookEnabled(boolean enabled){
+        this.addressBookEnable = enabled;
     }
 
     /* START IBAN */
@@ -760,16 +791,32 @@ public final class SendCoinsFragment extends Fragment {
     // show/hide iban
     private void showIBAN(){
         sendCoinsIbanGroup.setVisibility(View.VISIBLE);
+        sendCoinsAddressbookGroup.setVisibility(View.GONE);
         payeeGroup.setVisibility(View.GONE);
+
+
+        if(this.addressBookEnable){
+            sendCoinsAddressbookGroup.setVisibility(View.GONE);
+        } else {
+            sendCoinsAddressbookGroup.setVisibility(View.VISIBLE);
+        }
     }
     private void hideIBAN(){
         sendCoinsIbanGroup.setVisibility(View.GONE);
         payeeGroup.setVisibility(View.VISIBLE);
+
+        if(this.addressBookEnable){
+            sendCoinsAddressbookGroup.setVisibility(View.VISIBLE);
+        } else {
+            sendCoinsAddressbookGroup.setVisibility(View.GONE);
+        }
     }
+
     // check if iban is selected
     private boolean isIBANselected(){
         return cbIBAN.isChecked();
     }
+
     // validate IBAN
     private boolean validateIBAN(){
         try {
@@ -1336,7 +1383,7 @@ public final class SendCoinsFragment extends Fragment {
             }
 
             if (paymentIntent.hasOutputs()) {
-                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected() && !isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(
                         !paymentIntent.hasPayee() || paymentIntent.payeeVerifiedBy == null ? View.VISIBLE : View.GONE);
@@ -1349,7 +1396,7 @@ public final class SendCoinsFragment extends Fragment {
                 else
                     receivingStaticAddressView.setText(R.string.send_coins_fragment_receiving_address_complex);
             } else if (validatedAddress != null) {
-                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected() && !isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(View.VISIBLE);
 
@@ -1368,11 +1415,11 @@ public final class SendCoinsFragment extends Fragment {
                 receivingStaticLabelView.setTextColor(getResources()
                         .getColor(validatedAddress.label != null ? R.color.fg_significant : R.color.fg_insignificant));
             } else if (paymentIntent.standard == null) {
-                if(!isIBANselected()) payeeGroup.setVisibility(View.VISIBLE);
+                if(!isIBANselected() && !isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingStaticView.setVisibility(View.GONE);
                 receivingAddressView.setVisibility(View.VISIBLE);
             } else {
-                if(!isIBANselected()) payeeGroup.setVisibility(View.GONE);
+                if(!isIBANselected() && !isAddressBookEnabled()) payeeGroup.setVisibility(View.GONE);
             }
 
             receivingAddressView.setEnabled(state == State.INPUT);
@@ -1393,7 +1440,7 @@ public final class SendCoinsFragment extends Fragment {
             directPaymentEnableView.setVisibility(directPaymentVisible ? View.VISIBLE : View.GONE);
             directPaymentEnableView.setEnabled(state == State.INPUT);
 
-            if(isIBANselected()) {
+            if(isIBANselected() && isAddressBookEnabled()) {
                 viewGo.setEnabled(validateIBAN() && dryrunTransaction != null && fees != null
                         && (blockchainState == null || !blockchainState.replaying));
             } else {
@@ -1713,8 +1760,10 @@ public final class SendCoinsFragment extends Fragment {
     }
 
 
-    public void setAddress(String address){
+    public void setAddress(String phone, String address){
+        sendCoinsAddressbook.setText(phone);
         validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address, "");
         receivingAddressView.setText(null);
     }
+
 }

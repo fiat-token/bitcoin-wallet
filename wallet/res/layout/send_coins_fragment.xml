@@ -24,6 +24,32 @@
             android:text="@string/send_coins_fragment_to_iban" />
 
         <LinearLayout
+            android:id="@+id/send_coins_addressbook_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_number"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/send_coins_addressbook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="@string/tap_here_to_open_address_book"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/send_coins_payee_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
