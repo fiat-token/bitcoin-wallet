@@ -61,7 +61,7 @@
   <string name="send_coins_fragment_payee_verified_by">confermato da: %s</string>
   <string name="send_coins_fragment_payee_verified_by_unknown">sconosciuto</string>
   <string name="send_coins_fragment_receiving_address_label">Paga a</string>
-  <string name="send_coins_fragment_receiving_address_hint">inserisci indirizzo o nome</string>
+  <string name="send_coins_fragment_receiving_address_hint">VEUR address</string>
   <string name="send_coins_fragment_receiving_address_error">Indirizzo errato!</string>
   <string name="send_coins_fragment_receiving_address_own">Stai per inviare a te stesso!</string>
   <string name="send_coins_fragment_receiving_address_complex">completo\nindirizzo</string>
@@ -382,4 +382,8 @@
     <string name="phone_verification_popup_terms_of_service">Accetta i Termini del Servizio per continuare</string>
     <string name="recharge_noregistration">Registra il numero di telefono per continuare</string>
     <string name="register">Registra</string>
+
+
+    <string name="tap_here_to_open_address_book">Clicca qui per accedere alla rubrica</string>
+    <string name="phone_number">Numero di telefono</string>
 </resources>

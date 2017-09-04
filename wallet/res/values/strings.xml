@@ -62,8 +62,8 @@
     <string name="send_coins_fragment_request_payment_request_wrong_signature">Wrong signature!</string>
     <string name="send_coins_fragment_payee_verified_by">verified by: %s</string>
     <string name="send_coins_fragment_payee_verified_by_unknown">unknown</string>
-    <string name="send_coins_fragment_receiving_address_label">Pay to vEUR address</string>
-    <string name="send_coins_fragment_receiving_address_hint">type address or name</string>
+    <string name="send_coins_fragment_receiving_address_label">Pay to</string>
+    <string name="send_coins_fragment_receiving_address_hint">vEUR address</string>
     <string name="send_coins_fragment_receiving_address_error">Invalid address!</string>
     <string name="send_coins_fragment_receiving_address_own">You\'re about to send to yourself!</string>
     <string name="send_coins_fragment_receiving_address_complex">complex\naddress</string>
@@ -391,5 +391,7 @@
     <string name="phone_verification_popup_terms_of_service">Accept the Terms of Service to continue</string>
     <string name="recharge_noregistration">Register your phone number before continue</string>
     <string name="register">Register</string>
+    <string name="tap_here_to_open_address_book">Tap here to open address book</string>
+    <string name="phone_number">Phone Number</string>
 
 </resources>
