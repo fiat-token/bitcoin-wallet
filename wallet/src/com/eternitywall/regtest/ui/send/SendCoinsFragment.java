@@ -1791,6 +1791,7 @@ public final class SendCoinsFragment extends Fragment {
 
         }catch(Exception e){
             e.printStackTrace();
+            updateStateFrom(PaymentIntent.blank());
         }
     }
 }
