@@ -109,7 +109,7 @@
             <intent-filter android:label="@string/send_coins_activity_title" >
                 <action android:name="android.intent.action.VIEW" />
 
-                <data android:host="vtoken.eternitywall.com" android:scheme="http" />
+                <data android:host="eternitywall.com" android:scheme="https" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

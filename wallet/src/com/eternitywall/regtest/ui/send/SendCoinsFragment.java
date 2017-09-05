@@ -1781,7 +1781,7 @@ public final class SendCoinsFragment extends Fragment {
 
     public void getIntentQuery(Uri uri){
         try {
-            String address = uri.getPath().replace("/veur:","");
+            String address = uri.getPath().replace("/vtoken/veur:","");
             if(uri.getQueryParameterNames().size()>0){
                 String amount = uri.getQueryParameter("value");
                 updateStateFrom(PaymentIntent.from(address,"", Constants.vEUR.parse(amount)));

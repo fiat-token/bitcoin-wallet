@@ -94,7 +94,6 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.send_coins_content);
-        getIntentQuery(getIntent().getData());
 
         getWalletApplication().startBlockchainService(false);
     }
@@ -248,19 +247,4 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
             progressDialog.dismiss();
     }
 
-
-    public void getIntentQuery(Uri uri){
-        try {
-            String address = uri.getPath().replace("/veur:","");
-            if(uri.getQueryParameterNames().size()>0){
-                String amount = uri.getQueryParameter("value");
-                PaymentIntent.from(address,"", Constants.vEUR.parse(amount));
-            } else {
-                PaymentIntent.from(address,"", null);
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
 }

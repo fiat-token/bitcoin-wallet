@@ -364,7 +364,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
     }*/
 
     private void handleShare() {
-        final String request = "http://vtoken.eternitywall.com/"+determineVEURRequestStr(false);
+        final String request = Constants.EW_SHARING+determineVEURRequestStr(false);
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, request);
