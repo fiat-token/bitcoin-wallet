@@ -354,14 +354,25 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         new Toast(activity).toast(R.string.request_coins_clipboard_msg);
     }
 
-    private void handleShare() {
+    /*private void handleShare() {
         final String request = determineBitcoinRequestStr(false);
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, request);
         startActivity(Intent.createChooser(intent, getString(R.string.request_coins_share_dialog_title)));
         log.info("payment request shared via intent: {}", request);
+    }*/
+
+    private void handleShare() {
+        final String request = "http://vtoken.eternitywall.com/"+determineVEURRequestStr(false);
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, request);
+        startActivity(Intent.createChooser(intent, getString(R.string.request_coins_share_dialog_title)));
+        log.info("payment request shared via intent: {}", request);
     }
+
+
 
     private void handleLocalApp() {
         final ComponentName component = new ComponentName(activity, SendCoinsActivity.class);
@@ -419,6 +430,18 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final String ownName = config.getOwnName();
 
         final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","veur"));
+        if (includeBluetoothMac && bluetoothMac != null) {
+            uri.append(amount == null && ownName == null ? '?' : '&');
+            uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
+        }
+        return uri.toString();
+    }
+
+    private String determineVEURRequestStr(final boolean includeBluetoothMac) {
+        final Coin amount = amountCalculatorLink.getAmount();
+        final String ownName = config.getOwnName();
+
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("bitcoin","veur").replace("amount","value"));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);

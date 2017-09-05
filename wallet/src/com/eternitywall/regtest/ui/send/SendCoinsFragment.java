@@ -443,13 +443,18 @@ public final class SendCoinsFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             final String constraint = Strings.nullToEmpty(args != null ? args.getString(ARG_CONSTRAINT) : null);
 
-            if (id == ID_RECEIVING_ADDRESS_BOOK_LOADER)
-                return new CursorLoader(context, AddressBookProvider.contentUri(context.getPackageName()), null,
-                        AddressBookProvider.SELECTION_QUERY, new String[] { constraint }, null);
-            else if (id == ID_RECEIVING_ADDRESS_NAME_LOADER)
-                return new ReceivingAddressNameLoader(context, constraint);
-            else
-                throw new IllegalArgumentException();
+            try {
+                String query = ((Activity) context).getIntent().getData().getQuery();
+                return new ReceivingAddressNameLoader(context, query);
+            }catch(Exception e) {
+                if (id == ID_RECEIVING_ADDRESS_BOOK_LOADER)
+                    return new CursorLoader(context, AddressBookProvider.contentUri(context.getPackageName()), null,
+                            AddressBookProvider.SELECTION_QUERY, new String[]{constraint}, null);
+                else if (id == ID_RECEIVING_ADDRESS_NAME_LOADER)
+                    return new ReceivingAddressNameLoader(context, constraint);
+                else
+                    throw new IllegalArgumentException();
+            }
         }
 
         @Override
@@ -638,7 +643,10 @@ public final class SendCoinsFragment extends Fragment {
             } else if (intent.hasExtra(SendCoinsActivity.INTENT_EXTRA_PAYMENT_INTENT)) {
                 initStateFromIntentExtras(intent.getExtras());
             } else {
-                updateStateFrom(PaymentIntent.blank());
+
+                getIntentQuery(activity.getIntent().getData());
+                //updateStateFrom(PaymentIntent.blank());
+
             }
         }
     }
@@ -731,7 +739,6 @@ public final class SendCoinsFragment extends Fragment {
 
         initAddressBook(view);
         initIBAN(view);
-
         return view;
     }
 
@@ -1765,5 +1772,25 @@ public final class SendCoinsFragment extends Fragment {
         validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address, "");
         receivingAddressView.setText(null);
     }
+    public void setAmount(String amount){
+        //btcAmountView.setAmount( Constants.vEUR.parse(amount) , true );
+        btcAmountView.setAmount( Constants.vEUR.parse("1000000") , true );
+    }
 
+
+
+    public void getIntentQuery(Uri uri){
+        try {
+            String address = uri.getPath().replace("/veur:","");
+            if(uri.getQueryParameterNames().size()>0){
+                String amount = uri.getQueryParameter("value");
+                updateStateFrom(PaymentIntent.from(address,"", Constants.vEUR.parse(amount)));
+            } else {
+                updateStateFrom(PaymentIntent.from(address,"", null));
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
