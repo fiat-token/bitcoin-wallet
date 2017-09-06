@@ -3,7 +3,9 @@ package com.eternitywall.regtest.ui;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -116,7 +118,10 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         tvTerms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String url = "https://eternitywall.com/pn2a/privacy/";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         });
 
