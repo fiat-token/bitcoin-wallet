@@ -1772,16 +1772,12 @@ public final class SendCoinsFragment extends Fragment {
         validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address, "");
         receivingAddressView.setText(null);
     }
-    public void setAmount(String amount){
-        //btcAmountView.setAmount( Constants.vEUR.parse(amount) , true );
-        btcAmountView.setAmount( Constants.vEUR.parse("1000000") , true );
-    }
 
 
 
     public void getIntentQuery(Uri uri){
         try {
-            String address = uri.getPath().replace("/vtoken/veur:","");
+            String address = uri.getPath().replace("/veur:","");
             if(uri.getQueryParameterNames().size()>0){
                 String amount = uri.getQueryParameter("value");
                 updateStateFrom(PaymentIntent.from(address,"", Constants.vEUR.parse(amount)));
