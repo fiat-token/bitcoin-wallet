@@ -224,6 +224,7 @@ public final class Constants {
     };
 
     public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vEUR 100
+    public static int MAX_TRANSACTION_AMOUNT_REGISTERED_USER = 200*10000; // vEUR 200
 
     public static String EW_URL = "https://eternitywall-api.appspot.com/pn2a/v1";
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";

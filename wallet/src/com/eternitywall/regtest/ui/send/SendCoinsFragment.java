@@ -31,6 +31,7 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -143,6 +144,7 @@ import javax.annotation.Nullable;
 
 import nl.garvelink.iban.IBAN;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.eternitywall.regtest.ui.send.SendCoinsActivity.PICK_CONTACT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -854,6 +856,17 @@ public final class SendCoinsFragment extends Fragment {
         }
     }
 
+    // get max amount transaction
+    private long getMaxTransactionAmount() {
+        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        boolean phoneVerification = prefs.getBoolean("phone_verification", false);
+        if(phoneVerification==true){
+            return Constants.MAX_TRANSACTION_AMOUNT_REGISTERED_USER;
+        } else {
+            return Constants.MAX_TRANSACTION_AMOUNT;
+        }
+
+    }
     /* END IBAN */
 
     @Override
@@ -1346,7 +1359,7 @@ public final class SendCoinsFragment extends Fragment {
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
 
-                    if((amount.isLessThan( Coin.valueOf(1000*1000*10000)) && (amount.isGreaterThan( Coin.valueOf(Constants.MAX_TRANSACTION_AMOUNT))))) {
+                    if((amount.isLessThan( Coin.valueOf(1000*1000*10000)) && (amount.isGreaterThan( Coin.valueOf(getMaxTransactionAmount()))))) {
                         dryrunTransaction = null;
                         throw new VerificationException.ExcessiveValue();
                     }
