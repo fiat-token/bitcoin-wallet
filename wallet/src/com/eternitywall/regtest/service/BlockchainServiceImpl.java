@@ -375,15 +375,17 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 peerGroup.addDisconnectedEventListener(peerConnectivityListener);
                 peerGroup.setMinBroadcastConnections(1);
 
-                final int maxConnectedPeers = application.maxConnectedPeers();
+                //final int maxConnectedPeers = application.maxConnectedPeers();
+                final int maxConnectedPeers = Constants.DNSPEERS.length;
 
                 final String trustedPeerHost = config.getTrustedPeerHost();
                 final boolean hasTrustedPeer = trustedPeerHost != null;
 
                 final boolean connectTrustedPeerOnly = hasTrustedPeer && config.getTrustedPeerOnly();
-                peerGroup.setMaxConnections(connectTrustedPeerOnly ? 1 : maxConnectedPeers);
+                peerGroup.setMaxConnections(maxConnectedPeers);
                 peerGroup.setConnectTimeoutMillis(Constants.PEER_TIMEOUT_MS);
-                //peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
+                peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
+                peerGroup.setMaxPeersToDiscoverCount(1);
                 try {
                     // Resolve InetAddress of the peers
                     final List<InetAddress> peers = new ArrayList<>();
@@ -411,8 +413,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     }
                     log.info("Thread finishing");
 
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
-                    peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("163.172.139.9"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
+                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("163.172.139.9"), 18444 ));
 
                     for(InetAddress peer : peers){
                         peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, 18444 ));
@@ -679,7 +681,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
             peerGroup.removeDisconnectedEventListener(peerConnectivityListener);
             peerGroup.removeConnectedEventListener(peerConnectivityListener);
             peerGroup.removeWallet(application.getWallet());
-            peerGroup.stop();
+            //peerGroup.stop();
+            peerGroup.stopAsync();
 
             log.info("peergroup stopped");
         }
