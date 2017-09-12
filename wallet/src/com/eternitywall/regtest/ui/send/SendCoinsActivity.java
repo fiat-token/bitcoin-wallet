@@ -183,6 +183,13 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
         return number;
     }
 
+    private boolean isMobileNumber(final String phone) {
+        if(phone.getBytes()[3]=='0'){
+            return false;
+        }
+        return true;
+
+    }
     private void resolveToAddress(final String phone) {
         address = null;
         progress(true);
@@ -212,9 +219,12 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                //Toast.makeText(SendCoinsActivity.this, getString(R.string.phone_verification_user_not_found), Toast.LENGTH_SHORT).show();
 
-
+                boolean mobileNumber = isMobileNumber(phone);
+                if(mobileNumber==false){
+                    Toast.makeText(SendCoinsActivity.this, getString(R.string.phone_verification_user_not_found), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 // popup confirmation
                 new AlertDialog.Builder(SendCoinsActivity.this)
                         .setTitle(getString(R.string.app_name))
