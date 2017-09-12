@@ -319,6 +319,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
+        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
         switch (item.getItemId()) {
             case R.id.wallet_options_request:
                 handleRequestCoins();
@@ -381,11 +382,30 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 return true;
 
             case R.id.wallet_options_recharge:
+                if (prefs.getBoolean("phone_verification", false) == false) {
+
+                    new AlertDialog.Builder(WalletActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(R.string.recharge_noregistration)
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            })
+                            .setPositiveButton(R.string.register, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
+                                }
+                            }).show();
+                    return true;
+                }
+
                 startActivity(new Intent(this, RechargeActivity.class));
                 return true;
 
             case R.id.wallet_options_phone_verification:
-                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
                 if (prefs.getBoolean("phone_verification", false) == false) {
                     startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
                 } else {

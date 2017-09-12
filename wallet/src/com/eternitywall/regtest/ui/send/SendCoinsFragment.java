@@ -796,9 +796,18 @@ public final class SendCoinsFragment extends Fragment {
 
         // set default IBAN
         sendCoinsReceivingIban.setText("IT40S0542811101000000123456");
+
+
+        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        if (prefs.getBoolean("phone_verification", false) == false) {
+            sendCoinsIbanGroup.setVisibility(View.GONE);
+            cbIBAN.setVisibility(View.GONE);
+            sendCoinsIbanGroup.setVisibility(View.GONE);
+        }
     }
     // show/hide iban
     private void showIBAN(){
+
         sendCoinsIbanGroup.setVisibility(View.VISIBLE);
         sendCoinsAddressbookGroup.setVisibility(View.GONE);
         payeeGroup.setVisibility(View.GONE);
