@@ -1,15 +1,8 @@
 package com.eternitywall.regtest.ui;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -17,11 +10,9 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 
-import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.Wallet;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -47,7 +38,11 @@ public class ExportActivity extends  AbstractBindServiceActivity{
         wallet = application.getWallet();
 
         List<String> strings = application.exportSeed();
-        ListAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, strings);
+        List<String> numberedString = new LinkedList<>();
+        for(int i = 0 ; i<strings.size();i++) {
+            numberedString.add((i+1) + ". " + strings.get(i));
+        }
+        ListAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, numberedString);
         ListView lv = (ListView) findViewById(R.id.listView);
         lv.setAdapter(adapter);
 
