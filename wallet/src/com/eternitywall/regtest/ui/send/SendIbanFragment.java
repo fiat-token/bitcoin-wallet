@@ -820,18 +820,6 @@ public final class SendIbanFragment extends Fragment {
         }
     }
 
-    // get max amount transaction
-    private long getMaxTransactionAmount() {
-        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
-        boolean phoneVerification = prefs.getBoolean("phone_verification", false);
-        if(phoneVerification==true){
-            return Constants.MAX_TRANSACTION_AMOUNT_REGISTERED_USER;
-        } else {
-            return Constants.MAX_TRANSACTION_AMOUNT;
-        }
-
-    }
-    /* END IBAN */
 
     @Override
     public void onDestroyView() {
@@ -1263,12 +1251,6 @@ public final class SendIbanFragment extends Fragment {
                     sendRequest.ensureMinRequiredFee = false;
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
-
-                    if((amount.isLessThan( Coin.valueOf(1000*1000*10000)) && (amount.isGreaterThan( Coin.valueOf(getMaxTransactionAmount()))))) {
-                        dryrunTransaction = null;
-                        throw new VerificationException.ExcessiveValue();
-                    }
-
 
                 } catch (final Exception x) {
                     dryrunException = x;
