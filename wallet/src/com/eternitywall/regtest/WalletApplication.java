@@ -496,18 +496,22 @@ public class WalletApplication extends Application {
 
 
     public void importSeed(String seedCode, String passphrase, Long creationtime) throws UnreadableWalletException {
-            DeterministicSeed seed = new DeterministicSeed(seedCode, null, passphrase, creationtime);
+        DeterministicSeed seed = new DeterministicSeed(seedCode, null, passphrase, creationtime);
 
-            // The wallet class provides a easy fromSeed() function that loads a new wallet from a given seed.
-            wallet = Wallet.fromSeed(wallet.getNetworkParameters(), seed);
+        // The wallet class provides a easy fromSeed() function that loads a new wallet from a given seed.
+        wallet.clearTransactions(0);
+        walletFile.delete();
+        this.cleanupFiles();
+        wallet = Wallet.fromSeed(wallet.getNetworkParameters(), seed);
+        wallet.autosaveToFile(walletFile, Constants.Files.WALLET_AUTOSAVE_DELAY_MS, TimeUnit.MILLISECONDS, null);
 
-            // Because we are importing an existing wallet which might already have transactions we must re-download the blockchain to make the wallet picks up these transactions
-            // You can find some information about this in the guides: https://bitcoinj.github.io/working-with-the-wallet#setup
-            // To do this we clear the transactions of the wallet and delete a possible existing blockchain file before we download the blockchain again further down.
-            // System.out.println(wallet.toString());
-            wallet.clearTransactions(0);
+        // Because we are importing an existing wallet which might already have transactions we must re-download the blockchain to make the wallet picks up these transactions
+        // You can find some information about this in the guides: https://bitcoinj.github.io/working-with-the-wallet#setup
+        // To do this we clear the transactions of the wallet and delete a possible existing blockchain file before we download the blockchain again further down.
+        // System.out.println(wallet.toString());
+        stopBlockchainService();
+        resetBlockchain();
 
-            this.cleanupFiles();
     }
 
     public List<String> exportSeed(){

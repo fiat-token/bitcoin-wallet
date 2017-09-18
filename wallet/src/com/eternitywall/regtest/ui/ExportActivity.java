@@ -30,8 +30,6 @@ import java.util.List;
 
 public class ExportActivity extends  AbstractBindServiceActivity{
 
-    Button btnRecharge;
-    Button btnCancel;
     static String LAST_RECHARGE = "LAST_RECHARGE";
 
     Wallet wallet;

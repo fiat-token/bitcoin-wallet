@@ -49,8 +49,8 @@ public class ImportActivity extends  AbstractBindServiceActivity{
         wallet = application.getWallet();
 
         editText = (EditText) findViewById(R.id.editText);
-        //String seed = "polar tomorrow industry fuel harsh obvious embrace devote merry win notice recipe";
-        //editText.setText(seed);
+        String seed = "polar tomorrow industry fuel harsh obvious embrace devote merry win notice recipe";
+        editText.setText(seed);
 
         btnImport = (Button) findViewById(R.id.btnImport);
         btnImport.setOnClickListener(new View.OnClickListener() {
@@ -98,7 +98,7 @@ public class ImportActivity extends  AbstractBindServiceActivity{
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        ImportActivity.this.finish();
                     }
                 }).show();
     }
