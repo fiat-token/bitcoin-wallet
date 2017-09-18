@@ -201,6 +201,12 @@
             android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.PhoneActivity"
             android:theme="@style/My.Theme.ChildActivity" />
+        <activity android:name=".ui.send.SendIbanActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:label="@string/send_coins_activity_title"
+            android:screenOrientation="behind"
+            android:theme="@style/My.Theme.ChildActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="com.eternitywall.regtest.data.AddressBookProvider"

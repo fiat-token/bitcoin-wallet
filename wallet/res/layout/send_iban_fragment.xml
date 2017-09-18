@@ -108,6 +108,48 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/send_coins_iban_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_coins_fragment_receiving_iban_label"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/send_coins_iban_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:singleLine="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/send_coins_iban_verified_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textColor="@color/fg_less_significant"
+                android:textSize="@dimen/font_size_small"
+                android:visibility="gone" />
+
+            <AutoCompleteTextView
+                android:id="@+id/send_coins_receiving_iban"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="@string/send_coins_fragment_receiving_iban_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/send_coins_amount_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

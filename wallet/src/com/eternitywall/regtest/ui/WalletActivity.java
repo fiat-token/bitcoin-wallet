@@ -51,6 +51,7 @@ import org.slf4j.LoggerFactory;
 
 import com.eternitywall.regtest.data.DynamicFeeLoader;
 import com.eternitywall.regtest.ui.send.FeeCategory;
+import com.eternitywall.regtest.ui.send.SendIbanActivity;
 import com.google.common.base.Charsets;
 import com.google.common.base.Stopwatch;
 import com.squareup.okhttp.Call;
@@ -379,6 +380,10 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
             case R.id.wallet_options_help:
                 HelpDialogFragment.page(getFragmentManager(), R.string.help_wallet);
+                return true;
+
+            case R.id.wallet_options_sendtoiban:
+                startActivity(new Intent(WalletActivity.this, SendIbanActivity.class));
                 return true;
 
             case R.id.wallet_options_recharge:

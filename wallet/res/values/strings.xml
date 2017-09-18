@@ -393,5 +393,6 @@
     <string name="register">Register</string>
     <string name="tap_here_to_open_address_book">Tap here to open address book</string>
     <string name="phone_number">Phone Number</string>
+    <string name="sendtoiban">Send to Iban</string>
 
 </resources>

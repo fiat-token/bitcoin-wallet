@@ -91,6 +91,11 @@
         android:title="@string/recharge_activity_title"/>
 
     <item
+        android:id="@+id/wallet_options_sendtoiban"
+        android:showAsAction="never"
+        android:title="@string/sendtoiban"/>
+
+    <item
         android:id="@+id/wallet_options_phone_verification"
         android:showAsAction="never"
         android:title="@string/phone_verification"/>
