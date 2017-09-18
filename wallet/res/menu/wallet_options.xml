@@ -52,6 +52,16 @@
                 android:id="@+id/wallet_options_encrypt_keys"
                 android:showAsAction="never"
                 android:title="@string/encrypt_keys_dialog_title" />
+
+
+            <item
+                android:id="@+id/wallet_options_export_seed"
+                android:showAsAction="never"
+                android:title="@string/export_seed_dialog_title" />
+            <item
+                android:id="@+id/wallet_options_import_seed"
+                android:showAsAction="never"
+                android:title="@string/import_seed_dialog_title" />
         </menu>
     </item>
     <item

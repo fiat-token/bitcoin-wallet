@@ -386,6 +386,14 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 startActivity(new Intent(WalletActivity.this, SendIbanActivity.class));
                 return true;
 
+            case R.id.wallet_options_export_seed:
+                startActivity(new Intent(WalletActivity.this, ExportActivity.class));
+                return true;
+
+            case R.id.wallet_options_import_seed:
+                startActivity(new Intent(WalletActivity.this, ImportActivity.class));
+                return true;
+
             case R.id.wallet_options_recharge:
                 if (prefs.getBoolean("phone_verification", false) == false) {
 

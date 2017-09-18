@@ -394,5 +394,12 @@
     <string name="tap_here_to_open_address_book">Tap here to open address book</string>
     <string name="phone_number">Phone Number</string>
     <string name="sendtoiban">Send to Iban</string>
+    <string name="export_seed_dialog_title">Export Seed</string>
+    <string name="import_seed_dialog_title">Import Seed</string>
+    <string name="import_button">IMPORT WALLET</string>
+    <string name="import_text">Write your seed as a sequential ordered string</string>
+    <string name="import_seed_confirm">Your wallet will be overwritten. Save the current wallet. Are you sure to continue?</string>
+    <string name="import_seed_success">Importing seed with success</string>
+    <string name="import_seed_failure">Operation failure. Check your seed and retry.</string>
 
 </resources>

@@ -23,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bitcoinj.core.Transaction;
@@ -31,6 +33,7 @@ import org.bitcoinj.core.VersionMessage;
 import org.bitcoinj.crypto.LinuxSecureRandom;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.utils.Threading;
+import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.Protos;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
@@ -489,5 +492,26 @@ public class WalletApplication extends Application {
         final long now = System.currentTimeMillis();
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, now + alarmInterval, AlarmManager.INTERVAL_DAY,
                 alarmIntent);
+    }
+
+
+    public void importSeed(String seedCode, String passphrase, Long creationtime) throws UnreadableWalletException {
+            DeterministicSeed seed = new DeterministicSeed(seedCode, null, passphrase, creationtime);
+
+            // The wallet class provides a easy fromSeed() function that loads a new wallet from a given seed.
+            wallet = Wallet.fromSeed(wallet.getNetworkParameters(), seed);
+
+            // Because we are importing an existing wallet which might already have transactions we must re-download the blockchain to make the wallet picks up these transactions
+            // You can find some information about this in the guides: https://bitcoinj.github.io/working-with-the-wallet#setup
+            // To do this we clear the transactions of the wallet and delete a possible existing blockchain file before we download the blockchain again further down.
+            // System.out.println(wallet.toString());
+            wallet.clearTransactions(0);
+
+            this.cleanupFiles();
+    }
+
+    public List<String> exportSeed(){
+        DeterministicSeed seed = wallet.getKeyChainSeed();
+        return seed.getMnemonicCode();
     }
 }

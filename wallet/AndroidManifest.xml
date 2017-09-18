@@ -201,6 +201,10 @@
             android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.PhoneActivity"
             android:theme="@style/My.Theme.ChildActivity" />
+        <activity android:name=".ui.ExportActivity"
+            android:theme="@style/My.Theme.ChildActivity" />
+        <activity android:name=".ui.ImportActivity"
+            android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.send.SendIbanActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/send_coins_activity_title"
