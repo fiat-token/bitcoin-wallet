@@ -29,7 +29,7 @@
   <string name="help_request_coins">
 <![CDATA[
 		<p>
-			Deze dialoog kunt u gebruiken om virtual Euros te verzoeken van iemand (die ook Virtual Euro Wallet of een andere Virtual Euro client geinstalleerd heeft).
+			Deze dialoog kunt u gebruiken om virtual Euros te verzoeken van iemand (die ook Virtual Token Wallet of een andere Virtual Token client geinstalleerd heeft).
 		</p>
 		<p>
 			Eerst vul je een hoeveelheid virtual Euro in die je wilt ontvangen.
@@ -37,10 +37,10 @@
 		<p>
 			Daarna kan de andere persoon de QR-code scannen.
 			Of u kunt uw verzoek met de \'delen\'-knop versturen.
-			De andere persoon dient op de Virtual Euro URL te klikken.
+			De andere persoon dient op de Virtual Token URL te klikken.
 		</p>
 		<p>
-			De andere persoon zal nu de dialoog te zien krijgen voor het verzenden van Virtual Euros waarin alle velden ingevuld zijn.
+			De andere persoon zal nu de dialoog te zien krijgen voor het verzenden van Virtual Tokens waarin alle velden ingevuld zijn.
 			Als er akkoord gegaan wordt met de transactie hoeft deze alleen nog verzonden te worden.
 		</p>
 	]]>
@@ -48,16 +48,16 @@
   <string name="help_send_coins">
 <![CDATA[
 		<p>
-			U heeft het dialoog gestart om Virtual Euros te verzenden.
-			U bent hier terecht gekomen via het hoofd scherm of door het klikken op een Virtual Euro URL in uw browser.
+			U heeft het dialoog gestart om Virtual Tokens te verzenden.
+			U bent hier terecht gekomen via het hoofd scherm of door het klikken op een Virtual Token URL in uw browser.
 		</p>
 		<p>
-			Als eerste geeft u het Virtual Euro adres in waar naar u wilt betalen.
+			Als eerste geeft u het Virtual Token adres in waar naar u wilt betalen.
 			Het adres zal automatisch aangevuld worden als deze bekend is in het adresboek.
-			U kan ook QR-codes scannen met een Virtual Euro adres of verzoek door op de QR knop in de actie-balk te klikken.
+			U kan ook QR-codes scannen met een Virtual Token adres of verzoek door op de QR knop in de actie-balk te klikken.
 		</p>
 		<p>
-			Vervolgens kunt u zien hoe veel Virtual Euros op dit moment beschikbaar zijn voor besteding.
+			Vervolgens kunt u zien hoe veel Virtual Tokens op dit moment beschikbaar zijn voor besteding.
 			Het eventuele verschil met het saldo van het hoofdscherm is nog onbevestigd en kan dus nog niet worden uitgegeven.
 		</p>
 		<p>
@@ -65,7 +65,7 @@
 		</p>
 		<p>
 			U kunt ook transacties ingeven terwijl u offline bent.
-			Deze transacties zullen verzonden worden zodra Virtual Euro Wallet de volgende keer gestart wordt en online is.
+			Deze transacties zullen verzonden worden zodra Virtual Token Wallet de volgende keer gestart wordt en online is.
 			Als u wenst dat uw transacties zo snel mogelijk verwerkt worden is het verstandig om verbonden te zijn met een zo goed mogelijke internet verbinding (d.w.z. op WLAN).
 		</p>
 		<p>
@@ -78,20 +78,20 @@
   <string name="help_safety">
 <![CDATA[
 		<p>
-			<b>Enkele woorden over de veiligheid van uw Virtual Euros:</b>
+			<b>Enkele woorden over de veiligheid van uw Virtual Tokens:</b>
 		</p>
 		<p>
-			Virtual Euros in Virtual Euro Wallet zijn opgeslagen op het apparaat.
-			<b>Als u uw apparaat verliest zullen deze Virtual Euros ook verloren zijn.</b>
+			Virtual Tokens in Virtual Token Wallet zijn opgeslagen op het apparaat.
+			<b>Als u uw apparaat verliest zullen deze Virtual Tokens ook verloren zijn.</b>
 			Vergelijkbaar met het verlies van uw portemonnee.
 		</p>
 		<p>
-			<b>Voor het verwijderen van Virtual Euro Wallet</b> (of verschonen van app data of wipe van het apparaat), <b>dient u de virtual Euros over te zetten naar een andere wallet.</b>.
-			Overblijvende Virtual Euros zullen verloren gaan.
+			<b>Voor het verwijderen van Virtual Token Wallet</b> (of verschonen van app data of wipe van het apparaat), <b>dient u de virtual Euros over te zetten naar een andere wallet.</b>.
+			Overblijvende Virtual Tokens zullen verloren gaan.
 		</p>
 		<p>
-			<b>Transacties met Virtual Euro kunnen niet ongedaan gemaakt worden</b>.
-			Als u Virtual Euros naar een onbekend adres stuurt zijn ze onmogelijk terug te krijgen tenzij u de eigenaar kent en deze bereid is de Virtual Euros terug te sturen.
+			<b>Transacties met Virtual Token kunnen niet ongedaan gemaakt worden</b>.
+			Als u Virtual Tokens naar een onbekend adres stuurt zijn ze onmogelijk terug te krijgen tenzij u de eigenaar kent en deze bereid is de Virtual Tokens terug te sturen.
 		</p>
 		<p>
 			<b>Houd uw Android apparaat veilig!</b>
@@ -100,7 +100,7 @@
 		</p>
 		<p>
 			Houd het risico laag!
-			<b>Gebruik Virtual Euro Wallet alleen voor kleine bedragen</b> voor dagelijks gebruik.
+			<b>Gebruik Virtual Token Wallet alleen voor kleine bedragen</b> voor dagelijks gebruik.
 		</p>
 	]]>
 	</string>

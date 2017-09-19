@@ -245,7 +245,7 @@ public final class WalletBalanceFragment extends Fragment {
             if (balance != null) {
                 viewBalanceBtc.setVisibility(View.VISIBLE);
 
-                viewBalanceBtc.setFormat(Constants.vEUR);
+                viewBalanceBtc.setFormat(Constants.vTKN);
                 viewBalanceBtc.setAmount(balance);
 
                 /*

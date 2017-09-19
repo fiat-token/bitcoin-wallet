@@ -617,7 +617,7 @@ public final class SendCoinsFragment extends Fragment {
             final String mimeType = intent.getType();
 
             if ((Intent.ACTION_VIEW.equals(action) || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
-                    && intentUri != null && "veur".equals(scheme)) {
+                    && intentUri != null && "vtkn".equals(scheme)) {
                 initStateFromBitcoinUri(intentUri);
             } else if ((NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action))
                     && PaymentProtocol.MIMETYPE_PAYMENTREQUEST.equals(mimeType)) {
@@ -672,9 +672,9 @@ public final class SendCoinsFragment extends Fragment {
         amountGroup = view.findViewById(R.id.send_coins_amount_group);
 
         btcAmountView = (CurrencyAmountView) view.findViewById(R.id.send_coins_amount_btc);
-        btcAmountView.setCurrencySymbol(Constants.vEUR.code());  //Config.vEUR.code()
-        btcAmountView.setInputFormat(Constants.vEUR);
-        btcAmountView.setHintFormat(Constants.vEUR);
+        btcAmountView.setCurrencySymbol(Constants.vTKN.code());  //Config.vTKN.code()
+        btcAmountView.setInputFormat(Constants.vTKN);
+        btcAmountView.setHintFormat(Constants.vTKN);
 /*
         localAmountView = (CurrencyAmountView) view.findViewById(R.id.send_coins_amount_local);
         localAmountView.setInputFormat(Constants.LOCAL_FORMAT);
@@ -1153,7 +1153,7 @@ public final class SendCoinsFragment extends Fragment {
                 final Coin available = wallet.getBalance(BalanceType.AVAILABLE);
                 final Coin pending = estimated.subtract(available);
 
-                final MonetaryFormat btcFormat = Constants.vEUR;
+                final MonetaryFormat btcFormat = Constants.vTKN;
 
                 final DialogBuilder dialog = DialogBuilder.warn(activity,
                         R.string.send_coins_fragment_insufficient_money_title);
@@ -1283,7 +1283,7 @@ public final class SendCoinsFragment extends Fragment {
             return;
 
         if (paymentIntent != null) {
-            final MonetaryFormat btcFormat = Constants.vEUR;
+            final MonetaryFormat btcFormat = Constants.vTKN;
 
             getView().setVisibility(View.VISIBLE);
 
@@ -1689,10 +1689,10 @@ public final class SendCoinsFragment extends Fragment {
 
     public void getIntentQuery(Uri uri){
         try {
-            String address = uri.getPath().replace("/veur:","");
+            String address = uri.getPath().replace("/vtkn:","");
             if(uri.getQueryParameterNames().size()>0){
                 String amount = uri.getQueryParameter("value");
-                updateStateFrom(PaymentIntent.from(address,"", Constants.vEUR.parse(amount)));
+                updateStateFrom(PaymentIntent.from(address,"", Constants.vTKN.parse(amount)));
             } else {
                 updateStateFrom(PaymentIntent.from(address,"", null));
             }

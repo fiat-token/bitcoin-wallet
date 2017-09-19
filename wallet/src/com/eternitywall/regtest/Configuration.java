@@ -115,7 +115,7 @@ public class Configuration {
         final int decimalRepetitions = (getBtcPrecision() - minPrecision) / 2;
         return new MonetaryFormat().shift(shift).minDecimals(minPrecision).repeatOptionalDecimals(2,
                 decimalRepetitions);*/
-        return Constants.vEUR;
+        return Constants.vTKN;
 
     }
 

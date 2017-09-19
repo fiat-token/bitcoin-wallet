@@ -326,7 +326,7 @@ public final class SendingAddressesFragment extends FancyListFragment
     }
 
     private void handleShowQr(final String address, final String label) {
-        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null).replace("bitcoin","veur");
+        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null).replace("bitcoin","vtkn");
         final int size = getResources().getDimensionPixelSize(R.dimen.bitmap_dialog_qr_size);
         BitmapFragment.show(getFragmentManager(), Qr.bitmap(uri, size));
     }
@@ -389,7 +389,7 @@ public final class SendingAddressesFragment extends FancyListFragment
             if (clipUri == null)
                 return null;
             try {
-                return new BitcoinURI(clipUri.toString().replace("veur","bitcoin")).getAddress();
+                return new BitcoinURI(clipUri.toString().replace("vtkn","bitcoin")).getAddress();
             } catch (final BitcoinURIParseException x) {
                 return null;
             }

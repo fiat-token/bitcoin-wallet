@@ -186,7 +186,7 @@ public final class CurrencyAmountView extends FrameLayout {
         final String amountStr = textView.getText().toString().trim();
         if (localCurrencyCode == null)
             return inputFormat.parse(amountStr);
-        else if (localCurrencyCode.equals("vEUR")) {
+        else if (localCurrencyCode.equals("vTKN")) {
             return inputFormat.parse(amountStr);
         } else
             return inputFormat.parseFiat(localCurrencyCode, amountStr);
@@ -246,7 +246,7 @@ public final class CurrencyAmountView extends FrameLayout {
                     amount = inputFormat.parse(str);
                     if (((Coin) amount).isGreaterThan(Constants.NETWORK_PARAMETERS.getMaxMoney()))
                         return false;
-                } else if (localCurrencyCode.equals("vEUR")) {
+                } else if (localCurrencyCode.equals("vTKN")) {
                     amount = inputFormat.parse(str);
                 } else {
                     amount = inputFormat.parseFiat(localCurrencyCode, str);

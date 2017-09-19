@@ -63,7 +63,7 @@
     <string name="send_coins_fragment_payee_verified_by">verified by: %s</string>
     <string name="send_coins_fragment_payee_verified_by_unknown">unknown</string>
     <string name="send_coins_fragment_receiving_address_label">Pay to</string>
-    <string name="send_coins_fragment_receiving_address_hint">vEUR address</string>
+    <string name="send_coins_fragment_receiving_address_hint">vTKN address</string>
     <string name="send_coins_fragment_receiving_address_error">Invalid address!</string>
     <string name="send_coins_fragment_receiving_address_own">You\'re about to send to yourself!</string>
     <string name="send_coins_fragment_receiving_address_complex">complex\naddress</string>
@@ -245,11 +245,11 @@
     <string name="preferences_category_labs">Labs</string>
     <string name="preferences_precision_title">Denomination and precision</string>
     <string name="preferences_precision_summary">Unit to show amounts in. This does not affect computations.</string>
-    <string name="preferences_precision_labels_8">vEUR, 8 decimal places</string>
-    <string name="preferences_precision_labels_6">vEUR, 6 decimal places</string>
-    <string name="preferences_precision_labels_4">vEUR, 4 decimal places</string>
-    <string name="preferences_precision_labels_2_3">mvEUR, 2 decimal places</string>
-    <string name="preferences_precision_labels_0_6">µvEUR, no decimal places</string>
+    <string name="preferences_precision_labels_8">vTKN, 8 decimal places</string>
+    <string name="preferences_precision_labels_6">vTKN, 6 decimal places</string>
+    <string name="preferences_precision_labels_4">vTKN, 4 decimal places</string>
+    <string name="preferences_precision_labels_2_3">mvTKN, 2 decimal places</string>
+    <string name="preferences_precision_labels_0_6">µvTKN, no decimal places</string>
     <string name="preferences_own_name_title">Own name</string>
     <string name="preferences_own_name_summary">Name of yourself, to be added to payment requests. Try to keep it short.</string>
     <string name="preferences_send_coins_autoclose_title">Auto-close send dialog</string>
@@ -355,10 +355,10 @@
     <string name="invalid_iban">Invalid IBAN address</string>
     <string name="iban_sepa">Valid SEPA address</string>
     <string name="iban_not_sepa">IBAN not in SEPA region</string>
-    <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Amount < vEUR 100]]></string>
+    <string name="send_coins_fragment_hint_too_much_money"><![CDATA[Amount < vTKN 100]]></string>
 
     <string name="recharge_activity_title">Recharge</string>
-    <string name="sent_recharge">Sent recharge of vEUR 10.00</string>
+    <string name="sent_recharge">Sent recharge of vTKN 10.00</string>
     <string name="invalid_recharge">Only one recharge per day available.</string>
     <string name="request_recharge">Recharge</string>
     <string name="to_recharge_your_wallet_please">To top-up your wallet app please instruct a SEPA Credit Transfer (i.e. a wire transfer) to:</string>
@@ -369,7 +369,7 @@
 
     <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">This facility is not active during the current alpha-test. Instead, top-up can be simulated freely once per day with a fixed amount of:</string>
     <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Please remember that, for the time being, this is just fictitious money!</string>
-    <string name="veur_10_00">vEUR 10.00</string>
+    <string name="vtkn_10_00">vTKN 10.00</string>
 
     <string name="phone_verification">Phone verification</string>
     <string name="_39">+39</string>

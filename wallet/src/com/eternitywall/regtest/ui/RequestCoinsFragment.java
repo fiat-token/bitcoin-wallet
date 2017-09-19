@@ -188,9 +188,9 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
 
         final CurrencyAmountView btcAmountView = (CurrencyAmountView) view.findViewById(R.id.request_coins_amount_btc);
 
-        btcAmountView.setCurrencySymbol(Constants.vEUR.code());  //Config.vEUR.code()
-        btcAmountView.setInputFormat(Constants.vEUR);
-        btcAmountView.setHintFormat(Constants.vEUR);
+        btcAmountView.setCurrencySymbol(Constants.vTKN.code());  //Config.vTKN.code()
+        btcAmountView.setInputFormat(Constants.vTKN);
+        btcAmountView.setHintFormat(Constants.vTKN);
         /*btcAmountView.setCurrencySymbol(config.getFormat().code());
         btcAmountView.setInputFormat(config.getMaxPrecisionFormat());
         btcAmountView.setHintFormat(config.getFormat());*/
@@ -429,7 +429,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
 
-        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","veur"));
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","vtkn"));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
@@ -441,7 +441,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
 
-        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("bitcoin","veur").replace("amount","value"));
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("bitcoin","vtkn").replace("amount","value"));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
