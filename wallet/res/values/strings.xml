@@ -401,5 +401,9 @@
     <string name="import_seed_confirm">Your wallet will be overwritten. Save the current wallet. Are you sure to continue?</string>
     <string name="import_seed_success">Importing seed with success</string>
     <string name="import_seed_failure">Operation failure. Check your seed and retry.</string>
+    <string name="iban_verification">Iban verification</string>
+    <string name="iban_phone_select">Insert Phone Number</string>
+    <string name="iban_number_select">Insert IBAN address</string>
+    <string name="iban_verification_invalid">Invalid IBAN address</string>
 
 </resources>

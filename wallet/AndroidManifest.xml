@@ -201,6 +201,8 @@
             android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.PhoneActivity"
             android:theme="@style/My.Theme.ChildActivity" />
+        <activity android:name=".ui.IbanActivity"
+            android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.ExportActivity"
             android:theme="@style/My.Theme.ChildActivity" />
         <activity android:name=".ui.ImportActivity"

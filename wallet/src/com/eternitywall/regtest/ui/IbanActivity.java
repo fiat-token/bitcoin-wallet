@@ -34,43 +34,43 @@ import cz.msebera.android.httpclient.Header;
 import static com.eternitywall.regtest.Constants.EW_API_KEY;
 import static com.eternitywall.regtest.Constants.EW_URL;
 
-public class PhoneActivity extends AbstractBindServiceActivity {
+public class IbanActivity extends AbstractBindServiceActivity {
 
-    EditText etPhone, etPrefix;
-    Button btnPhoneVerify, btnPhoneSkip;
+    EditText etPhone, etPrefix, etIban;
+    Button btnVerify, btnSkip;
     TextView tvTerms;
     CheckBox cbTerms;
 
     Wallet wallet;
     WalletApplication application;
     Configuration config;
-    String number;
-
+    String number, iban;
     Boolean numberIsDefined = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.phone_activity);
+        setContentView(R.layout.iban_activity);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
         etPrefix = (EditText) findViewById(R.id.etPrefix);
+        etIban = (EditText) findViewById(R.id.etIban);
         tvTerms = (TextView) findViewById(R.id.tvTerms);
         cbTerms = (CheckBox) findViewById(R.id.cbTerms);
-        btnPhoneVerify = (Button) findViewById(R.id.btnPhoneVerify);
-        btnPhoneSkip = (Button) findViewById(R.id.btnPhoneSkip);
+        btnVerify = (Button) findViewById(R.id.btnVerify);
+        btnSkip = (Button) findViewById(R.id.btnSkip);
 
         application = getWalletApplication();
         config = application.getConfiguration();
         wallet = application.getWallet();
 
-        btnPhoneVerify.setOnClickListener(new View.OnClickListener() {
+        btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (cbTerms.isChecked() == false) {
-                    new AlertDialog.Builder(PhoneActivity.this)
+                    new AlertDialog.Builder(IbanActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.phone_verification_popup_terms_of_service))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -84,34 +84,48 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 }
 
                 number = etPrefix.getText().toString() + etPhone.getText().toString();
-                if (number != null && number.length() > 8) {
-                    // pass checking
-                    phoneValidNumber(number);
+                iban = etIban.getText().toString();
+                if (number == null && number.length() < 8){
+                    // phone invalid
+                    new AlertDialog.Builder(IbanActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(getString(R.string.phone_verification_invalid))
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ;
+                                }
+                            })
+                            .show();
+                    return ;
+                } else if (iban == null && iban.length() < 8) {
+                    // phone invalid
+                    new AlertDialog.Builder(IbanActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(getString(R.string.iban_verification_invalid))
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ;
+                                }
+                            })
+                            .show();
                     return;
-
+                } else {
+                    // pass checking
+                    ibanValidNumber(number);
+                    return;
                 }
 
-
-                // phone invalid
-                new AlertDialog.Builder(PhoneActivity.this)
-                        .setTitle(getString(R.string.app_name))
-                        .setMessage(getString(R.string.phone_verification_invalid))
-                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ;
-                            }
-                        })
-                        .show();
 
 
             }
         });
 
-        btnPhoneSkip.setOnClickListener(new View.OnClickListener() {
+        btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhoneActivity.this.finish();
+                IbanActivity.this.finish();
             }
         });
 
@@ -141,7 +155,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
 
 
-    private void phoneValidNumber(String phone) {
+    private void ibanValidNumber(String phone) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("api_key", EW_API_KEY);
@@ -158,9 +172,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                     } else {
                         numberIsDefined = false;
                     }
-
                     phoneSendSms(number);
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -198,15 +210,15 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void phoneInsertPin() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PhoneActivity.this);
-        LayoutInflater inflater = PhoneActivity.this.getLayoutInflater();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(IbanActivity.this);
+        LayoutInflater inflater = IbanActivity.this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.phone_popup, null);
         dialogBuilder.setView(dialogView);
 
@@ -250,7 +262,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
                 try {
                     if(response.getString("status").equals("ko")){
-                        Toast.makeText(PhoneActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IbanActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -260,18 +272,18 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
                     // send coupon only if the phone number was not just registered
                     if(numberIsDefined == false){
-                        RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
+                        RegisterAddress registerTask = new RegisterAddress(IbanActivity.this, wallet.currentReceiveAddress());
                         registerTask.startLoading();
                     }
 
                     // popup confirmation
-                    new AlertDialog.Builder(PhoneActivity.this)
+                    new AlertDialog.Builder(IbanActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.verification_success))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    PhoneActivity.this.finish();
+                                    IbanActivity.this.finish();
                                 }
                             })
                             .setCancelable(false)
@@ -287,7 +299,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
