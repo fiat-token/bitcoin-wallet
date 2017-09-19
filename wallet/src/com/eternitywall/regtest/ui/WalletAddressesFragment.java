@@ -112,7 +112,7 @@ public final class WalletAddressesFragment extends FancyListFragment {
         contentResolver.registerContentObserver(AddressBookProvider.contentUri(activity.getPackageName()), true,
                 contentObserver);
 
-        wallet.addKeyChainEventListener(Threading.SAME_THREAD, walletListener);
+        wallet.addKeyChainEventListener(Threading.THREAD_POOL, walletListener);
         walletListener.onKeysAdded(null); // trigger initial load of keys
 
         updateView();
