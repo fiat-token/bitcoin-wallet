@@ -229,5 +229,6 @@ public final class Constants {
     public static String EW_URL = "https://eternitywall-api.appspot.com/pn2a/v1";
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
     public static String EW_SHARING = "https://vtoken.eternitywall.com/";
+    public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
 
 }
