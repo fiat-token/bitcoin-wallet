@@ -364,7 +364,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
     }*/
 
     private void handleShare() {
-        final String request = Constants.EW_SHARING+determineVEURRequestStr(false);
+        final String request = Constants.EW_SHARING+determineVTKNRequestStr(false);
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, request);
@@ -437,9 +437,13 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         return uri.toString();
     }
 
-    private String determineVEURRequestStr(final boolean includeBluetoothMac) {
+    private String determineVTKNRequestStr(final boolean includeBluetoothMac) {
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
+        if(amount==null){
+            StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","vtkn").replace("amount","value"));
+            return uri.toString();
+        }
 
         final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("bitcoin","vtkn").replace("amount","value"));
         if (includeBluetoothMac && bluetoothMac != null) {
