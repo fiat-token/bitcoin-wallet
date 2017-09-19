@@ -6,22 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 
-import org.bitcoinj.wallet.DeterministicSeed;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.eternitywall.regtest.Constants.WALLET_MIN_TIMESTAMP;
 
@@ -52,8 +45,6 @@ public class ImportActivity extends  AbstractBindServiceActivity{
         wallet = application.getWallet();
 
         editText = (EditText) findViewById(R.id.editText);
-        String seed = "polar tomorrow industry fuel harsh obvious embrace devote merry win notice recipe";
-        editText.setText(seed);
 
         btnImport = (Button) findViewById(R.id.btnImport);
         btnImport.setOnClickListener(new View.OnClickListener() {
