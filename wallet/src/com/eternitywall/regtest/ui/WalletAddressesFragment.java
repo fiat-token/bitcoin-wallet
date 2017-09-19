@@ -112,7 +112,7 @@ public final class WalletAddressesFragment extends FancyListFragment {
         contentResolver.registerContentObserver(AddressBookProvider.contentUri(activity.getPackageName()), true,
                 contentObserver);
 
-        wallet.addKeyChainEventListener(Threading.SAME_THREAD, walletListener);
+        wallet.addKeyChainEventListener(Threading.THREAD_POOL, walletListener);
         walletListener.onKeysAdded(null); // trigger initial load of keys
 
         updateView();
@@ -209,7 +209,7 @@ public final class WalletAddressesFragment extends FancyListFragment {
             }
 
             private void handleShowQr(final Address address) {
-                final String uri = BitcoinURI.convertToBitcoinURI(address, null, config.getOwnName(), null).replace("bitcoin","veur");
+                final String uri = BitcoinURI.convertToBitcoinURI(address, null, config.getOwnName(), null).replace("bitcoin","vtkn");
                 final int size = getResources().getDimensionPixelSize(R.dimen.bitmap_dialog_qr_size);
                 BitmapFragment.show(getFragmentManager(), Qr.bitmap(uri, size));
             }

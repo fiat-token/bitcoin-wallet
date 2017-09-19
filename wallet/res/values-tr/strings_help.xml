@@ -3,7 +3,7 @@
   <string name="help_wallet">
 <![CDATA[
 		<p>
-			Ekranın üst kısmı Virtual Euro ve seçilen milli para birimi olarak bakiyenizi gösterir.
+			Ekranın üst kısmı Virtual Token ve seçilen milli para birimi olarak bakiyenizi gösterir.
 			Para birimleri listesine gitmek için dokununuz, ve varsayılan olarak seçmek için dövizlerden birine dokununuz
 		</p>
 		<p>
@@ -24,18 +24,18 @@
   <string name="help_request_coins">
 <![CDATA[
 		<p>
-			Bu diyaloğu kullanarak başka bir kişiden Virtual Euro talep edebilirsiniz (bu kişinin Virtual Euro Wallet uygulamasını cihazında kurmuş olması gerekir).
+			Bu diyaloğu kullanarak başka bir kişiden Virtual Token talep edebilirsiniz (bu kişinin Virtual Token Wallet uygulamasını cihazında kurmuş olması gerekir).
 		</p>
 		<p>
-			İlk olarak talep edilen Virtual Euro miktarını girebilirsiniz.
+			İlk olarak talep edilen Virtual Token miktarını girebilirsiniz.
 		</p>
 		<p>
 			Ardından ya diğer kişi tarafından taranacak bir QR code oluşturmanız,
 			ya da uzaktaki bir kişiye etkinlik çubuğunda paylaş düğmesiyle talebinizi göndermeniz gerekir.
-			Bu kişinin Virtual Euro bağlantısını tıklaması gerekecektir.
+			Bu kişinin Virtual Token bağlantısını tıklaması gerekecektir.
 		</p>
 		<p>
-			Her durumda diğer kişiye Virtual Euro göndermesi için tüm seçenekleri doldurulmuş bir diyalog gösterilecektir.
+			Her durumda diğer kişiye Virtual Token göndermesi için tüm seçenekleri doldurulmuş bir diyalog gösterilecektir.
 			Kabul ederse tüm yapması gereken muameleyi yollamaktır.
 		</p>
 	]]>
@@ -43,16 +43,16 @@
   <string name="help_send_coins">
 <![CDATA[
 		<p>
-			Virtual Euro gönderme prosedürünü başlattınız.
-			Buraya ya ana ekrandan ya da mobil ağ tarayıcınızda bir Virtual Euro bağlantısına tıklayarak geldiniz.
+			Virtual Token gönderme prosedürünü başlattınız.
+			Buraya ya ana ekrandan ya da mobil ağ tarayıcınızda bir Virtual Token bağlantısına tıklayarak geldiniz.
 		</p>
 		<p>
-			İlk olarak ödeme yapacağınız Virtual Euro adresini girmelisiniz.
+			İlk olarak ödeme yapacağınız Virtual Token adresini girmelisiniz.
 			Adres defterinizde bilinen adreslere dayanılarak adres otomatik olarak tamamlanacaktır.
-			Ayrıca etkinlik çubuğunda QR düğmesine dokunarak Virtual Euro adresi ya da talebi içeren QR kodlarını tarayabilirsiniz.
+			Ayrıca etkinlik çubuğunda QR düğmesine dokunarak Virtual Token adresi ya da talebi içeren QR kodlarını tarayabilirsiniz.
 		</p>
 		<p>
-			Bunun ardından o anda ne kadar Virtual Euro harcayabileceğinizi görüntüleyebilirsiniz.
+			Bunun ardından o anda ne kadar Virtual Token harcayabileceğinizi görüntüleyebilirsiniz.
 			Varsa ana ekrandaki bakiye ile farklılıklar henüz teyit edilmemiştir ve dolayısıyla henüz harcanamaz.
 		</p>
 		<p>
@@ -60,7 +60,7 @@
 		</p>
 		<p>
 			Çevrimdışı olduğunuz sırada bir muamele girebilirsiniz.
-			Virtual Euro Wallet uygulamasının sonraki açılışında gönderilir.
+			Virtual Token Wallet uygulamasının sonraki açılışında gönderilir.
 			Bir muamelenin mümkün olduğu kadar çabuk işlenmesini istiyorsanız bağlantınızın iyi olduğundan (mesela WLAN ile).
 		</p>
 		<p>
@@ -73,20 +73,20 @@
   <string name="help_safety">
 <![CDATA[
 		<p>
-			<b>Virtual Eurolerinizin güvenliği hakkında önemli noktalar:</b>
+			<b>Virtual Tokenlerinizin güvenliği hakkında önemli noktalar:</b>
 		</p>
 		<p>
-			Virtual Euro cüzdanınızdaki Virtual Euroler cihazınızda saklanır.
-			<b>Cihazınızı kaybederseniz Virtual Eurolerinizi de kaybedersiniz.</b>
+			Virtual Token cüzdanınızdaki Virtual Tokenler cihazınızda saklanır.
+			<b>Cihazınızı kaybederseniz Virtual Tokenlerinizi de kaybedersiniz.</b>
 			Tıpkı fiziki cüzdanınızdaki para gibi.
 		</p>
 		<p>
-			<b>Virtual Euro Wallet</b> uygulamasını kaldırmadan önce (ya da uygulama verilerini/cihazınızı sıfırlamadan önce) <b>tüm Virtual Eurolerinizi başka bir cüzdana aktarınız</b>.
-			Kalan tüm Virtual Euroler kaybolacaktır.
+			<b>Virtual Token Wallet</b> uygulamasını kaldırmadan önce (ya da uygulama verilerini/cihazınızı sıfırlamadan önce) <b>tüm Virtual Tokenlerinizi başka bir cüzdana aktarınız</b>.
+			Kalan tüm Virtual Tokenler kaybolacaktır.
 		</p>
 		<p>
 			<b>Muameleler geri alınamaz</b>.
-			Virtual Eurolerinizi yanlış bir adrese yollarsanız, bunları geri almak için alıcıyı tanımanız ve onun geri yollamayı kabul etmeniz dışında hiçbir yol yoktur.
+			Virtual Tokenlerinizi yanlış bir adrese yollarsanız, bunları geri almak için alıcıyı tanımanız ve onun geri yollamayı kabul etmeniz dışında hiçbir yol yoktur.
 		</p>
 		<p>
 			<b>Android cihazınızı güvenli kullanın!</b>
@@ -95,7 +95,7 @@
 		</p>
 		<p>
 			Riski sınırlayın!
-			<b>Virtual Euro Wallet uygulamasını sadece küçük tutarlar için kullanınız</b>.
+			<b>Virtual Token Wallet uygulamasını sadece küçük tutarlar için kullanınız</b>.
 		</p>
 	]]>
 	</string>

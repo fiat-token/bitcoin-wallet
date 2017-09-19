@@ -2,6 +2,7 @@ package com.eternitywall.regtest.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import org.bitcoinj.wallet.Wallet;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.eternitywall.regtest.Constants.WALLET_MIN_TIMESTAMP;
 
 /**
  * Created by luca on 07/08/2017.
@@ -79,7 +82,7 @@ public class ImportActivity extends  AbstractBindServiceActivity{
 
     private void importSeed(){
         String seedCode = editText.getText().toString();
-        Long creationtime = 1409478661L;
+        Long creationtime = WALLET_MIN_TIMESTAMP;
         String passphrase = "";
 
         try {
@@ -98,7 +101,8 @@ public class ImportActivity extends  AbstractBindServiceActivity{
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ImportActivity.this.finish();
+                        //ImportActivity.this.finish();
+                        startActivity(new Intent(ImportActivity.this,WalletActivity.class));
                     }
                 }).show();
     }

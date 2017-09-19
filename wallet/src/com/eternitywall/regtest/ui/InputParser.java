@@ -96,9 +96,9 @@ public abstract class InputParser {
 
                     error(R.string.input_parser_invalid_paymentrequest, x.getMessage());
                 }
-            } else if (input.startsWith("veur:")) {
+            } else if (input.startsWith("vtkn:")) {
                 try {
-                    final BitcoinURI bitcoinUri = new BitcoinURI(null, input.replace("veur","bitcoin"));
+                    final BitcoinURI bitcoinUri = new BitcoinURI(null, input.replace("vtkn","bitcoin"));
                     final Address address = bitcoinUri.getAddress();
                     if (address != null && !Constants.NETWORK_PARAMETERS.equals(address.getParameters()) && false)  //TODO added for Regtest
                         throw new BitcoinURIParseException("mismatched network");

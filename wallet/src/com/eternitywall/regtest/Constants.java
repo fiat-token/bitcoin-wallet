@@ -45,8 +45,8 @@ public final class Constants {
     /** Network this wallet is on (e.g. testnet or mainnet). */
     //public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
     public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
-    public static final MonetaryFormat vEUR = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vEUR").shift(4);
-    public static final int vEUR_SMALLEST_UNIT_EXPONENT = 7;
+    public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
+    public static final int vTKN_SMALLEST_UNIT_EXPONENT = 7;
 
     /** Bitcoinj global context. */
     public static final Context CONTEXT = new Context(NETWORK_PARAMETERS);
@@ -223,11 +223,12 @@ public final class Constants {
             "relay5.eternitywall.com",
     };
 
-    public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vEUR 100
-    public static int MAX_TRANSACTION_AMOUNT_REGISTERED_USER = 200*10000; // vEUR 200
+    public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vTKN 100
+    public static int MAX_TRANSACTION_AMOUNT_REGISTERED_USER = 200*10000; // vTKN 200
 
     public static String EW_URL = "https://eternitywall-api.appspot.com/pn2a/v1";
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
     public static String EW_SHARING = "https://vtoken.eternitywall.com/";
+    public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
 
 }

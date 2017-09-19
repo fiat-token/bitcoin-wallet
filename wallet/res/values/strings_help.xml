@@ -4,7 +4,7 @@
     <string name="help_wallet">
 <![CDATA[
 		<p>
-			The upper left part of the screen displays your balance in Virtual Euros and one selected national currency.
+			The upper left part of the screen displays your balance in Virtual Tokens and one selected national currency.
 			Tap to go to the list of national currencies, and tap on one of the currencies to select it as default.
 		</p>
 		<p>
@@ -26,10 +26,10 @@
 <![CDATA[
 		<p>
 			Using this dialog, you can request coins from a payer.
-			The payer should already have installed a Virtual Euro wallet.
+			The payer should already have installed a Virtual Token wallet.
 		</p>
 		<p>
-			First, you can enter an amount of Virtual Euros to request.
+			First, you can enter an amount of Virtual Tokens to request.
 		</p>
 		<p>
 			Then, you either have the generated QR code scanned by the payer.
@@ -48,7 +48,7 @@
 			You have initiated the process of sending coins.
 		</p>
 		<p>
-			First, you enter the Virtual Euro address to pay to.
+			First, you enter the Virtual Token address to pay to.
 			The address will autocomplete from known entries in your address book.
 			You can also scan a QR code being presented by the payee by pressing the camera button.
 		</p>
@@ -60,7 +60,7 @@
 		</p>
 		<p>
 			You can enter a payment while being offline.
-			It will be sent on next restart of Virtual Euro Wallet.
+			It will be sent on next restart of Virtual Token Wallet.
 			If you want a payment to be processed as fast as possible, make sure you are well connected (i.e. on a WLAN).
 		</p>
 		<p>
@@ -76,8 +76,8 @@
 			<b>Important safety notes:</b>
 		</p>
 		<p>
-			Virtual Euros are stored on the device.
-			<b>If you lose it, you\'ll lose your Virtual Euros.</b>
+			Virtual Tokens are stored on the device.
+			<b>If you lose it, you\'ll lose your Virtual Tokens.</b>
 		</p>
 		<p>
 			This means you need to <b>back up your wallet</b>!
@@ -85,12 +85,12 @@
 			Keep your backup safe and remember the password.
 		</p>
 		<p>
-			<b>Before uninstalling</b> (or clearing app data/wiping your device), <b>transfer your Virtual Euros to another wallet</b>.
-			Remaining Virtual Euros will be lost.
+			<b>Before uninstalling</b> (or clearing app data/wiping your device), <b>transfer your Virtual Tokens to another wallet</b>.
+			Remaining Virtual Tokens will be lost.
 		</p>
 		<p>
 			<b>Payments are irreversible</b>.
-			If you send your Virtual Euros into the void, there is almost no way to get them back.
+			If you send your Virtual Tokens into the void, there is almost no way to get them back.
 		</p>
 		<p>
 			<b>Keep your mobile device safe!</b>
@@ -110,9 +110,9 @@
             <b>Technical notes:</b>
         </p>
         <p>
-            As an SPV/light wallet, Virtual Euro Wallet follows the chain of the most proof-of-work (sometimes also called the \"longest chain\", the \"winning chain\" or the \"Virtual Euro blockchain\").
+            As an SPV/light wallet, Virtual Token Wallet follows the chain of the most proof-of-work (sometimes also called the \"longest chain\", the \"winning chain\" or the \"Virtual Token blockchain\").
             You will only receive incoming payments and be able to pay on that chain.
-            No guarantees can be made about Virtual Euros on minority chains, that is chains with less proof-of-work.
+            No guarantees can be made about Virtual Tokens on minority chains, that is chains with less proof-of-work.
         </p>
         <p>
             In the past, minority chains have always become irrelevant very quickly.
