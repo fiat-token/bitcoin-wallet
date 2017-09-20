@@ -5,7 +5,8 @@
         android:id="@+id/wallet_transactions_options_filter"
         android:icon="@drawable/ic_filter_list_white_24dp"
         android:showAsAction="always|withText"
-        android:title="@string/wallet_transactions_options_filter">
+        android:title="@string/wallet_transactions_options_filter"
+        android:visible="false">
         <menu>
             <group android:checkableBehavior="single" >
                 <item
