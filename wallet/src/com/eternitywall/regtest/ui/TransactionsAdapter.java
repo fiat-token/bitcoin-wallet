@@ -531,6 +531,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 extendFeeView.setVisibility(View.GONE);
             }
 
+            extendFeeView.setVisibility(View.GONE);
+
             // value
             valueView.setAlwaysSigned(true);
             valueView.setFormat(format);
