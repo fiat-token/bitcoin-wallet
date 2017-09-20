@@ -405,5 +405,6 @@
     <string name="iban_phone_select">Insert Phone Number</string>
     <string name="iban_number_select">Insert IBAN address</string>
     <string name="iban_verification_invalid">Invalid IBAN address</string>
+    <string name="export_seed_error">Error on export Seed</string>
 
 </resources>

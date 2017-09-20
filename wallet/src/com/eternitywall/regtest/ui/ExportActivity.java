@@ -1,14 +1,21 @@
 package com.eternitywall.regtest.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.util.Toast;
 
 import org.bitcoinj.wallet.Wallet;
 
@@ -26,6 +33,7 @@ public class ExportActivity extends  AbstractBindServiceActivity{
     Wallet wallet;
     WalletApplication application;
     Configuration config;
+    ListView mListview;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -37,16 +45,55 @@ public class ExportActivity extends  AbstractBindServiceActivity{
         config = application.getConfiguration();
         wallet = application.getWallet();
 
-        List<String> strings = application.exportSeed();
-        List<String> numberedString = new LinkedList<>();
-        for(int i = 0 ; i<strings.size();i++) {
-            numberedString.add((i+1) + ". " + strings.get(i));
-        }
-        ListAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, numberedString);
-        ListView lv = (ListView) findViewById(R.id.listView);
-        lv.setAdapter(adapter);
+        mListview = (ListView) findViewById(R.id.listView);
 
-        /* polar tomorrow industry fuel harsh obvious embrace devote merry win notice recipe */
+        if(wallet.isEncrypted()==true){
+            alertPassword();
+            return;
+        }
+
+        showSeed(null);
+    }
+
+    private void alertPassword(){
+        final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Password Required");   //title setted
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT| InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alert.setView(input);
+        alert.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ;
+            }
+        });
+        alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                showSeed(input.getText().toString());
+            }
+        });
+        alert.show();
+    }
+
+    private void showSeed(String password){
+        try {
+            List<String> strings = application.exportSeed(password);
+            List<String> numberedString = new LinkedList<>();
+            for(int i = 0 ; i<strings.size();i++) {
+                numberedString.add((i+1) + ". " + strings.get(i));
+            }
+            ListAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, numberedString);
+            mListview.setAdapter(adapter);
+        }catch(Exception e){
+            e.printStackTrace();
+            android.widget.Toast.makeText(this, getString(R.string.export_seed_error), android.widget.Toast.LENGTH_LONG);
+        }
     }
 
     @Override

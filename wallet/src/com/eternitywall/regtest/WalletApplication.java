@@ -518,8 +518,26 @@ public class WalletApplication extends Application {
 
     }
 
-    public List<String> exportSeed(){
+    public List<String> exportSeed(String passphrase){
+        boolean decription = false;
+
+        if(wallet.isEncrypted()) {
+            if (passphrase == null) {
+                return null;
+            }else {
+                decription = true;
+                wallet.decrypt(passphrase);
+            }
+        }
         DeterministicSeed seed = wallet.getKeyChainSeed();
-        return seed.getMnemonicCode();
+        List<String> list = seed.getMnemonicCode();
+        if(list == null){
+            return null;
+        }
+
+        if (decription==true){
+            wallet.encrypt(passphrase);
+        }
+        return list;
     }
 }
