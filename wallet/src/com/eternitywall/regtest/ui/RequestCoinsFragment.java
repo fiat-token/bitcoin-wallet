@@ -35,6 +35,7 @@ import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.data.ExchangeRate;
 import com.eternitywall.regtest.data.ExchangeRatesLoader;
 import com.eternitywall.regtest.data.ExchangeRatesProvider;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.offline.AcceptBluetoothService;
 import com.eternitywall.regtest.ui.send.SendCoinsActivity;
 import com.eternitywall.regtest.util.BitmapFragment;
@@ -364,7 +365,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
     }*/
 
     private void handleShare() {
-        final String request = Constants.EW_SHARING+determineVTKNRequestStr(false);
+        final String request = BitcoinEW.EW_SHARING+determineVTKNRequestStr(false);
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, request);

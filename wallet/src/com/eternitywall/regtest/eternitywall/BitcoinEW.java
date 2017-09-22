@@ -7,8 +7,10 @@ import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.TransactionOutput;
+import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.script.Script;
 import org.bitcoinj.script.ScriptBuilder;
+import org.bitcoinj.utils.MonetaryFormat;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
@@ -19,6 +21,27 @@ import java.util.List;
 import static org.bitcoinj.script.ScriptBuilder.*;
 
 public class BitcoinEW {
+
+
+
+    // Constants
+    public static String EW_URL = "https://eternitywall-api.appspot.com/pn2a/v1";
+    public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
+    public static String EW_SHARING = "https://vtoken.eternitywall.com/";
+    public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
+    public static final int NOTE_MAX_LENGTH = 64;
+    public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vTKN 100
+    public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
+
+    // Network & DNS peers
+    public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
+    public static final String[] DNSPEERS = {
+            "relay1.eternitywall.com",
+            "relay2.eternitywall.com",
+            "relay3.eternitywall.com",
+            "relay4.eternitywall.com",
+            "relay5.eternitywall.com",
+    };
 
     public static Script createOpReturnScript(List<Data> list) throws Exception {
         byte[] buffer = {};

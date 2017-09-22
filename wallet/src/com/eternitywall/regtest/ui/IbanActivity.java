@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,8 +32,6 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.eternitywall.regtest.Constants.EW_API_KEY;
-import static com.eternitywall.regtest.Constants.EW_URL;
 
 public class IbanActivity extends AbstractBindServiceActivity {
 
@@ -158,8 +157,8 @@ public class IbanActivity extends AbstractBindServiceActivity {
     private void ibanValidNumber(String phone) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
-        client.get(EW_URL + "/address/" + phone, new JsonHttpResponseHandler() {
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
+        client.get(BitcoinEW.EW_URL + "/address/" + phone, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -196,8 +195,8 @@ public class IbanActivity extends AbstractBindServiceActivity {
     private void phoneSendSms(String phone) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
-        client.post(EW_URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
+        client.post(BitcoinEW.EW_URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -249,11 +248,11 @@ public class IbanActivity extends AbstractBindServiceActivity {
     private void phoneVerify(String phone, String secret, Address address) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
         RequestParams params = new RequestParams();
         params.add("secret_code", secret);
         params.add("genesis_address", address.toBase58().toString());
-        client.post(EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
+        client.post(BitcoinEW.EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

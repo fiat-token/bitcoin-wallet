@@ -81,6 +81,7 @@ import com.eternitywall.regtest.data.ExchangeRatesLoader;
 import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.data.PaymentIntent.Standard;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.integration.android.BitcoinIntegration;
 import com.eternitywall.regtest.offline.DirectPaymentTask;
 import com.eternitywall.regtest.service.BlockchainState;
@@ -764,14 +765,7 @@ public final class SendCoinsFragment extends Fragment {
 
     // get max amount transaction
     private long getMaxTransactionAmount() {
-        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
-        boolean phoneVerification = prefs.getBoolean("phone_verification", false);
-        if(phoneVerification==true){
-            return Constants.MAX_TRANSACTION_AMOUNT_REGISTERED_USER;
-        } else {
-            return Constants.MAX_TRANSACTION_AMOUNT;
-        }
-
+        return BitcoinEW.MAX_TRANSACTION_AMOUNT;
     }
 
     private void initNote(View view) {
@@ -796,7 +790,7 @@ public final class SendCoinsFragment extends Fragment {
         });
     }
     private boolean validateNote(){
-        if(sendCoinsNote.getText().toString().length() < Constants.NOTE_MAX_LENGTH)
+        if(sendCoinsNote.getText().toString().length() < BitcoinEW.NOTE_MAX_LENGTH)
             return true;
         return false;
     }

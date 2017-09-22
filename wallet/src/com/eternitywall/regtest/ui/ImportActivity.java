@@ -12,11 +12,10 @@ import android.widget.EditText;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
-
-import static com.eternitywall.regtest.Constants.WALLET_MIN_TIMESTAMP;
 
 /**
  * Created by luca on 07/08/2017.
@@ -73,7 +72,7 @@ public class ImportActivity extends  AbstractBindServiceActivity{
 
     private void importSeed(){
         String seedCode = editText.getText().toString();
-        Long creationtime = WALLET_MIN_TIMESTAMP;
+        Long creationtime = BitcoinEW.WALLET_MIN_TIMESTAMP;
         String passphrase = "";
 
         try {

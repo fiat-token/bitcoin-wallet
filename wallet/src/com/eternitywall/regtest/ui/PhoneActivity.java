@@ -31,8 +31,9 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.eternitywall.regtest.Constants.EW_API_KEY;
-import static com.eternitywall.regtest.Constants.EW_URL;
+import static com.eternitywall.regtest.eternitywall.BitcoinEW.EW_API_KEY;
+import static com.eternitywall.regtest.eternitywall.BitcoinEW.EW_URL;
+
 
 public class PhoneActivity extends AbstractBindServiceActivity {
 

@@ -45,6 +45,7 @@ import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.WalletBalanceWidgetProvider;
 import com.eternitywall.regtest.data.AddressBookProvider;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.service.BlockchainState.Impediment;
 import com.eternitywall.regtest.ui.WalletActivity;
 import com.eternitywall.regtest.util.CrashReporter;
@@ -376,7 +377,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 peerGroup.setMinBroadcastConnections(1);
 
                 //final int maxConnectedPeers = application.maxConnectedPeers();
-                final int maxConnectedPeers = Constants.DNSPEERS.length;
+                final int maxConnectedPeers = BitcoinEW.DNSPEERS.length;
 
                 final String trustedPeerHost = config.getTrustedPeerHost();
                 final boolean hasTrustedPeer = trustedPeerHost != null;
@@ -391,7 +392,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     final List<InetAddress> peers = new ArrayList<>();
                     final List<Thread> threads = new ArrayList<>();
 
-                    for (final String dns : Constants.DNSPEERS){
+                    for (final String dns : BitcoinEW.DNSPEERS){
                         log.info("asking dns ip for " + dns );
                         Thread thread = new Thread(new Runnable() {
                             @Override
