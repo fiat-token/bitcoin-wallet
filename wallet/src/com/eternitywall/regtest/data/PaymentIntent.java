@@ -19,7 +19,9 @@ package com.eternitywall.regtest.data;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +40,8 @@ import org.bitcoinj.wallet.SendRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Data;
 import com.google.common.io.BaseEncoding;
 
 import com.eternitywall.regtest.Constants;
@@ -255,44 +259,51 @@ public final class PaymentIntent implements Parcelable {
     public PaymentIntent mergeWithNoteValues(@Nullable final Coin editedAmount,
                                              @Nullable final Address address,
                                              @Nullable final byte[] note) {
-        final Output[] outputs;
 
         checkArgument(editedAmount != null);
         checkArgument(note != null);
 
         // Set output with note
-        Output outputNote = new Output(Coin.ZERO, ScriptBuilder.createOpReturnScript(note));
-        Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
+        List<Data> datas = new ArrayList<>();
+        try {
+            datas.add( new Data(Data.TYPE_NOTE, note));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            Output outputOpReturn = new Output(Coin.ZERO, BitcoinEW.createOpReturnScript(datas));
+            Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
+            final Output[] outputs = new Output[] { outputAmount, outputOpReturn };
+            return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
-        outputs = new Output[] { outputAmount, outputNote };
-
-        return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
     }
 
     public PaymentIntent mergeWithIBANValues(@Nullable final Coin editedAmount,
                                              @Nullable final byte[] iban) {
-        final Output[] outputs;
+        checkArgument(editedAmount != null);
+        checkArgument(iban != null);
 
-        if (hasOutputs()) {
-            if (mayEditAmount()) {
-                checkArgument(editedAmount != null);
-
-                // put all coins on first output, skip the others
-                outputs = new Output[] { new Output(editedAmount, this.outputs[0].script) };
-            } else {
-                // exact copy of outputs
-                outputs = this.outputs;
-            }
-        } else {
-            checkArgument(editedAmount != null);
-            checkArgument(iban != null);
-
-            // custom output
-            outputs = buildIbanPayTo(editedAmount, iban);
+        // Set output with note
+        List<Data> datas = new ArrayList<>();
+        try {
+            datas.add( new Data(Data.TYPE_NOTE, iban));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        try {
+            Output outputOpReturn = new Output(editedAmount, BitcoinEW.createOpReturnScript(datas));
+            final Output[] outputs = new Output[] { outputOpReturn };
+            return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
 
-        return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public SendRequest toSendRequest() {
@@ -306,9 +317,6 @@ public final class PaymentIntent implements Parcelable {
         return new Output[] { new Output(amount, ScriptBuilder.createOutputScript(address)) };
     }
 
-    private static Output[] buildIbanPayTo(final Coin amount, final byte[] iban) {
-        return new Output[] { new Output(amount, ScriptBuilder.createOpReturnScript(iban)) };
-    }
     private static Output[] buildNotePayTo(final Coin amount, final byte[] note) {
         return new Output[] { new Output(amount, ScriptBuilder.createOpReturnScript(note)) };
     }

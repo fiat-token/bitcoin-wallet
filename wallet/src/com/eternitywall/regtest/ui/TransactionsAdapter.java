@@ -18,14 +18,15 @@
 package com.eternitywall.regtest.ui;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -47,6 +48,8 @@ import org.bitcoinj.wallet.Wallet;
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.data.AddressBookProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Data;
 import com.eternitywall.regtest.util.CircularProgressView;
 import com.eternitywall.regtest.util.Formats;
 import com.eternitywall.regtest.util.WalletUtils;
@@ -381,7 +384,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 List<TransactionOutput> outputs = tx.getOutputs();
                 for (TransactionOutput output : outputs){
                     if(output.getScriptPubKey().isOpReturn()){
-                        opreturn = output.getScriptBytes();
+                        opreturn = Arrays.copyOfRange(output.getScriptBytes(),2,output.getScriptBytes().length);
                     }
                 }
 
@@ -508,26 +511,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 addressView.setTextColor(lessSignificantColor);
                 addressView.setTypeface(Typeface.DEFAULT);
                 addressView.setText("?");
-
-
-                boolean isOpReturn=false;
-                String iban = "";
-                for (TransactionOutput output : tx.getOutputs()){
-                    for (ScriptChunk chunk : output.getScriptPubKey().getChunks()) {
-                        if(chunk.opcode==106) {
-                            isOpReturn = true;
-                        } else if(chunk.opcode==27){
-                            try {
-                                iban = new String(chunk.data, "UTF-8");
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                if(isOpReturn){
-                    addressView.setText(iban);
-                }
             }
             addressView.setSingleLine(!itemView.isActivated());
             extendAddressView
@@ -548,12 +531,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             // OP_RETURN
             extendFeeView.setVisibility(View.GONE);
             if(txCache.opreturn!=null) {
-                String str = null;
                 try {
-                    str = new String(txCache.opreturn, "UTF-8");
-                    feeView.setText(str);
-                    extendFeeView.setVisibility(View.VISIBLE);
-                } catch (UnsupportedEncodingException e) {
+                    List<Data> datas = BitcoinEW.parseOpReturnScript(txCache.opreturn);
+                    for(Data data : datas){
+                        if(data.getType() == Data.TYPE_NOTE){
+                            feeView.setText(data.toString());
+                            extendFeeView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
