@@ -18,12 +18,14 @@
 package com.eternitywall.regtest.ui;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -44,6 +46,7 @@ import org.bitcoinj.wallet.Wallet;
 
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.data.AddressBookProvider;
+import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.util.CircularProgressView;
 import com.eternitywall.regtest.util.Formats;
 import com.eternitywall.regtest.util.WalletUtils;
@@ -113,15 +116,18 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         private final Address address;
         @Nullable
         private final String addressLabel;
+        @Nullable
+        private final byte[] opreturn;
 
         private TransactionCacheEntry(final Coin value, final boolean sent, final boolean self, final boolean showFee,
-                final @Nullable Address address, final @Nullable String addressLabel) {
+                final @Nullable Address address, final @Nullable String addressLabel,final @Nullable byte[] opreturn ) {
             this.value = value;
             this.sent = sent;
             this.self = self;
             this.showFee = showFee;
             this.address = address;
             this.addressLabel = addressLabel;
+            this.opreturn = opreturn;
         }
     }
 
@@ -371,6 +377,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 final boolean sent = value.signum() < 0;
                 final boolean self = WalletUtils.isEntirelySelf(tx, wallet);
                 final boolean showFee = sent && fee != null && !fee.isZero();
+                byte[] opreturn = null;
+                List<TransactionOutput> outputs = tx.getOutputs();
+                for (TransactionOutput output : outputs){
+                    if(output.getScriptPubKey().isOpReturn()){
+                        opreturn = output.getScriptBytes();
+                    }
+                }
+
                 final Address address;
                 if (sent)
                     address = WalletUtils.getToAddressOfSent(tx, wallet);
@@ -379,7 +393,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 final String addressLabel = address != null
                         ? AddressBookProvider.resolveLabel(context, address.toBase58()) : null;
 
-                txCache = new TransactionCacheEntry(value, sent, self, showFee, address, addressLabel);
+                txCache = new TransactionCacheEntry(value, sent, self, showFee, address, addressLabel, opreturn);
                 transactionCache.put(tx.getHash(), txCache);
             }
 
@@ -531,7 +545,18 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 extendFeeView.setVisibility(View.GONE);
             }
 
+            // OP_RETURN
             extendFeeView.setVisibility(View.GONE);
+            if(txCache.opreturn!=null) {
+                String str = null;
+                try {
+                    str = new String(txCache.opreturn, "UTF-8");
+                    feeView.setText(str);
+                    extendFeeView.setVisibility(View.VISIBLE);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
 
             // value
             valueView.setAlwaysSigned(true);

@@ -406,5 +406,8 @@
     <string name="iban_number_select">Insert IBAN address</string>
     <string name="iban_verification_invalid">Invalid IBAN address</string>
     <string name="export_seed_error">Error on export Seed</string>
+    <string name="send_coins_fragment_note_hint">Insert note here</string>
+    <string name="send_coins_fragment_note">Note</string>
+    <string name="send_coins_fragment_note_too_long"><![CDATA[Note length < 64 characters]]></string>
 
 </resources>

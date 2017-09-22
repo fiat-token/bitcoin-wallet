@@ -107,6 +107,32 @@
             </LinearLayout>
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/send_coins_note_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/send_coins_fragment_note"
+                android:textSize="@dimen/font_size_small"
+                android:textStyle="bold" />
+
+            <AutoCompleteTextView
+                android:id="@+id/send_coins_note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:hint="@string/send_coins_fragment_note_hint"
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/send_coins_amount_group"
             android:layout_width="match_parent"
