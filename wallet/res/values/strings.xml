@@ -408,6 +408,6 @@
     <string name="export_seed_error">Error on export Seed</string>
     <string name="send_coins_fragment_note_hint">Insert note here</string>
     <string name="send_coins_fragment_note">Note</string>
-    <string name="send_coins_fragment_note_too_long"><![CDATA[Note length < 64 characters]]></string>
+    <string name="send_coins_fragment_note_too_long"><![CDATA[Note length < 62 characters]]></string>
 
 </resources>

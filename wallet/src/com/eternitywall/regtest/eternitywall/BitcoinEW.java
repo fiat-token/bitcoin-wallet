@@ -18,10 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.bitcoinj.script.ScriptBuilder.*;
-
 public class BitcoinEW {
-
 
 
     // Constants
@@ -43,6 +40,7 @@ public class BitcoinEW {
             "relay5.eternitywall.com",
     };
 
+    // Script OP_RETURN manipulation
     public static Script createOpReturnScript(List<Data> list) throws Exception {
         byte[] buffer = {};
         for (Data data : list){
@@ -64,6 +62,7 @@ public class BitcoinEW {
         return list;
     }
 
+    // Utils
     final static
     public byte[] merge(final byte[] ...arrays ) {
         int size = 0;

@@ -19,7 +19,7 @@ public class Data {
     public static byte TYPE_NOTE=0x28;
     public static byte TYPE_KEY=0x29;
 
-    public static byte MAX_LENGTH=64;
+    public static byte MAX_LENGTH=62;
 
     public byte getType(){
         return type;
@@ -45,9 +45,9 @@ public class Data {
     public Data(byte type, byte len, byte [] payload) throws Exception {
         if(type != TYPE_NOTE && type != TYPE_KEY)
             throw new Exception("Invalid type");
-        if(len>MAX_LENGTH-2)
+        if(len>MAX_LENGTH)
             throw new Exception("Invalid len");
-        if(payload.length>MAX_LENGTH-2)
+        if(payload.length>MAX_LENGTH)
             throw new Exception("Payload too long");
         this.type = type;
         this.len = len;
@@ -57,9 +57,9 @@ public class Data {
         len = (byte) payload.length;
         if(type != TYPE_NOTE && type != TYPE_KEY)
             throw new Exception("Invalid type");
-        if(len>MAX_LENGTH-2)
+        if(len>MAX_LENGTH)
             throw new Exception("Invalid len");
-        if(payload.length>MAX_LENGTH-2)
+        if(payload.length>MAX_LENGTH)
             throw new Exception("Payload too long");
         this.type = type;
         this.len = len;
