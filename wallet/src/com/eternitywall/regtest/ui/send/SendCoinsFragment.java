@@ -194,6 +194,7 @@ public final class SendCoinsFragment extends Fragment {
     LinearLayout sendCoinsAddressbookGroup;
     AutoCompleteTextView sendCoinsAddressbook;
     Boolean addressBookEnable=true;
+    private AutoCompleteTextView sendCoinsNote;
 
     @Nullable
     private State state = null;
@@ -734,6 +735,7 @@ public final class SendCoinsFragment extends Fragment {
         });
 
         initAddressBook(view);
+        initNote(view);
         return view;
     }
 
@@ -770,6 +772,41 @@ public final class SendCoinsFragment extends Fragment {
             return Constants.MAX_TRANSACTION_AMOUNT;
         }
 
+    }
+
+    private void initNote(View view) {
+        sendCoinsNote = (AutoCompleteTextView) view.findViewById(R.id.send_coins_note);
+        sendCoinsNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateView();
+                handler.post(dryrunRunnable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateView();
+                handler.post(dryrunRunnable);
+            }
+        });
+    }
+    private boolean validateNote(){
+        if(sendCoinsNote.getText().toString().length() < Constants.NOTE_MAX_LENGTH)
+            return true;
+        return false;
+    }
+    private byte[] getNote(){
+        try {
+            String string = sendCoinsNote.getText().toString();
+            return string.getBytes("UTF-8");
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override
@@ -1060,7 +1097,7 @@ public final class SendCoinsFragment extends Fragment {
         // final payment intent
         Coin coin = (Coin) btcAmountView.getAmount();
         final PaymentIntent finalPaymentIntent;
-        finalPaymentIntent = paymentIntent.mergeWithEditedValues(coin, validatedAddress != null ? validatedAddress.address : null);
+        finalPaymentIntent = paymentIntent.mergeWithNoteValues(coin, validatedAddress != null ? validatedAddress.address : null, getNote());
         final Coin finalAmount = finalPaymentIntent.getAmount();
 
         // prepare send request
@@ -1244,11 +1281,11 @@ public final class SendCoinsFragment extends Fragment {
             dryrunTransaction = null;
             dryrunException = null;
 
-            final Coin amount = (Coin)btcAmountView.getAmount();
+            try{
+            final Coin amount = (Coin) btcAmountView.getAmount();
             if (amount != null && fees != null) {
-                try {
                     final Address dummy = wallet.currentReceiveAddress(); // won't be used, tx is never
-                                                                          // committed
+                    // committed
                     final SendRequest sendRequest = paymentIntent.mergeWithEditedValues(amount, dummy).toSendRequest();
                     sendRequest.signInputs = false;
                     sendRequest.emptyWallet = paymentIntent.mayEditAmount()
@@ -1258,15 +1295,21 @@ public final class SendCoinsFragment extends Fragment {
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
 
-                    if((amount.isLessThan( Coin.valueOf(1000*1000*10000)) && (amount.isGreaterThan( Coin.valueOf(getMaxTransactionAmount()))))) {
+                    if ((amount.isLessThan(Coin.valueOf(1000 * 1000 * 10000)) && (amount.isGreaterThan(Coin.valueOf(getMaxTransactionAmount()))))) {
                         dryrunTransaction = null;
                         throw new VerificationException.ExcessiveValue();
                     }
 
 
-                } catch (final Exception x) {
-                    dryrunException = x;
-                }
+            }
+
+            if (!validateNote()) {
+                dryrunTransaction = null;
+                throw new VerificationException.LargerThanMaxBlockSize();
+            }
+
+            } catch (final Exception x) {
+                dryrunException = x;
             }
         }
     };
@@ -1390,6 +1433,8 @@ public final class SendCoinsFragment extends Fragment {
                         hintView.setText(getString(R.string.send_coins_fragment_hint_empty_wallet_failed));
                     else if(dryrunException instanceof VerificationException.ExcessiveValue)
                         hintView.setText(getString(R.string.send_coins_fragment_hint_too_much_money));
+                    else if(dryrunException instanceof VerificationException.LargerThanMaxBlockSize)
+                        hintView.setText(getString(R.string.send_coins_fragment_note_too_long));
                     else
                         hintView.setText(dryrunException.toString());
                 } else if (dryrunTransaction != null && dryrunTransaction.getFee() != null) {

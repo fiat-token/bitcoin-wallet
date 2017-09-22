@@ -230,5 +230,6 @@ public final class Constants {
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
     public static String EW_SHARING = "https://vtoken.eternitywall.com/";
     public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
+    public static final int NOTE_MAX_LENGTH = 64;
 
 }

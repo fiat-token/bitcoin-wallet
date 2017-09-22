@@ -252,6 +252,24 @@ public final class PaymentIntent implements Parcelable {
         return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
     }
 
+    public PaymentIntent mergeWithNoteValues(@Nullable final Coin editedAmount,
+                                             @Nullable final Address address,
+                                             @Nullable final byte[] note) {
+        final Output[] outputs;
+
+        checkArgument(editedAmount != null);
+        checkArgument(note != null);
+
+        // Set output with note
+        Output outputNote = new Output(Coin.ZERO, ScriptBuilder.createOpReturnScript(note));
+        Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
+
+
+        outputs = new Output[] { outputAmount, outputNote };
+
+        return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
+    }
+
     public PaymentIntent mergeWithIBANValues(@Nullable final Coin editedAmount,
                                              @Nullable final byte[] iban) {
         final Output[] outputs;
@@ -290,6 +308,9 @@ public final class PaymentIntent implements Parcelable {
 
     private static Output[] buildIbanPayTo(final Coin amount, final byte[] iban) {
         return new Output[] { new Output(amount, ScriptBuilder.createOpReturnScript(iban)) };
+    }
+    private static Output[] buildNotePayTo(final Coin amount, final byte[] note) {
+        return new Output[] { new Output(amount, ScriptBuilder.createOpReturnScript(note)) };
     }
 
     public boolean hasPayee() {
