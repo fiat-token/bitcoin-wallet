@@ -512,6 +512,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 addressView.setTypeface(Typeface.DEFAULT);
                 addressView.setText("?");
             }
+            addressView.setText("");
             addressView.setSingleLine(!itemView.isActivated());
             extendAddressView
                     .setVisibility(!itemView.isActivated() || purpose != Purpose.RAISE_FEE ? View.VISIBLE : View.GONE);
