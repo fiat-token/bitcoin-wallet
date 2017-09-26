@@ -536,8 +536,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     List<Data> datas = BitcoinEW.parseOpReturnScript(txCache.opreturn);
                     for(Data data : datas){
                         if(data.getType() == Data.TYPE_NOTE){
-                            feeView.setText(data.toString());
-                            extendFeeView.setVisibility(View.VISIBLE);
+                            addressView.setText(data.toString());
+                            //extendFeeView.setVisibility(View.VISIBLE);
                         }
                     }
                 } catch (Exception e) {
