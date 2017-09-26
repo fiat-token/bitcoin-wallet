@@ -26,7 +26,6 @@ public class BitcoinEW {
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
     public static String EW_SHARING = "https://vtoken.eternitywall.com/";
     public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
-    public static final int NOTE_MAX_LENGTH = 64;
     public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vTKN 100
     public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
 

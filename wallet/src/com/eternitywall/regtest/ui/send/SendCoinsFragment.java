@@ -83,6 +83,7 @@ import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.data.PaymentIntent.Standard;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Data;
 import com.eternitywall.regtest.integration.android.BitcoinIntegration;
 import com.eternitywall.regtest.offline.DirectPaymentTask;
 import com.eternitywall.regtest.service.BlockchainState;
@@ -792,7 +793,7 @@ public final class SendCoinsFragment extends Fragment {
         });
     }
     private boolean validateNote(){
-        if(sendCoinsNote.getText().toString().length() < BitcoinEW.NOTE_MAX_LENGTH)
+        if(sendCoinsNote.getText().toString().length() < Data.MAX_LENGTH)
             return true;
         return false;
     }
