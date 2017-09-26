@@ -49,6 +49,7 @@ import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -264,6 +265,7 @@ public final class SendCoinsFragment extends Fragment {
 
         @Override
         public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
+            Log.d("","");
         }
 
         @Override
@@ -1619,6 +1621,12 @@ public final class SendCoinsFragment extends Fragment {
                 } else {
                     setState(State.INPUT);
 
+                    try{
+                        Address address = paymentIntent.getAddress();
+                        validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address.toString(), "");
+                    }catch (Exception e){
+                        Log.d("","");
+                    }
                     receivingAddressView.setText(null);
                     btcAmountView.setAmount(paymentIntent.getAmount(),true);
                     //amountCalculatorLink.setBtcAmount(paymentIntent.getAmount());
