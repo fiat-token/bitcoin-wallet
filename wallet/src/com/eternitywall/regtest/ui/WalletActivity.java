@@ -315,6 +315,11 @@ public final class WalletActivity extends AbstractBindServiceActivity
         encryptKeysOption.setTitle(wallet.isEncrypted() ? R.string.wallet_options_encrypt_keys_change
                 : R.string.wallet_options_encrypt_keys_set);
 
+        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        if (prefs.getBoolean("phone_verification", false) == true) {
+            menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
+        }
+
         return true;
     }
 
