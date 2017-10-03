@@ -812,6 +812,7 @@ public final class SendIbanFragment extends Fragment {
 
     // validate IBAN
     private boolean validateIBAN(){
+        /*
         try {
             IBAN iban = IBAN.valueOf(sendCoinsReceivingIban.getText().toString());
             if(iban.isSEPA()){
@@ -828,7 +829,7 @@ public final class SendIbanFragment extends Fragment {
             hintView.setTextColor(getResources().getColor(R.color.fg_error));
             hintView.setText(getString(R.string.invalid_iban));
             return false;
-        }
+        }*/
         return true;
     }
     private byte[] getIBAN(){

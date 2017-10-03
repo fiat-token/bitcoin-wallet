@@ -35,6 +35,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import nl.garvelink.iban.IBAN;
+
 import org.apache.commons.codec.binary.Hex;
 
 public class IbanValidationActivity extends AbstractBindServiceActivity {
@@ -139,6 +141,15 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
             }
         });
 
+        etIban.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b == false){
+                    validateIban();
+                }
+            }
+        });
+
         checkExistIban(deterministicKey.getPubKeyHash());
     }
 
@@ -153,7 +164,6 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     private void checkExistIban(byte[] pubkey) {
@@ -217,6 +227,18 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
     }
 
 
+    private void validateIban(){
+        try {
+            IBAN iban = IBAN.valueOf(etIban.getText().toString());
+            if(iban.isSEPA()){
+                Toast.makeText(this,getString(R.string.iban_sepa),Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this,getString(R.string.iban_not_sepa),Toast.LENGTH_LONG).show();
+            }
+        }catch (Exception e){
+            Toast.makeText(this,getString(R.string.invalid_iban),Toast.LENGTH_LONG).show();
+        }
+    }
 
     private void phoneSendSms(String phone) {
         progress(true);
