@@ -18,10 +18,12 @@
 package com.eternitywall.regtest.ui.send;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.AsyncTaskLoader;
 import android.content.ComponentName;
@@ -67,6 +69,7 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eternitywall.regtest.Configuration;
@@ -80,6 +83,8 @@ import com.eternitywall.regtest.data.ExchangeRatesLoader;
 import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.data.PaymentIntent.Standard;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Data;
 import com.eternitywall.regtest.integration.android.BitcoinIntegration;
 import com.eternitywall.regtest.offline.DirectPaymentTask;
 import com.eternitywall.regtest.service.BlockchainState;
@@ -88,6 +93,7 @@ import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
 import com.eternitywall.regtest.ui.AddressAndLabel;
 import com.eternitywall.regtest.ui.CurrencyAmountView;
 import com.eternitywall.regtest.ui.DialogBuilder;
+import com.eternitywall.regtest.ui.IbanValidationActivity;
 import com.eternitywall.regtest.ui.InputParser.BinaryInputParser;
 import com.eternitywall.regtest.ui.InputParser.StreamInputParser;
 import com.eternitywall.regtest.ui.InputParser.StringInputParser;
@@ -98,6 +104,8 @@ import com.eternitywall.regtest.util.Bluetooth;
 import com.eternitywall.regtest.util.Nfc;
 import com.eternitywall.regtest.util.WalletUtils;
 import com.google.common.base.Strings;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.netki.WalletNameResolver;
 import com.netki.dns.DNSBootstrapService;
 import com.netki.dnssec.DNSSECResolver;
@@ -107,6 +115,7 @@ import com.netki.tlsa.CACertService;
 import com.netki.tlsa.CertChainValidator;
 import com.netki.tlsa.TLSAValidator;
 
+import org.apache.commons.codec.binary.Hex;
 import org.bitcoin.protocols.payments.Protos.Payment;
 import org.bitcoinj.core.Address;
 import org.bitcoinj.core.AddressFormatException;
@@ -127,18 +136,23 @@ import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.Wallet.BalanceType;
 import org.bitcoinj.wallet.Wallet.CouldNotAdjustDownwards;
 import org.bitcoinj.wallet.Wallet.DustySendRequested;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.crypto.params.KeyParameter;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
 
 import javax.annotation.Nullable;
 
+import cz.msebera.android.httpclient.Header;
 import nl.garvelink.iban.IBAN;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -191,6 +205,7 @@ public final class SendIbanFragment extends Fragment {
     // Add IBAN ui
     private AutoCompleteTextView sendCoinsReceivingIban;
     private LinearLayout sendCoinsIbanGroup;
+    private AutoCompleteTextView sendCoinsNote;
 
     // Add Address Book
     LinearLayout sendCoinsAddressbookGroup;
@@ -734,6 +749,8 @@ public final class SendIbanFragment extends Fragment {
 
         initAddressBook(view);
         initIBAN(view);
+        initNote(view);
+        checkExistIban();
         return view;
     }
 
@@ -774,8 +791,11 @@ public final class SendIbanFragment extends Fragment {
                 }
             }
         });
+
         // set default IBAN
-        sendCoinsReceivingIban.setText("IT40S0542811101000000123456");
+        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        String iban = prefs.getString("iban", "");
+        sendCoinsReceivingIban.setText(iban);
 
         sendCoinsIbanGroup.setVisibility(View.VISIBLE);
         sendCoinsAddressbookGroup.setVisibility(View.GONE);
@@ -814,6 +834,40 @@ public final class SendIbanFragment extends Fragment {
     private byte[] getIBAN(){
         try {
             String string = sendCoinsReceivingIban.getText().toString();
+            return string.getBytes("UTF-8");
+        }catch (Exception e){
+            return null;
+        }
+    }
+    private void initNote(View view) {
+        sendCoinsNote = (AutoCompleteTextView) view.findViewById(R.id.send_coins_note);
+        sendCoinsNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateView();
+                handler.post(dryrunRunnable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateView();
+                handler.post(dryrunRunnable);
+            }
+        });
+    }
+    private boolean validateNote(){
+        if(sendCoinsNote.getText().toString().length() < Data.MAX_LENGTH)
+            return true;
+        return false;
+    }
+    private byte[] getNote(){
+        try {
+            String string = sendCoinsNote.getText().toString();
             return string.getBytes("UTF-8");
         }catch (Exception e){
             return null;
@@ -1054,7 +1108,21 @@ public final class SendIbanFragment extends Fragment {
         // final payment intent
         Coin coin = (Coin) btcAmountView.getAmount();
         final PaymentIntent finalPaymentIntent;
-        finalPaymentIntent = paymentIntent.mergeWithIBANValues(coin, getIBAN());
+
+
+        List<Data> datas = new ArrayList<>();
+        try {
+            if (getNote() != null) {
+                datas.add(new Data(Data.TYPE_NOTE, getNote()));
+            }
+            if (getIBAN() != null) {
+                datas.add(new Data(Data.TYPE_IBAN, getIBAN()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finalPaymentIntent = paymentIntent.mergeWithDataValues(coin, null, datas);
         final Coin finalAmount = finalPaymentIntent.getAmount();
 
         // prepare send request
@@ -1237,12 +1305,13 @@ public final class SendIbanFragment extends Fragment {
         private void executeDryrun() {
             dryrunTransaction = null;
             dryrunException = null;
+            try {
+                final Coin amount = (Coin) btcAmountView.getAmount();
+                if (amount != null && fees != null) {
 
-            final Coin amount = (Coin)btcAmountView.getAmount();
-            if (amount != null && fees != null) {
-                try {
                     final Address dummy = wallet.currentReceiveAddress(); // won't be used, tx is never
-                                                                          // committed
+                    // committed
+
                     final SendRequest sendRequest = paymentIntent.mergeWithEditedValues(amount, dummy).toSendRequest();
                     sendRequest.signInputs = false;
                     sendRequest.emptyWallet = paymentIntent.mayEditAmount()
@@ -1252,9 +1321,15 @@ public final class SendIbanFragment extends Fragment {
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
 
-                } catch (final Exception x) {
-                    dryrunException = x;
+
                 }
+
+                if (!validateNote()) {
+                    dryrunTransaction = null;
+                    throw new VerificationException.LargerThanMaxBlockSize();
+                }
+            } catch (final Exception x) {
+                dryrunException = x;
             }
         }
     };
@@ -1683,4 +1758,25 @@ public final class SendIbanFragment extends Fragment {
             updateStateFrom(PaymentIntent.blank());
         }
     }
+
+
+
+    private void checkExistIban() {
+        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        String iban = prefs.getString("iban", null);
+        if(iban == null){
+
+            new AlertDialog.Builder(activity)
+                    .setTitle(getString(R.string.app_name))
+                    .setMessage(getString(R.string.iban_verification_no_found))
+                    .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.finish();
+                        }
+                    })
+                    .show();
+        }
+    }
+
 }

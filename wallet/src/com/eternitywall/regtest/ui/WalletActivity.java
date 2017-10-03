@@ -315,9 +315,13 @@ public final class WalletActivity extends AbstractBindServiceActivity
         encryptKeysOption.setTitle(wallet.isEncrypted() ? R.string.wallet_options_encrypt_keys_change
                 : R.string.wallet_options_encrypt_keys_set);
 
+        // top menu visibility
         SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
         if (prefs.getBoolean("phone_verification", false) == true) {
             menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
+        }
+        if(prefs.getString("iban", null) != null){
+            menu.findItem(R.id.wallet_options_iban_validation).setVisible(false);
         }
 
         return true;
@@ -439,6 +443,9 @@ public final class WalletActivity extends AbstractBindServiceActivity
                             })
                             .show();
                 }
+                return true;
+            case R.id.wallet_options_iban_validation:
+                startActivity(new Intent(WalletActivity.this, IbanValidationActivity.class));
                 return true;
         }
 
