@@ -320,9 +320,6 @@ public final class WalletActivity extends AbstractBindServiceActivity
         if (prefs.getBoolean("phone_verification", false) == true) {
             menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
         }
-        if(prefs.getString("iban", null) != null){
-            menu.findItem(R.id.wallet_options_iban_validation).setVisible(false);
-        }
 
         return true;
     }

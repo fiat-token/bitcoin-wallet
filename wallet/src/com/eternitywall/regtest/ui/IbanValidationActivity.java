@@ -90,7 +90,7 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
 
                 number = etPrefix.getText().toString() + etPhone.getText().toString();
                 iban = etIban.getText().toString();
-                if (number == null && number.length() < 8){
+                if (number == null || number.length() < 8){
                     // phone invalid
                     new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
@@ -103,18 +103,8 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
                             })
                             .show();
                     return ;
-                } else if (iban == null && iban.length() < 8) {
+                } else if (!validateIban()) {
                     // iban invalid
-                    new AlertDialog.Builder(IbanValidationActivity.this)
-                            .setTitle(getString(R.string.app_name))
-                            .setMessage(getString(R.string.iban_verification_invalid))
-                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    ;
-                                }
-                            })
-                            .show();
                     return;
                 } else {
                     // pass checking
@@ -227,16 +217,19 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
     }
 
 
-    private void validateIban(){
+    private boolean validateIban(){
         try {
             IBAN iban = IBAN.valueOf(etIban.getText().toString());
             if(iban.isSEPA()){
                 Toast.makeText(this,getString(R.string.iban_sepa),Toast.LENGTH_LONG).show();
+                return true;
             } else {
                 Toast.makeText(this,getString(R.string.iban_not_sepa),Toast.LENGTH_LONG).show();
+                return false;
             }
         }catch (Exception e){
             Toast.makeText(this,getString(R.string.invalid_iban),Toast.LENGTH_LONG).show();
+            return false;
         }
     }
 
