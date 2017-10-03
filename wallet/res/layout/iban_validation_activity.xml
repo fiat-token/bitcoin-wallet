@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.eternitywall.regtest.ui.IbanActivity">
+    tools:context="com.eternitywall.regtest.ui.IbanValidationActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -79,7 +79,8 @@
         android:layout_marginBottom="16dp"
         android:layout_weight="1"
         android:ems="10"
-        android:inputType="phone" />
+        android:inputType="phone"
+        android:text="@string/iban_example"/>
 
     <CheckBox
         android:id="@+id/cbTerms"

@@ -371,7 +371,7 @@
     <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Please remember that, for the time being, this is just fictitious money!</string>
     <string name="vtkn_10_00">vTKN 10.00</string>
 
-    <string name="phone_verification">Phone verification</string>
+    <string name="phone_verification">Phone registration</string>
     <string name="_39">+39</string>
     <string name="verify">VERIFY</string>
     <string name="phone_verification_invalid">SMS code doesn\'t match</string>
@@ -380,8 +380,8 @@
     <string name="confirm">confirm</string>
     <string name="phone_back">back</string>
     <string name="network_error">Network error</string>
-    <string name="verification_success">Phone verification success</string>
-    <string name="phone_verification_just_happened">Phone number just verified</string>
+    <string name="verification_success">Phone registration success</string>
+    <string name="phone_verification_just_happened">Phone number just registered</string>
     <string name="phone_verification_user_not_found">User not registered</string>
     <string name="phone_verification_sendcoins_popup">User not registered. Notify VitualToken app to your contact.</string>
     <string name="phone_verification_sendcoins_sms">Install VirtualToken from Play Store http://bit.ly/2x95eS6</string>
@@ -401,7 +401,7 @@
     <string name="import_seed_confirm">Your wallet will be overwritten. Save the current wallet. Are you sure to continue?</string>
     <string name="import_seed_success">Importing seed with success. Please quit and re-open VirtualToken.</string>
     <string name="import_seed_failure">Operation failure. Check your seed and retry.</string>
-    <string name="iban_verification">Iban verification</string>
+    <string name="iban_verification">Iban validation</string>
     <string name="iban_phone_select">Insert Phone Number</string>
     <string name="iban_number_select">Insert IBAN address</string>
     <string name="iban_verification_invalid">Invalid IBAN address</string>
@@ -409,5 +409,11 @@
     <string name="send_coins_fragment_note_hint">Insert note here</string>
     <string name="send_coins_fragment_note">Note</string>
     <string name="send_coins_fragment_note_too_long"><![CDATA[Note length < 62 characters]]></string>
+    <string name="iban_verification_just_registered">Iban just validated. Touch \"Continue\" to validate a new iban.</string>
+    <string name="next">continue</string>
+    <string name="iban_verification_success">Iban validation success</string>
+    <string name="iban_example">IT98A0000000000000000000000</string>
+    <string name="validate">validate</string>
+    <string name="iban_verification_no_found">You have not defined an Iban account. Validate an Iban account before continue.</string>
 
 </resources>

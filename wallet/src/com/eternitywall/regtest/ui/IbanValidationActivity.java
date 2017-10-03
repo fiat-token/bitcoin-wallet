@@ -26,14 +26,18 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.bitcoinj.core.Address;
+import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.wallet.KeyChain;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
+import org.apache.commons.codec.binary.Hex;
 
-
-public class IbanActivity extends AbstractBindServiceActivity {
+public class IbanValidationActivity extends AbstractBindServiceActivity {
 
     EditText etPhone, etPrefix, etIban;
     Button btnVerify, btnSkip;
@@ -44,13 +48,12 @@ public class IbanActivity extends AbstractBindServiceActivity {
     WalletApplication application;
     Configuration config;
     String number, iban;
-    Boolean numberIsDefined = false;
-
+    DeterministicKey deterministicKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.iban_activity);
+        setContentView(R.layout.iban_validation_activity);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
         etPrefix = (EditText) findViewById(R.id.etPrefix);
@@ -63,13 +66,14 @@ public class IbanActivity extends AbstractBindServiceActivity {
         application = getWalletApplication();
         config = application.getConfiguration();
         wallet = application.getWallet();
+        deterministicKey = BitcoinEW.getDeterministicKey(wallet);
 
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (cbTerms.isChecked() == false) {
-                    new AlertDialog.Builder(IbanActivity.this)
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.phone_verification_popup_terms_of_service))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -86,7 +90,7 @@ public class IbanActivity extends AbstractBindServiceActivity {
                 iban = etIban.getText().toString();
                 if (number == null && number.length() < 8){
                     // phone invalid
-                    new AlertDialog.Builder(IbanActivity.this)
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.phone_verification_invalid))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -98,8 +102,8 @@ public class IbanActivity extends AbstractBindServiceActivity {
                             .show();
                     return ;
                 } else if (iban == null && iban.length() < 8) {
-                    // phone invalid
-                    new AlertDialog.Builder(IbanActivity.this)
+                    // iban invalid
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.iban_verification_invalid))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -112,19 +116,16 @@ public class IbanActivity extends AbstractBindServiceActivity {
                     return;
                 } else {
                     // pass checking
-                    ibanValidNumber(number);
+                    phoneSendSms(number);
                     return;
                 }
-
-
-
             }
         });
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IbanActivity.this.finish();
+                IbanValidationActivity.this.finish();
             }
         });
 
@@ -138,6 +139,7 @@ public class IbanActivity extends AbstractBindServiceActivity {
             }
         });
 
+        checkExistIban(deterministicKey.getPubKeyHash());
     }
 
 
@@ -154,38 +156,62 @@ public class IbanActivity extends AbstractBindServiceActivity {
 
 
 
-    private void ibanValidNumber(String phone) {
+    private void checkExistIban(byte[] pubkey) {
         progress(true);
+
+
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("api_key", BitcoinEW.EW_API_KEY);
-        client.get(BitcoinEW.EW_URL + "/address/" + phone, new JsonHttpResponseHandler() {
+        client.get(BitcoinEW.EW_URL + "/iban/get/" + Hex.encodeHex(pubkey).toString(), new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 progress(false);
 
-                try {
-                    if (response.getString("status").equals("ok")) {
-                        numberIsDefined = true;
-                    } else {
-                        numberIsDefined = false;
-                    }
-                    phoneSendSms(number);
 
+                // no association
+                try {
+                    if(response.getString("status").equals("ko")){
+                        return;
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    return;
                 }
 
+                // retrieve local iban
+                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                String iban = prefs.getString("iban", null);
+                String msg = getString(R.string.iban_verification_just_registered);
+                if(iban != null ) {
+                    msg += " : " + iban;
+                }
+
+                // popup confirmation
+                new AlertDialog.Builder(IbanValidationActivity.this)
+                        .setTitle(getString(R.string.app_name))
+                        .setMessage(msg)
+                        .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                IbanValidationActivity.this.finish();
+                            }
+                        })
+                        .setPositiveButton(getString(R.string.next),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ;
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-
-                numberIsDefined = false;
-                phoneSendSms(number);
             }
         });
     }
@@ -209,15 +235,15 @@ public class IbanActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(IbanActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanValidationActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void phoneInsertPin() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(IbanActivity.this);
-        LayoutInflater inflater = IbanActivity.this.getLayoutInflater();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(IbanValidationActivity.this);
+        LayoutInflater inflater = IbanValidationActivity.this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.phone_popup, null);
         dialogBuilder.setView(dialogView);
 
@@ -238,21 +264,24 @@ public class IbanActivity extends AbstractBindServiceActivity {
             public void onClick(View view) {
                 // PIN verify : remote call
                 alertDialog.dismiss();
-                phoneVerify(number, etPin.getText().toString(), wallet.currentReceiveAddress());
+                verify(etIban.getText().toString(), number, etPin.getText().toString(), deterministicKey.getPubKeyHash());
 
 
             }
         });
     }
 
-    private void phoneVerify(String phone, String secret, Address address) {
+    private void verify(final String iban, final String phone, final String secret, final byte[] pubKeyHash) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
         client.addHeader("api_key", BitcoinEW.EW_API_KEY);
         RequestParams params = new RequestParams();
+        params.add("phone_number_hash", String.valueOf(Hex.encodeHex(Sha256Hash.hash(phone.getBytes()))));
         params.add("secret_code", secret);
-        params.add("genesis_address", address.toBase58().toString());
-        client.post(BitcoinEW.EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
+        params.add("iban_hash", String.valueOf(Hex.encodeHex( Sha256Hash.hash(iban.getBytes()))));
+        params.add("public_key_hash", String.valueOf(Hex.encodeHex(pubKeyHash)));
+
+        client.post(BitcoinEW.EW_URL + "/iban/verify", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -261,28 +290,22 @@ public class IbanActivity extends AbstractBindServiceActivity {
 
                 try {
                     if(response.getString("status").equals("ko")){
-                        Toast.makeText(IbanActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IbanValidationActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     // set preferences for UI
                     SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
-                    prefs.edit().putBoolean("phone_verification", true).apply();
-
-                    // send coupon only if the phone number was not just registered
-                    if(numberIsDefined == false){
-                        RegisterAddress registerTask = new RegisterAddress(IbanActivity.this, wallet.currentReceiveAddress());
-                        registerTask.startLoading();
-                    }
+                    prefs.edit().putString("iban", iban).apply();
 
                     // popup confirmation
-                    new AlertDialog.Builder(IbanActivity.this)
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
-                            .setMessage(getString(R.string.verification_success))
+                            .setMessage(getString(R.string.iban_verification_success))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    IbanActivity.this.finish();
+                                    IbanValidationActivity.this.finish();
                                 }
                             })
                             .setCancelable(false)
@@ -298,7 +321,7 @@ public class IbanActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(IbanActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanValidationActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
