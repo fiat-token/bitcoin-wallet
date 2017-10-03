@@ -16,8 +16,9 @@ public class Data {
     private byte len;
     private byte []payload;
 
-    public static byte TYPE_NOTE=0x28;
-    public static byte TYPE_KEY=0x29;
+    public static byte TYPE_IBAN=0x1C;
+    public static byte TYPE_NOTE=0x1D;
+    //0x1E
 
     public static byte MAX_LENGTH=62;
 
@@ -43,7 +44,7 @@ public class Data {
     }
 
     public Data(byte type, byte len, byte [] payload) throws Exception {
-        if(type != TYPE_NOTE && type != TYPE_KEY)
+        if(type != TYPE_NOTE && type != TYPE_IBAN)
             throw new Exception("Invalid type");
         if(len>MAX_LENGTH)
             throw new Exception("Invalid len");
@@ -55,7 +56,7 @@ public class Data {
     }
     public Data(byte type, byte [] payload) throws Exception {
         len = (byte) payload.length;
-        if(type != TYPE_NOTE && type != TYPE_KEY)
+        if(type != TYPE_NOTE && type != TYPE_IBAN)
             throw new Exception("Invalid type");
         if(len>MAX_LENGTH)
             throw new Exception("Invalid len");
@@ -93,4 +94,5 @@ public class Data {
             return "";
         }
     }
+
 }

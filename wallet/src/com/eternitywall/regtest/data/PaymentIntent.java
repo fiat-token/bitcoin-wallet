@@ -256,6 +256,37 @@ public final class PaymentIntent implements Parcelable {
         return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
     }
 
+    public PaymentIntent mergeWithDataValues(@Nullable final Coin editedAmount,
+                                             @Nullable final Address address,
+                                             @Nullable final List<Data> datas) {
+
+        checkArgument(editedAmount != null);
+
+        // Set output with note
+        boolean isBurningTx = false;
+        for (Data data : datas){
+            if (data.getType() == Data.TYPE_IBAN){
+                isBurningTx = true;
+            }
+        }
+
+        try {
+            Output[] outputs = null;
+            if (!isBurningTx && address != null) {
+                Output outputOpReturn = new Output(Coin.ZERO, BitcoinEW.createOpReturnScript(datas));
+                Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
+                outputs = new Output[]{outputAmount, outputOpReturn};
+            } else {
+                Output outputOpReturn = new Output(editedAmount, BitcoinEW.createOpReturnScript(datas));
+                outputs = new Output[]{outputOpReturn};
+            }
+            return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
     public PaymentIntent mergeWithNoteValues(@Nullable final Coin editedAmount,
                                              @Nullable final Address address,
                                              @Nullable final byte[] note) {
