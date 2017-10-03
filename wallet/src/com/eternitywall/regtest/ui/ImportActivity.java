@@ -72,6 +72,7 @@ public class ImportActivity extends  AbstractBindServiceActivity{
 
     private void importSeed(){
         String seedCode = editText.getText().toString();
+        seedCode = seedCode.trim().replaceAll(" +", " ");
         Long creationtime = BitcoinEW.WALLET_MIN_TIMESTAMP;
         String passphrase = "";
 
