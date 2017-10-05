@@ -45,16 +45,13 @@ ext {
 android {
     compileSdkVersion 'android-25'
     buildToolsVersion '26'
-
     lintOptions {
         abortOnError false
         disable 'MissingTranslation'
     }
-
     defaultConfig {
         generatedDensities = ['hdpi', 'xhdpi']
     }
-
     buildTypes {
         all {
             minifyEnabled true
@@ -62,6 +59,15 @@ android {
         }
         debug {
             debuggable true
+        }
+    }
+
+    productFlavors {
+        regtest {
+            applicationId "com.eternitywall.regtesttest"
+        }
+        mainnet {
+            applicationId "com.eternitywall.regtest"
         }
     }
 
@@ -76,6 +82,12 @@ android {
         test {
             java.srcDirs = ['test']
             resources.srcDirs = ['test']
+        }
+        mainnet {
+            java.srcDirs = ['mainnet']
+        }
+        regtest {
+            java.srcDirs = ['regtest']
         }
     }
 

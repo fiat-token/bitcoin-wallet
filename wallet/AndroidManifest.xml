@@ -216,15 +216,15 @@
 
         <provider
             android:name="com.eternitywall.regtest.data.AddressBookProvider"
-            android:authorities="com.eternitywall.regtest.address_book"
+            android:authorities="${applicationId}.address_book"
             android:exported="false" />
         <provider
             android:name="com.eternitywall.regtest.data.ExchangeRatesProvider"
-            android:authorities="com.eternitywall.regtest.exchange_rates"
+            android:authorities="${applicationId}.exchange_rates"
             android:exported="false" />
         <provider
             android:name="com.eternitywall.regtest.util.FileAttachmentProvider"
-            android:authorities="com.eternitywall.regtest.file_attachment"
+            android:authorities="${applicationId}.file_attachment"
             android:exported="false"
             android:grantUriPermissions="true" />
 

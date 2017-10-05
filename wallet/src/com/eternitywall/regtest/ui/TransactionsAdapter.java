@@ -17,9 +17,6 @@
 
 package com.eternitywall.regtest.ui;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,9 +34,7 @@ import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.Transaction.Purpose;
 import org.bitcoinj.core.TransactionConfidence;
 import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
-import org.bitcoinj.core.TransactionOutPoint;
 import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.script.ScriptChunk;
 import org.bitcoinj.utils.ExchangeRate;
 import org.bitcoinj.utils.MonetaryFormat;
 import org.bitcoinj.wallet.DefaultCoinSelector;
@@ -47,9 +42,9 @@ import org.bitcoinj.wallet.Wallet;
 
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.data.AddressBookProvider;
-import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.eternitywall.Data;
+import com.eternitywall.regtest.eternitywall.Utils;
 import com.eternitywall.regtest.util.CircularProgressView;
 import com.eternitywall.regtest.util.Formats;
 import com.eternitywall.regtest.util.WalletUtils;
@@ -533,7 +528,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             extendFeeView.setVisibility(View.GONE);
             if(txCache.opreturn!=null) {
                 try {
-                    List<Data> datas = BitcoinEW.parseOpReturnScript(txCache.opreturn);
+                    List<Data> datas = Utils.parseOpReturnScript(txCache.opreturn);
                     for(Data data : datas){
                         if(data.getType() == Data.TYPE_NOTE){
                             addressView.setText(data.toString());

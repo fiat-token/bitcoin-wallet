@@ -21,15 +21,13 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Utils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.bitcoinj.core.Address;
 import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.crypto.HDKeyDerivation;
-import org.bitcoinj.wallet.KeyChain;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +66,7 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
         application = getWalletApplication();
         config = application.getConfiguration();
         wallet = application.getWallet();
-        deterministicKey = BitcoinEW.getDeterministicKey(wallet);
+        deterministicKey = Utils.getDeterministicKey(wallet);
 
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override

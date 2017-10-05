@@ -31,7 +31,6 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -69,7 +68,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.Constants;
@@ -134,11 +132,9 @@ import org.bitcoinj.wallet.Wallet.DustySendRequested;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.crypto.params.KeyParameter;
-import org.spongycastle.math.ec.ECCurve;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.RejectedExecutionException;
@@ -146,7 +142,6 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.annotation.Nullable;
 
 
-import static android.content.Context.MODE_PRIVATE;
 import static com.eternitywall.regtest.ui.send.SendCoinsActivity.PICK_CONTACT;
 import static com.google.common.base.Preconditions.checkNotNull;
 

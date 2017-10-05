@@ -21,14 +21,12 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.eternitywall.Utils;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.commons.codec.binary.Hex;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.wallet.KeyChain;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -247,7 +245,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         RequestParams params = new RequestParams();
         params.add("secret_code", secret);
         params.add("genesis_address", wallet.currentReceiveAddress().toBase58().toString());
-        params.add("xpub", String.valueOf(Hex.encodeHex(BitcoinEW.getDeterministicKey(wallet).getPubKey())));
+        params.add("xpub", String.valueOf(Hex.encodeHex(Utils.getDeterministicKey(wallet).getPubKey())));
         client.post(EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
 
             @Override
