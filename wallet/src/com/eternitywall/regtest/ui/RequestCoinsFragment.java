@@ -37,7 +37,7 @@ import com.eternitywall.regtest.data.ExchangeRatesLoader;
 import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.offline.AcceptBluetoothService;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.util.BitmapFragment;
 import com.eternitywall.regtest.util.Bluetooth;
 import com.eternitywall.regtest.util.Nfc;

@@ -46,10 +46,9 @@ import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.ui.RequestCoinsActivity;
 import com.eternitywall.regtest.ui.SendCoinsQrActivity;
 import com.eternitywall.regtest.ui.WalletActivity;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.util.GenericUtils;
 import com.eternitywall.regtest.util.MonetarySpannable;
-import com.eternitywall.regtest.R;
 
 /**
  * @author Andreas Schildbach

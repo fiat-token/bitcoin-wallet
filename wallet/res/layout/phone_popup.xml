@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.eternitywall.regtest.ui.PhoneActivity">
+    tools:context="com.eternitywall.regtest.ui.eternitywall.PhoneActivity">
 
     <TextView
         android:id="@+id/textView5"
