@@ -5,7 +5,7 @@
     <string name="symbol_from">←</string>
     <string name="symbol_internal">⇄</string>
     <string name="app_name">Virtual Token</string>
-    <string name="app_name_short">Virtual Token</string>
+    <string name="app_name_short">vTKN</string>
 
     <string-array name="preferences_precision_values">
         <item>8</item>
