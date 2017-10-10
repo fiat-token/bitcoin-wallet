@@ -68,11 +68,11 @@ android {
     }
 
     productFlavors {
-        regtest {
-            applicationId "com.eternitywall.regtesttest"
-        }
-        mainnet {
+        vtknMainNet {
             applicationId "com.eternitywall.regtest"
+        }
+        vtknTestNet {
+            applicationId "com.eternitywall.regtesttest"
         }
     }
 
@@ -88,10 +88,10 @@ android {
             java.srcDirs = ['test']
             resources.srcDirs = ['test']
         }
-        mainnet {
+        vtknMainNet {
             java.srcDirs = ['mainnet']
         }
-        regtest {
+        vtknTestNet {
             java.srcDirs = ['regtest']
         }
     }
