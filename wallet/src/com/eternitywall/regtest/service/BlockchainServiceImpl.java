@@ -398,6 +398,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                             @Override
                             public void run() {
                                 try {
+                                    //byte[] ipAddr = new byte[] { 10, 0, 2, 2 };
+                                    //peers.add(InetAddress.getByAddress(ipAddr));
                                     peers.add( InetAddress.getByName(dns) );
                                 } catch (UnknownHostException e) {
                                     log.info("exception on dnsres " + e);
