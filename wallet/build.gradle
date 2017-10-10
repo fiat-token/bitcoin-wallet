@@ -72,7 +72,7 @@ android {
             applicationId "com.eternitywall.regtest"
         }
         vtknTestNet {
-            applicationId "com.eternitywall.regtesttest"
+            applicationId "com.eternitywall.regtest"
         }
     }
 
