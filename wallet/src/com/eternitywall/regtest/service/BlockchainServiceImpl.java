@@ -415,7 +415,7 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     log.info("Thread finishing");
 
                     for(InetAddress peer : peers){
-                        peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, BitcoinEW.BITCOIN_PORT ));
+                        peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, Constants.NETWORK_PARAMETERS.getPort() ));
                     }
 
                 } catch (Exception e) {
