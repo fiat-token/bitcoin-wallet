@@ -809,7 +809,6 @@ public final class SendIbanFragment extends Fragment {
             loaderManager.initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
         loaderManager.initLoader(ID_BLOCKCHAIN_STATE_LOADER, null, blockchainStateLoaderCallbacks);
         loaderManager.initLoader(ID_RECEIVING_ADDRESS_BOOK_LOADER, null, receivingAddressLoaderCallbacks);
-        loaderManager.initLoader(ID_RECEIVING_ADDRESS_NAME_LOADER, null, receivingAddressLoaderCallbacks);
 
         updateView();
         handler.post(dryrunRunnable);
