@@ -430,7 +430,7 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
 
-        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","vtkn"));
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
@@ -442,11 +442,11 @@ public final class RequestCoinsFragment extends Fragment implements NfcAdapter.C
         final Coin amount = amountCalculatorLink.getAmount();
         final String ownName = config.getOwnName();
         if(amount==null){
-            StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("bitcoin","vtkn").replace("amount","value"));
+            StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount, ownName, null).replace("amount","value"));
             return uri.toString();
         }
 
-        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("bitcoin","vtkn").replace("amount","value"));
+        final StringBuilder uri = new StringBuilder(BitcoinURI.convertToBitcoinURI(address, amount.multiply(10000), ownName, null).replace("amount","value"));
         if (includeBluetoothMac && bluetoothMac != null) {
             uri.append(amount == null && ownName == null ? '?' : '&');
             uri.append(Bluetooth.MAC_URI_PARAM).append('=').append(bluetoothMac);
