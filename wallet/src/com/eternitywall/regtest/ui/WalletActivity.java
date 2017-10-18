@@ -38,6 +38,7 @@ import org.bitcoinj.core.VersionedChecksummedBytes;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.Wallet.BalanceType;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.ui.eternitywall.ExportActivity;
 import com.eternitywall.regtest.ui.eternitywall.IbanValidationActivity;
 import com.eternitywall.regtest.ui.eternitywall.ImportActivity;
@@ -157,7 +158,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
         MaybeMaintenanceFragment.add(getFragmentManager());
 
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {
             prefs.edit().putBoolean("firstrun", false).apply();
 
@@ -298,7 +299,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 : R.string.wallet_options_encrypt_keys_set);
 
         // top menu visibility
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         if (prefs.getBoolean("phone_verification", false) == true) {
             menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
         }
@@ -308,7 +309,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         switch (item.getItemId()) {
             case R.id.wallet_options_request:
                 handleRequestCoins();

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
@@ -60,7 +61,7 @@ public class RechargeActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
 
-                final SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                final SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
                 boolean phoneVerification = prefs.getBoolean("phone_verification",false);
                 if (phoneVerification == false){
                     new AlertDialog.Builder(RechargeActivity.this)

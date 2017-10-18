@@ -64,6 +64,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.R;
@@ -704,7 +705,7 @@ public final class SendIbanFragment extends Fragment {
         });
 
         // set default IBAN
-        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = activity.getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         String iban = prefs.getString("iban", "");
         sendCoinsReceivingIban.setText(iban);
 
@@ -1673,7 +1674,7 @@ public final class SendIbanFragment extends Fragment {
 
 
     private void checkExistIban() {
-        SharedPreferences prefs = activity.getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = activity.getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         String iban = prefs.getString("iban", null);
         if(iban == null){
 

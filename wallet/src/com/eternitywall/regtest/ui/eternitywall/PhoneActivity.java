@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
@@ -261,7 +262,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                     }
 
                     // set preferences for UI
-                    SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
                     prefs.edit().putBoolean("phone_verification", true).apply();
 
                     // send coupon only if the phone number was not just registered

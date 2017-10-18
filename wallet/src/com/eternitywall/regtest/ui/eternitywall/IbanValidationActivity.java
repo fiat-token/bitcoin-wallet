@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
@@ -180,7 +181,7 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
                 }
 
                 // retrieve local iban
-                SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
                 String iban = prefs.getString("iban", null);
                 String msg = getString(R.string.iban_verification_just_registered);
                 if(iban != null ) {
@@ -309,7 +310,7 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
                     }
 
                     // set preferences for UI
-                    SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
                     prefs.edit().putString("iban", iban).apply();
 
                     // popup confirmation
