@@ -24,6 +24,7 @@ public class BitcoinEW {
 
     // Constants
     public static String EW_URL = "https://eternitywall-api-test.appspot.com/pn2a/v1";
+    public static String EW_RECHARGE_URL = "http://test.signer2.eternitywall.com";
     public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
     public static String EW_SHARING = "https://vtoken.eternitywall.com/";
     public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
