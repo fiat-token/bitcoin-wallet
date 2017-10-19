@@ -15,15 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.eternitywall.regtest.ui.send;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.bluetooth.BluetoothAdapter;
-import android.content.AsyncTaskLoader;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -32,10 +32,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -49,11 +47,7 @@ import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -69,8 +63,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.R;
@@ -82,7 +76,6 @@ import com.eternitywall.regtest.data.ExchangeRatesLoader;
 import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.data.PaymentIntent.Standard;
-import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.eternitywall.Data;
 import com.eternitywall.regtest.integration.android.BitcoinIntegration;
 import com.eternitywall.regtest.offline.DirectPaymentTask;
@@ -98,18 +91,14 @@ import com.eternitywall.regtest.ui.InputParser.StringInputParser;
 import com.eternitywall.regtest.ui.ProgressDialogFragment;
 import com.eternitywall.regtest.ui.ScanActivity;
 import com.eternitywall.regtest.ui.TransactionsAdapter;
+import com.eternitywall.regtest.ui.send.DeriveKeyTask;
+import com.eternitywall.regtest.ui.send.FeeCategory;
+import com.eternitywall.regtest.ui.send.RequestPaymentRequestTask;
+import com.eternitywall.regtest.ui.send.SendCoinsOfflineTask;
 import com.eternitywall.regtest.util.Bluetooth;
 import com.eternitywall.regtest.util.Nfc;
 import com.eternitywall.regtest.util.WalletUtils;
 import com.google.common.base.Strings;
-import com.netki.WalletNameResolver;
-import com.netki.dns.DNSBootstrapService;
-import com.netki.dnssec.DNSSECResolver;
-import com.netki.exceptions.WalletNameCurrencyUnavailableException;
-import com.netki.exceptions.WalletNameLookupException;
-import com.netki.tlsa.CACertService;
-import com.netki.tlsa.CertChainValidator;
-import com.netki.tlsa.TLSAValidator;
 
 import org.bitcoin.protocols.payments.Protos.Payment;
 import org.bitcoinj.core.Address;
@@ -123,7 +112,6 @@ import org.bitcoinj.core.TransactionConfidence.ConfidenceType;
 import org.bitcoinj.core.VerificationException;
 import org.bitcoinj.core.VersionedChecksummedBytes;
 import org.bitcoinj.protocols.payments.PaymentProtocol;
-import org.bitcoinj.uri.BitcoinURI;
 import org.bitcoinj.utils.MonetaryFormat;
 import org.bitcoinj.wallet.KeyChain.KeyPurpose;
 import org.bitcoinj.wallet.SendRequest;
@@ -134,26 +122,24 @@ import org.bitcoinj.wallet.Wallet.DustySendRequested;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spongycastle.crypto.params.KeyParameter;
-import org.spongycastle.math.ec.ECCurve;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 import javax.annotation.Nullable;
 
-
 import static android.content.Context.MODE_PRIVATE;
-import static com.eternitywall.regtest.ui.send.SendCoinsActivity.PICK_CONTACT;
+import static com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity.PICK_CONTACT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * @author Andreas Schildbach
  */
-public final class SendCoinsFragment extends Fragment {
+public final class SendIbanFragment extends Fragment {
     private AbstractBindServiceActivity activity;
     private WalletApplication application;
     private Configuration config;
@@ -193,11 +179,15 @@ public final class SendCoinsFragment extends Fragment {
     private Button viewGo;
     private Button viewCancel;
 
+    // Add IBAN ui
+    private AutoCompleteTextView sendCoinsReceivingIban;
+    private LinearLayout sendCoinsIbanGroup;
+    private AutoCompleteTextView sendCoinsNote;
+
     // Add Address Book
     LinearLayout sendCoinsAddressbookGroup;
     AutoCompleteTextView sendCoinsAddressbook;
     Boolean addressBookEnable=true;
-    private AutoCompleteTextView sendCoinsNote;
 
     @Nullable
     private State state = null;
@@ -226,7 +216,7 @@ public final class SendCoinsFragment extends Fragment {
     private static final int REQUEST_CODE_ENABLE_BLUETOOTH_FOR_PAYMENT_REQUEST = 1;
     private static final int REQUEST_CODE_ENABLE_BLUETOOTH_FOR_DIRECT_PAYMENT = 2;
 
-    private static final Logger log = LoggerFactory.getLogger(SendCoinsFragment.class);
+    private static final Logger log = LoggerFactory.getLogger(SendIbanFragment.class);
 
     private enum State {
         REQUEST_PAYMENT_REQUEST, //
@@ -266,7 +256,6 @@ public final class SendCoinsFragment extends Fragment {
 
         @Override
         public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
-            Log.d("","");
         }
 
         @Override
@@ -325,7 +314,7 @@ public final class SendCoinsFragment extends Fragment {
     private final TransactionConfidence.Listener sentTransactionConfidenceListener = new TransactionConfidence.Listener() {
         @Override
         public void onConfidenceChanged(final TransactionConfidence confidence,
-                final TransactionConfidence.Listener.ChangeReason reason) {
+                final ChangeReason reason) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -371,7 +360,7 @@ public final class SendCoinsFragment extends Fragment {
         }
     };
 
-    private final LoaderCallbacks<Map<FeeCategory, Coin>> dynamicFeesLoaderCallbacks = new LoaderManager.LoaderCallbacks<Map<FeeCategory, Coin>>() {
+    private final LoaderCallbacks<Map<FeeCategory, Coin>> dynamicFeesLoaderCallbacks = new LoaderCallbacks<Map<FeeCategory, Coin>>() {
         @Override
         public Loader<Map<FeeCategory, Coin>> onCreateLoader(final int id, final Bundle args) {
             return new DynamicFeeLoader(activity);
@@ -389,7 +378,7 @@ public final class SendCoinsFragment extends Fragment {
         }
     };
 
-    private final LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderManager.LoaderCallbacks<Cursor>() {
+    private final LoaderCallbacks<Cursor> rateLoaderCallbacks = new LoaderCallbacks<Cursor>() {
         @Override
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             return new ExchangeRatesLoader(activity, config);
@@ -411,7 +400,7 @@ public final class SendCoinsFragment extends Fragment {
         }
     };
 
-    private final LoaderCallbacks<BlockchainState> blockchainStateLoaderCallbacks = new LoaderManager.LoaderCallbacks<BlockchainState>() {
+    private final LoaderCallbacks<BlockchainState> blockchainStateLoaderCallbacks = new LoaderCallbacks<BlockchainState>() {
         @Override
         public Loader<BlockchainState> onCreateLoader(final int id, final Bundle args) {
             return new BlockchainStateLoader(activity);
@@ -419,7 +408,7 @@ public final class SendCoinsFragment extends Fragment {
 
         @Override
         public void onLoadFinished(final Loader<BlockchainState> loader, final BlockchainState blockchainState) {
-            SendCoinsFragment.this.blockchainState = blockchainState;
+            SendIbanFragment.this.blockchainState = blockchainState;
             updateView();
         }
 
@@ -428,7 +417,7 @@ public final class SendCoinsFragment extends Fragment {
         }
     };
 
-    private static class ReceivingAddressLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static class ReceivingAddressLoaderCallbacks implements LoaderCallbacks<Cursor> {
         private final static String ARG_CONSTRAINT = "constraint";
 
         private final Context context;
@@ -444,18 +433,11 @@ public final class SendCoinsFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             final String constraint = Strings.nullToEmpty(args != null ? args.getString(ARG_CONSTRAINT) : null);
 
-            try {
-                String query = ((Activity) context).getIntent().getData().getQuery();
-                return new ReceivingAddressNameLoader(context, query);
-            }catch(Exception e) {
-                if (id == ID_RECEIVING_ADDRESS_BOOK_LOADER)
-                    return new CursorLoader(context, AddressBookProvider.contentUri(context.getPackageName()), null,
-                            AddressBookProvider.SELECTION_QUERY, new String[]{constraint}, null);
-                else if (id == ID_RECEIVING_ADDRESS_NAME_LOADER)
-                    return new ReceivingAddressNameLoader(context, constraint);
-                else
-                    throw new IllegalArgumentException();
-            }
+            if (id == ID_RECEIVING_ADDRESS_BOOK_LOADER)
+                return new CursorLoader(context, AddressBookProvider.contentUri(context.getPackageName()), null,
+                        AddressBookProvider.SELECTION_QUERY, new String[] { constraint }, null);
+            else
+                throw new IllegalArgumentException();
         }
 
         @Override
@@ -488,64 +470,6 @@ public final class SendCoinsFragment extends Fragment {
             else
                 targetAdapter.swapCursor(
                         new MergeCursor(new Cursor[] { receivingAddressBookCursor, receivingAddressNameCursor }));
-        }
-    }
-
-    private static class ReceivingAddressNameLoader extends AsyncTaskLoader<Cursor> {
-        private String constraint;
-
-        public ReceivingAddressNameLoader(final Context context, final String constraint) {
-            super(context);
-            this.constraint = constraint;
-        }
-
-        @Override
-        protected void onStartLoading() {
-            super.onStartLoading();
-            safeForceLoad();
-        }
-
-        @Override
-        public Cursor loadInBackground() {
-            final MatrixCursor cursor = new MatrixCursor(new String[] { AddressBookProvider.KEY_ROWID,
-                    AddressBookProvider.KEY_LABEL, AddressBookProvider.KEY_ADDRESS }, 1);
-
-            if (constraint.indexOf('.') >= 0 || constraint.indexOf('@') >= 0) {
-                try {
-                    final WalletNameResolver resolver = new WalletNameResolver(
-                            new DNSSECResolver(new DNSBootstrapService()),
-                            new TLSAValidator(new DNSSECResolver(new DNSBootstrapService()),
-                                    CACertService.getInstance(), new CertChainValidator()));
-                    final BitcoinURI resolvedUri = resolver.resolve(constraint, Constants.WALLET_NAME_CURRENCY_CODE,
-                            true);
-                    if (resolvedUri != null) {
-                        final Address resolvedAddress = resolvedUri.getAddress();
-                        if (resolvedAddress != null
-                                && resolvedAddress.getParameters().equals(Constants.NETWORK_PARAMETERS)) {
-                            final String resolvedLabel = Strings.emptyToNull(resolvedUri.getLabel());
-                            cursor.addRow(new Object[] { -1, resolvedLabel != null ? resolvedLabel : constraint,
-                                    resolvedAddress.toString() });
-                            log.info("looked up wallet name: " + resolvedUri);
-                        }
-                    }
-                } catch (final WalletNameCurrencyUnavailableException x) {
-                    // swallow
-                } catch (final WalletNameLookupException x) {
-                    log.info("error looking up wallet name '" + constraint + "': " + x.getMessage());
-                } catch (final Throwable x) {
-                    log.info("error looking up wallet name", x);
-                }
-            }
-
-            return cursor;
-        }
-
-        private void safeForceLoad() {
-            try {
-                forceLoad();
-            } catch (final RejectedExecutionException x) {
-                log.info("rejected execution: " + ReceivingAddressNameLoader.this.toString());
-            }
         }
     }
 
@@ -655,7 +579,7 @@ public final class SendCoinsFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.send_coins_fragment, container);
+        final View view = inflater.inflate(R.layout.send_iban_fragment, container);
 
         payeeGroup = view.findViewById(R.id.send_coins_payee_group);
 
@@ -721,10 +645,7 @@ public final class SendCoinsFragment extends Fragment {
             public void onClick(final View v) {
                 validateReceivingAddress();
 
-                if (everythingPlausible())
-                    handleGo();
-                else
-                    requestFocusFirst();
+                handleGo();
 
                 updateView();
             }
@@ -739,7 +660,9 @@ public final class SendCoinsFragment extends Fragment {
         });
 
         initAddressBook(view);
+        initIBAN(view);
         initNote(view);
+        checkExistIban();
         return view;
     }
 
@@ -766,11 +689,69 @@ public final class SendCoinsFragment extends Fragment {
         this.addressBookEnable = enabled;
     }
 
-    // get max amount transaction
-    private long getMaxTransactionAmount() {
-        return BitcoinEW.MAX_TRANSACTION_AMOUNT;
+    /* START IBAN */
+    private void initIBAN(View view){
+        // Add IBAN UI
+
+        sendCoinsReceivingIban = (AutoCompleteTextView) view.findViewById(R.id.send_coins_receiving_iban);
+        sendCoinsIbanGroup = (LinearLayout) view.findViewById(R.id.send_coins_iban_group);
+        sendCoinsReceivingIban.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b == false) {
+                    validateIBAN();
+                }
+            }
+        });
+
+        // set default IBAN
+        SharedPreferences prefs = activity.getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        String iban = prefs.getString("iban", "");
+        sendCoinsReceivingIban.setText(iban);
+
+        sendCoinsIbanGroup.setVisibility(View.VISIBLE);
+        sendCoinsAddressbookGroup.setVisibility(View.GONE);
+        payeeGroup.setVisibility(View.GONE);
+
+
+        if(this.addressBookEnable){
+            sendCoinsAddressbookGroup.setVisibility(View.GONE);
+        } else {
+            sendCoinsAddressbookGroup.setVisibility(View.VISIBLE);
+        }
     }
 
+
+    // validate IBAN
+    private boolean validateIBAN(){
+        /*
+        try {
+            IBAN iban = IBAN.valueOf(sendCoinsReceivingIban.getText().toString());
+            if(iban.isSEPA()){
+                hintView.setVisibility(View.VISIBLE);
+                hintView.setTextColor(getResources().getColor(R.color.fg_less_significant));
+                hintView.setText(getString(R.string.iban_sepa));
+            } else {
+                hintView.setVisibility(View.VISIBLE);
+                hintView.setTextColor(getResources().getColor(R.color.fg_less_significant));
+                hintView.setText(getString(R.string.iban_not_sepa));
+            }
+        }catch (Exception e){
+            hintView.setVisibility(View.VISIBLE);
+            hintView.setTextColor(getResources().getColor(R.color.fg_error));
+            hintView.setText(getString(R.string.invalid_iban));
+            return false;
+        }*/
+        return true;
+    }
+    private byte[] getIBAN(){
+        try {
+            String string = sendCoinsReceivingIban.getText().toString();
+            return string.getBytes("UTF-8");
+        }catch (Exception e){
+            return null;
+        }
+    }
     private void initNote(View view) {
         sendCoinsNote = (AutoCompleteTextView) view.findViewById(R.id.send_coins_note);
         sendCoinsNote.addTextChangedListener(new TextWatcher() {
@@ -806,6 +787,7 @@ public final class SendCoinsFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -828,7 +810,6 @@ public final class SendCoinsFragment extends Fragment {
             loaderManager.initLoader(ID_RATE_LOADER, null, rateLoaderCallbacks);
         loaderManager.initLoader(ID_BLOCKCHAIN_STATE_LOADER, null, blockchainStateLoaderCallbacks);
         loaderManager.initLoader(ID_RECEIVING_ADDRESS_BOOK_LOADER, null, receivingAddressLoaderCallbacks);
-        loaderManager.initLoader(ID_RECEIVING_ADDRESS_NAME_LOADER, null, receivingAddressLoaderCallbacks);
 
         updateView();
         handler.post(dryrunRunnable);
@@ -948,61 +929,6 @@ public final class SendCoinsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-        inflater.inflate(R.menu.send_coins_fragment_options, menu);
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(final Menu menu) {
-        final MenuItem scanAction = menu.findItem(R.id.send_coins_options_scan);
-        final PackageManager pm = activity.getPackageManager();
-        scanAction.setVisible(pm.hasSystemFeature(PackageManager.FEATURE_CAMERA)
-                || pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT));
-        scanAction.setEnabled(state == State.INPUT);
-
-        final MenuItem emptyAction = menu.findItem(R.id.send_coins_options_empty);
-        emptyAction.setEnabled(state == State.INPUT && paymentIntent.mayEditAmount());
-
-        final MenuItem feeCategoryAction = menu.findItem(R.id.send_coins_options_fee_category);
-        feeCategoryAction.setEnabled(state == State.INPUT);
-        if (feeCategory == FeeCategory.ECONOMIC)
-            menu.findItem(R.id.send_coins_options_fee_category_economic).setChecked(true);
-        else if (feeCategory == FeeCategory.NORMAL)
-            menu.findItem(R.id.send_coins_options_fee_category_normal).setChecked(true);
-        else if (feeCategory == FeeCategory.PRIORITY)
-            menu.findItem(R.id.send_coins_options_fee_category_priority).setChecked(true);
-
-        super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.send_coins_options_scan:
-            handleScan();
-            return true;
-
-        case R.id.send_coins_options_fee_category_economic:
-            handleFeeCategory(FeeCategory.ECONOMIC);
-            return true;
-        case R.id.send_coins_options_fee_category_normal:
-            handleFeeCategory(FeeCategory.NORMAL);
-            return true;
-        case R.id.send_coins_options_fee_category_priority:
-            handleFeeCategory(FeeCategory.PRIORITY);
-            return true;
-
-        case R.id.send_coins_options_empty:
-            handleEmpty();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     private void validateReceivingAddress() {
         try {
             final String addressStr = receivingAddressView.getText().toString().trim();
@@ -1094,7 +1020,21 @@ public final class SendCoinsFragment extends Fragment {
         // final payment intent
         Coin coin = (Coin) btcAmountView.getAmount();
         final PaymentIntent finalPaymentIntent;
-        finalPaymentIntent = paymentIntent.mergeWithNoteValues(coin, validatedAddress != null ? validatedAddress.address : null, getNote());
+
+
+        List<Data> datas = new ArrayList<>();
+        try {
+            if (getNote() != null) {
+                datas.add(new Data(Data.TYPE_NOTE, getNote()));
+            }
+            if (getIBAN() != null) {
+                datas.add(new Data(Data.TYPE_IBAN, getIBAN()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        finalPaymentIntent = paymentIntent.mergeWithDataValues(coin, null, datas);
         final Coin finalAmount = finalPaymentIntent.getAmount();
 
         // prepare send request
@@ -1277,12 +1217,13 @@ public final class SendCoinsFragment extends Fragment {
         private void executeDryrun() {
             dryrunTransaction = null;
             dryrunException = null;
+            try {
+                final Coin amount = (Coin) btcAmountView.getAmount();
+                if (amount != null && fees != null) {
 
-            try{
-            final Coin amount = (Coin) btcAmountView.getAmount();
-            if (amount != null && fees != null) {
                     final Address dummy = wallet.currentReceiveAddress(); // won't be used, tx is never
                     // committed
+
                     final SendRequest sendRequest = paymentIntent.mergeWithEditedValues(amount, dummy).toSendRequest();
                     sendRequest.signInputs = false;
                     sendRequest.emptyWallet = paymentIntent.mayEditAmount()
@@ -1292,19 +1233,13 @@ public final class SendCoinsFragment extends Fragment {
                     wallet.completeTx(sendRequest);
                     dryrunTransaction = sendRequest.tx;
 
-                    if ((amount.isLessThan(Coin.valueOf(1000 * 1000 * 10000)) && (amount.isGreaterThan(Coin.valueOf(getMaxTransactionAmount()))))) {
-                        dryrunTransaction = null;
-                        throw new VerificationException.ExcessiveValue();
-                    }
 
+                }
 
-            }
-
-            if (!validateNote()) {
-                dryrunTransaction = null;
-                throw new VerificationException.LargerThanMaxBlockSize();
-            }
-
+                if (!validateNote()) {
+                    dryrunTransaction = null;
+                    throw new VerificationException.LargerThanMaxBlockSize();
+                }
             } catch (final Exception x) {
                 dryrunException = x;
             }
@@ -1342,7 +1277,6 @@ public final class SendCoinsFragment extends Fragment {
             }
 
             if (paymentIntent.hasOutputs()) {
-                if(!isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(
                         !paymentIntent.hasPayee() || paymentIntent.payeeVerifiedBy == null ? View.VISIBLE : View.GONE);
@@ -1355,7 +1289,6 @@ public final class SendCoinsFragment extends Fragment {
                 else
                     receivingStaticAddressView.setText(R.string.send_coins_fragment_receiving_address_complex);
             } else if (validatedAddress != null) {
-                if(!isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingAddressView.setVisibility(View.GONE);
                 receivingStaticView.setVisibility(View.VISIBLE);
 
@@ -1374,11 +1307,10 @@ public final class SendCoinsFragment extends Fragment {
                 receivingStaticLabelView.setTextColor(getResources()
                         .getColor(validatedAddress.label != null ? R.color.fg_significant : R.color.fg_insignificant));
             } else if (paymentIntent.standard == null) {
-                if(!isAddressBookEnabled()) payeeGroup.setVisibility(View.VISIBLE);
                 receivingStaticView.setVisibility(View.GONE);
                 receivingAddressView.setVisibility(View.VISIBLE);
             } else {
-                if(!isAddressBookEnabled()) payeeGroup.setVisibility(View.GONE);
+                ;//if(!isIBANselected() && !isAddressBookEnabled()) payeeGroup.setVisibility(View.GONE);
             }
 
             receivingAddressView.setEnabled(state == State.INPUT);
@@ -1399,13 +1331,9 @@ public final class SendCoinsFragment extends Fragment {
             directPaymentEnableView.setVisibility(directPaymentVisible ? View.VISIBLE : View.GONE);
             directPaymentEnableView.setEnabled(state == State.INPUT);
 
-            if(isAddressBookEnabled()) {
-                viewGo.setEnabled(dryrunTransaction != null && fees != null
+            viewGo.setEnabled(validateIBAN() && dryrunTransaction != null && fees != null
                         && (blockchainState == null || !blockchainState.replaying));
-            } else {
-                viewGo.setEnabled(everythingPlausible() && dryrunTransaction != null && fees != null
-                        && (blockchainState == null || !blockchainState.replaying));
-            }
+
 
             hintView.setVisibility(View.GONE);
             if (state == State.INPUT) {
@@ -1430,8 +1358,6 @@ public final class SendCoinsFragment extends Fragment {
                         hintView.setText(getString(R.string.send_coins_fragment_hint_empty_wallet_failed));
                     else if(dryrunException instanceof VerificationException.ExcessiveValue)
                         hintView.setText(getString(R.string.send_coins_fragment_hint_too_much_money));
-                    else if(dryrunException instanceof VerificationException.LargerThanMaxBlockSize)
-                        hintView.setText(getString(R.string.send_coins_fragment_note_too_long));
                     else
                         hintView.setText(dryrunException.toString());
                 } else if (dryrunTransaction != null && dryrunTransaction.getFee() != null) {
@@ -1622,12 +1548,6 @@ public final class SendCoinsFragment extends Fragment {
                 } else {
                     setState(State.INPUT);
 
-                    try{
-                        Address address = paymentIntent.getAddress();
-                        validatedAddress = new AddressAndLabel(Constants.NETWORK_PARAMETERS, address.toString(), "");
-                    }catch (Exception e){
-                        Log.d("","");
-                    }
                     receivingAddressView.setText(null);
                     btcAmountView.setAmount(paymentIntent.getAmount(),true);
                     //amountCalculatorLink.setBtcAmount(paymentIntent.getAmount());
@@ -1661,7 +1581,7 @@ public final class SendCoinsFragment extends Fragment {
             public void onPaymentIntent(final PaymentIntent paymentIntent) {
                 ProgressDialogFragment.dismissProgress(fragmentManager);
 
-                if (SendCoinsFragment.this.paymentIntent.isExtendedBy(paymentIntent)) {
+                if (SendIbanFragment.this.paymentIntent.isExtendedBy(paymentIntent)) {
                     // success
                     setState(State.INPUT);
                     updateStateFrom(paymentIntent);
@@ -1669,9 +1589,9 @@ public final class SendCoinsFragment extends Fragment {
                     handler.post(dryrunRunnable);
                 } else {
                     final StringBuilder reasons = new StringBuilder();
-                    if (!SendCoinsFragment.this.paymentIntent.equalsAddress(paymentIntent))
+                    if (!SendIbanFragment.this.paymentIntent.equalsAddress(paymentIntent))
                         reasons.append("address");
-                    if (!SendCoinsFragment.this.paymentIntent.equalsAmount(paymentIntent))
+                    if (!SendIbanFragment.this.paymentIntent.equalsAmount(paymentIntent))
                         reasons.append(reasons.length() == 0 ? "" : ", ").append("amount");
                     if (reasons.length() == 0)
                         reasons.append("unknown");
@@ -1750,4 +1670,25 @@ public final class SendCoinsFragment extends Fragment {
             updateStateFrom(PaymentIntent.blank());
         }
     }
+
+
+
+    private void checkExistIban() {
+        SharedPreferences prefs = activity.getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        String iban = prefs.getString("iban", null);
+        if(iban == null){
+
+            new AlertDialog.Builder(activity)
+                    .setTitle(getString(R.string.app_name))
+                    .setMessage(getString(R.string.iban_verification_no_found))
+                    .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.finish();
+                        }
+                    })
+                    .show();
+        }
+    }
+
 }

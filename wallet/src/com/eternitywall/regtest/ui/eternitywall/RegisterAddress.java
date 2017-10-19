@@ -1,4 +1,4 @@
-package com.eternitywall.regtest.ui;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 
 import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.ui.WalletActivity;
 import com.google.common.base.Stopwatch;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.HttpUrl;
@@ -29,7 +31,7 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
     private final String userAgent;
     private final Address address;
     private final Logger log = LoggerFactory.getLogger(WalletActivity.class);
-    private final String URL = "http://relay1.eternitywall.com";
+    private final String URL = BitcoinEW.EW_RECHARGE_URL;
 
     public RegisterAddress(final Context context, Address address) {
         super(context);

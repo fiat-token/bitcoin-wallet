@@ -92,7 +92,7 @@
         </activity-alias>
 
         <activity
-            android:name="com.eternitywall.regtest.ui.send.SendCoinsActivity"
+            android:name="com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/send_coins_activity_title"
             android:screenOrientation="behind"
@@ -197,17 +197,17 @@
             android:screenOrientation="behind"
             android:theme="@style/My.Theme.ChildActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ui.RechargeActivity"
+        <activity android:name=".ui.eternitywall.RechargeActivity"
             android:theme="@style/My.Theme.ChildActivity" />
-        <activity android:name=".ui.PhoneActivity"
+        <activity android:name=".ui.eternitywall.PhoneActivity"
             android:theme="@style/My.Theme.ChildActivity" />
-        <activity android:name=".ui.IbanValidationActivity"
+        <activity android:name=".ui.eternitywall.IbanValidationActivity"
             android:theme="@style/My.Theme.ChildActivity" />
-        <activity android:name=".ui.ExportActivity"
+        <activity android:name=".ui.eternitywall.ExportActivity"
             android:theme="@style/My.Theme.ChildActivity" />
-        <activity android:name=".ui.ImportActivity"
+        <activity android:name=".ui.eternitywall.ImportActivity"
             android:theme="@style/My.Theme.ChildActivity" />
-        <activity android:name=".ui.send.SendIbanActivity"
+        <activity android:name=".ui.eternitywall.SendIbanActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:label="@string/send_coins_activity_title"
             android:screenOrientation="behind"
@@ -216,15 +216,15 @@
 
         <provider
             android:name="com.eternitywall.regtest.data.AddressBookProvider"
-            android:authorities="com.eternitywall.regtest.address_book"
+            android:authorities="${applicationId}.address_book"
             android:exported="false" />
         <provider
             android:name="com.eternitywall.regtest.data.ExchangeRatesProvider"
-            android:authorities="com.eternitywall.regtest.exchange_rates"
+            android:authorities="${applicationId}.exchange_rates"
             android:exported="false" />
         <provider
             android:name="com.eternitywall.regtest.util.FileAttachmentProvider"
-            android:authorities="com.eternitywall.regtest.file_attachment"
+            android:authorities="${applicationId}.file_attachment"
             android:exported="false"
             android:grantUriPermissions="true" />
 

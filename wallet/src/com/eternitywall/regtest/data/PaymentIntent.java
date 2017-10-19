@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.eternitywall.Data;
+import com.eternitywall.regtest.eternitywall.Utils;
 import com.google.common.io.BaseEncoding;
 
 import com.eternitywall.regtest.Constants;
@@ -273,11 +274,11 @@ public final class PaymentIntent implements Parcelable {
         try {
             Output[] outputs = null;
             if (!isBurningTx && address != null) {
-                Output outputOpReturn = new Output(Coin.ZERO, BitcoinEW.createOpReturnScript(datas));
+                Output outputOpReturn = new Output(Coin.ZERO, Utils.createOpReturnScript(datas));
                 Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
                 outputs = new Output[]{outputAmount, outputOpReturn};
             } else {
-                Output outputOpReturn = new Output(editedAmount, BitcoinEW.createOpReturnScript(datas));
+                Output outputOpReturn = new Output(editedAmount, Utils.createOpReturnScript(datas));
                 outputs = new Output[]{outputOpReturn};
             }
             return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
@@ -302,7 +303,7 @@ public final class PaymentIntent implements Parcelable {
             e.printStackTrace();
         }
         try {
-            Output outputOpReturn = new Output(Coin.ZERO, BitcoinEW.createOpReturnScript(datas));
+            Output outputOpReturn = new Output(Coin.ZERO, Utils.createOpReturnScript(datas));
             Output outputAmount = new Output(editedAmount, ScriptBuilder.createOutputScript(address));
             final Output[] outputs = new Output[] { outputAmount, outputOpReturn };
             return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
@@ -327,7 +328,7 @@ public final class PaymentIntent implements Parcelable {
             e.printStackTrace();
         }
         try {
-            Output outputOpReturn = new Output(editedAmount, BitcoinEW.createOpReturnScript(datas));
+            Output outputOpReturn = new Output(editedAmount, Utils.createOpReturnScript(datas));
             final Output[] outputs = new Output[] { outputOpReturn };
             return new PaymentIntent(standard, payeeName, payeeVerifiedBy, outputs, memo, null, payeeData, null, null);
 

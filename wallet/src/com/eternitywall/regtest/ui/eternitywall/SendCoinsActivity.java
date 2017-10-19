@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.eternitywall.regtest.ui.send;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import javax.annotation.Nullable;
 
-import org.bitcoinj.core.Address;
 import org.bitcoinj.core.Coin;
 import org.json.JSONObject;
 
@@ -28,13 +27,12 @@ import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
 import com.eternitywall.regtest.ui.HelpDialogFragment;
 import com.eternitywall.regtest.R;
-import com.eternitywall.regtest.ui.PhoneActivity;
+import com.eternitywall.regtest.ui.send.FeeCategory;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -42,14 +40,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -70,7 +66,7 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
 
 
     public static void start(final Context context, final PaymentIntent paymentIntent,
-            final @Nullable FeeCategory feeCategory, final int intentFlags) {
+                             final @Nullable FeeCategory feeCategory, final int intentFlags) {
         final Intent intent = new Intent(context, SendCoinsActivity.class);
         intent.putExtra(INTENT_EXTRA_PAYMENT_INTENT, paymentIntent);
         if (feeCategory != null)

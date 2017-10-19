@@ -398,6 +398,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                             @Override
                             public void run() {
                                 try {
+                                    //byte[] ipAddr = new byte[] { 10, 0, 2, 2 };
+                                    //peers.add(InetAddress.getByAddress(ipAddr));
                                     peers.add( InetAddress.getByName(dns) );
                                 } catch (UnknownHostException e) {
                                     log.info("exception on dnsres " + e);
@@ -414,11 +416,8 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                     }
                     log.info("Thread finishing");
 
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("10.0.2.2"), 18444 ));
-                    //peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, InetAddress.getByName("163.172.139.9"), 18444 ));
-
                     for(InetAddress peer : peers){
-                        peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, 18444 ));
+                        peerGroup.addAddress(new PeerAddress(Constants.NETWORK_PARAMETERS, peer, Constants.NETWORK_PARAMETERS.getPort() ));
                     }
 
                 } catch (Exception e) {

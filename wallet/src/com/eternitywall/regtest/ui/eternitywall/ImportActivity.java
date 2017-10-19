@@ -1,4 +1,4 @@
-package com.eternitywall.regtest.ui;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +13,8 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
+import com.eternitywall.regtest.ui.WalletActivity;
 
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
@@ -21,7 +23,7 @@ import org.bitcoinj.wallet.Wallet;
  * Created by luca on 07/08/2017.
  */
 
-public class ImportActivity extends  AbstractBindServiceActivity{
+public class ImportActivity extends AbstractBindServiceActivity {
 
     Button btnRecharge;
     Button btnCancel;

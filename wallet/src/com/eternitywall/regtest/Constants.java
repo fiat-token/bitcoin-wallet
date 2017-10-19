@@ -21,6 +21,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.format.DateUtils;
 
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.google.common.io.BaseEncoding;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
@@ -44,7 +45,7 @@ public final class Constants {
 
     /** Network this wallet is on (e.g. testnet or mainnet). */
     //public static final NetworkParameters NETWORK_PARAMETERS = TEST ? TestNet3Params.get() : MainNetParams.get();
-    public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
+    public static final NetworkParameters NETWORK_PARAMETERS = BitcoinEW.NETWORK_PARAMETERS;
     public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
 
     /** Bitcoinj global context. */
@@ -62,7 +63,9 @@ public final class Constants {
     public final static class Files {
         private static final String FILENAME_NETWORK_SUFFIX = NETWORK_PARAMETERS.getId()
                 .equals(NetworkParameters.ID_MAINNET) ? "" : NETWORK_PARAMETERS.getId()
-                .equals(NetworkParameters.ID_REGTEST) ? "-regtest" : "-testnet";
+                .equals(NetworkParameters.ID_REGTEST) ? "-regtest" : NETWORK_PARAMETERS.getId()
+                .equals(NetworkParameters.ID_TESTNET) ? "-testnet" : NETWORK_PARAMETERS.getId()
+                .equals(NetworkParameters.ID_VTKNTESTNET) ? "-vtkntest" : "-vtkn";
 
         /** Filename of the wallet. */
         public static final String WALLET_FILENAME_PROTOBUF = "wallet-protobuf" + FILENAME_NETWORK_SUFFIX;

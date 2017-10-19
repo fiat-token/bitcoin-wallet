@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context="com.eternitywall.regtest.ui.IbanValidationActivity">
+    tools:context="com.eternitywall.regtest.ui.eternitywall.IbanValidationActivity">
 
     <TextView
         android:id="@+id/textView"

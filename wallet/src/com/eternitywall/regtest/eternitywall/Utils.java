@@ -1,58 +1,26 @@
 package com.eternitywall.regtest.eternitywall;
 
-import android.view.View;
-
-
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.core.TransactionConfidence;
-import org.bitcoinj.core.TransactionOutPoint;
-import org.bitcoinj.core.TransactionOutput;
-import org.bitcoinj.core.UTXO;
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
-import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.script.Script;
 import org.bitcoinj.script.ScriptBuilder;
-import org.bitcoinj.utils.MonetaryFormat;
 import org.bitcoinj.wallet.KeyChain;
-import org.bitcoinj.wallet.Protos;
 import org.bitcoinj.wallet.Wallet;
-import org.bitcoinj.wallet.WalletTransaction;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BitcoinEW {
+/**
+ * Created by luca on 05/10/2017.
+ */
 
+public class Utils {
 
-    // Constants
-    public static String EW_URL = "https://eternitywall-api.appspot.com/pn2a/v1";
-    public static String EW_API_KEY = "ETxYGDXTV8O63Wv";
-    public static String EW_SHARING = "https://vtoken.eternitywall.com/";
-    public static long WALLET_MIN_TIMESTAMP = 1495000000 ;
-    public static int MAX_TRANSACTION_AMOUNT = 100*10000; // vTKN 100
-    public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
-
-    // Network & DNS peers
-    public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
-    public static final String[] DNSPEERS = {
-            "relay1.eternitywall.com",
-            "relay2.eternitywall.com",
-            "relay3.eternitywall.com",
-            "relay4.eternitywall.com",
-            "relay5.eternitywall.com",
-    };
 
     // Script OP_RETURN manipulation
     public static Script createOpReturnScript(List<Data> list) throws Exception {
@@ -161,4 +129,5 @@ public class BitcoinEW {
         }
         return null;
     }
+
 }

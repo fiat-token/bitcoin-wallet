@@ -36,7 +36,7 @@ import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.data.AddressBookProvider;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.ui.InputParser.StringInputParser;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.util.BitmapFragment;
 import com.eternitywall.regtest.util.Qr;
 import com.eternitywall.regtest.util.Toast;
@@ -326,7 +326,7 @@ public final class SendingAddressesFragment extends FancyListFragment
     }
 
     private void handleShowQr(final String address, final String label) {
-        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null).replace("bitcoin","vtkn");
+        final String uri = BitcoinURI.convertToBitcoinURI(Constants.NETWORK_PARAMETERS, address, null, label, null);
         final int size = getResources().getDimensionPixelSize(R.dimen.bitmap_dialog_qr_size);
         BitmapFragment.show(getFragmentManager(), Qr.bitmap(uri, size));
     }
@@ -389,7 +389,7 @@ public final class SendingAddressesFragment extends FancyListFragment
             if (clipUri == null)
                 return null;
             try {
-                return new BitcoinURI(clipUri.toString().replace("vtkn","bitcoin")).getAddress();
+                return new BitcoinURI(clipUri.toString()).getAddress();
             } catch (final BitcoinURIParseException x) {
                 return null;
             }

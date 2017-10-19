@@ -1,4 +1,4 @@
-package com.eternitywall.regtest.ui;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -19,57 +19,71 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+<<<<<<< HEAD:wallet/src/com/eternitywall/regtest/ui/IbanValidationActivity.java
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+=======
+import com.eternitywall.regtest.eternitywall.Utils;
+import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
+>>>>>>> master:wallet/src/com/eternitywall/regtest/ui/eternitywall/IbanValidationActivity.java
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.commons.codec.binary.Hex;
+import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import cz.msebera.android.httpclient.Header;
+import nl.garvelink.iban.IBAN;
+
+import org.apache.commons.codec.binary.Hex;
+
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import cz.msebera.android.httpclient.Header;
+public class IbanValidationActivity extends AbstractBindServiceActivity {
 
-import static com.eternitywall.regtest.eternitywall.BitcoinEW.EW_API_KEY;
-import static com.eternitywall.regtest.eternitywall.BitcoinEW.EW_URL;
-
-
-public class PhoneActivity extends AbstractBindServiceActivity {
-
-    EditText etPhone;
-    Button btnPhoneVerify, btnPhoneSkip;
+    EditText etPhone, etIban;
+    Button btnVerify, btnSkip;
     TextView tvTerms;
     CheckBox cbTerms;
+    Spinner mCountryCode;
 
     Wallet wallet;
     WalletApplication application;
     Configuration config;
-    String number;
-
-    Boolean numberIsDefined = false;
-    private Spinner mCountryCode;
-
-
+    String number, iban;
+    DeterministicKey deterministicKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.phone_activity);
+        setContentView(R.layout.iban_validation_activity);
 
-        mCountryCode = (Spinner) findViewById(R.id.phone_cc);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etIban = (EditText) findViewById(R.id.etIban);
+        tvTerms = (TextView) findViewById(R.id.tvTerms);
+        cbTerms = (CheckBox) findViewById(R.id.cbTerms);
+        btnVerify = (Button) findViewById(R.id.btnVerify);
+        btnSkip = (Button) findViewById(R.id.btnSkip);
+
+        application = getWalletApplication();
+        config = application.getConfiguration();
+        wallet = application.getWallet();
+        deterministicKey = Utils.getDeterministicKey(wallet);
+
+
+        mCountryCode = (Spinner) findViewById(R.id.phone_cc_iban);
 
 // populate country codes
         final CountryCodesAdapter ccList = new CountryCodesAdapter(this,
@@ -109,22 +123,12 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         mCountryCode.setSelection(ccList.getPositionForId(cc));
 
 
-        etPhone = (EditText) findViewById(R.id.etPhone);
-        tvTerms = (TextView) findViewById(R.id.tvTerms);
-        cbTerms = (CheckBox) findViewById(R.id.cbTerms);
-        btnPhoneVerify = (Button) findViewById(R.id.btnPhoneVerify);
-        btnPhoneSkip = (Button) findViewById(R.id.btnPhoneSkip);
-
-        application = getWalletApplication();
-        config = application.getConfiguration();
-        wallet = application.getWallet();
-
-        btnPhoneVerify.setOnClickListener(new View.OnClickListener() {
+        btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (cbTerms.isChecked() == false) {
-                    new AlertDialog.Builder(PhoneActivity.this)
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.phone_verification_popup_terms_of_service))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -138,37 +142,37 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 }
 
                 final CountryCodesAdapter.CountryCode selected = ccList.getSelected();
-
                 number = "00" + selected.countryCode + etPhone.getText().toString();
                 log.info("Number is " + number);
-                if (number != null && number.length() > 8) {
-                    // pass checking
-                    phoneValidNumber(number);
+                iban = etIban.getText().toString();
+                if (number == null || number.length() < 8){
+                    // phone invalid
+                    new AlertDialog.Builder(IbanValidationActivity.this)
+                            .setTitle(getString(R.string.app_name))
+                            .setMessage(getString(R.string.phone_verification_invalid))
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ;
+                                }
+                            })
+                            .show();
+                    return ;
+                } else if (!validateIban()) {
+                    // iban invalid
                     return;
-
+                } else {
+                    // pass checking
+                    phoneSendSms(number);
+                    return;
                 }
-
-
-                // phone invalid
-                new AlertDialog.Builder(PhoneActivity.this)
-                        .setTitle(getString(R.string.app_name))
-                        .setMessage(getString(R.string.phone_verification_invalid))
-                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                ;
-                            }
-                        })
-                        .show();
-
-
             }
         });
 
-        btnPhoneSkip.setOnClickListener(new View.OnClickListener() {
+        btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PhoneActivity.this.finish();
+                IbanValidationActivity.this.finish();
             }
         });
 
@@ -182,39 +186,17 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             }
         });
 
-    }
-
-    /**
-     * Compatibility method for {@link PhoneNumberUtil#getSupportedRegions()}.
-     * This was introduced because crappy Honeycomb has an old version of
-     * libphonenumber, therefore Dalvik will insist on we using it.
-     * In case getSupportedRegions doesn't exist, getSupportedCountries will be
-     * used.
-     */
-    @SuppressWarnings("unchecked")
-    private Set<String> getSupportedRegions(PhoneNumberUtil util) {
-
-        try {
-            return (Set<String>) util.getClass()
-                    .getMethod("getSupportedRegions")
-                    .invoke(util);
-        }
-        catch (NoSuchMethodException e) {
-            try {
-                return (Set<String>) util.getClass()
-                        .getMethod("getSupportedCountries")
-                        .invoke(util);
+        etIban.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b == false){
+                    validateIban();
+                }
             }
-            catch (Exception helpme) {
-                // ignored
-            }
-        }
-        catch (Exception e) {
-            // ignored
-        }
-        return new HashSet<>();
-    }
+        });
 
+        checkExistIban(deterministicKey.getPubKeyHash());
+    }
 
 
     @Override
@@ -229,52 +211,88 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     }
 
 
-
-    private void phoneValidNumber(String phone) {
+    private void checkExistIban(byte[] pubkey) {
         progress(true);
+
+
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
-        client.get(EW_URL + "/address/" + phone, new JsonHttpResponseHandler() {
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
+        client.get(BitcoinEW.EW_URL + "/iban/get/" + Hex.encodeHex(pubkey).toString(), new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
                 progress(false);
 
+
+                // no association
                 try {
-                    if (response.getString("status").equals("ok")) {
-                        numberIsDefined = true;
-                    } else {
-                        numberIsDefined = false;
+                    if(response.getString("status").equals("ko")){
+                        return;
                     }
-
-                    phoneSendSms(number);
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    return;
                 }
 
+                // retrieve local iban
+                SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+                String iban = prefs.getString("iban", null);
+                String msg = getString(R.string.iban_verification_just_registered);
+                if(iban != null ) {
+                    msg += " : " + iban;
+                }
+
+                // popup confirmation
+                new AlertDialog.Builder(IbanValidationActivity.this)
+                        .setTitle(getString(R.string.app_name))
+                        .setMessage(msg)
+                        .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                IbanValidationActivity.this.finish();
+                            }
+                        })
+                        .setPositiveButton(getString(R.string.next),new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ;
+                            }
+                        })
+                        .setCancelable(false)
+                        .show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-
-                numberIsDefined = false;
-                phoneSendSms(number);
             }
         });
     }
 
 
+    private boolean validateIban(){
+        try {
+            IBAN iban = IBAN.valueOf(etIban.getText().toString());
+            if(iban.isSEPA()){
+                Toast.makeText(this,getString(R.string.iban_sepa),Toast.LENGTH_LONG).show();
+                return true;
+            } else {
+                Toast.makeText(this,getString(R.string.iban_not_sepa),Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }catch (Exception e){
+            Toast.makeText(this,getString(R.string.invalid_iban),Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
 
     private void phoneSendSms(String phone) {
         progress(true);
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
-        client.post(EW_URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
+        client.post(BitcoinEW.EW_URL + "/sendsms/" + phone, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -287,15 +305,15 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanValidationActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void phoneInsertPin() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(PhoneActivity.this);
-        LayoutInflater inflater = PhoneActivity.this.getLayoutInflater();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(IbanValidationActivity.this);
+        LayoutInflater inflater = IbanValidationActivity.this.getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.phone_popup, null);
         dialogBuilder.setView(dialogView);
 
@@ -316,23 +334,24 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onClick(View view) {
                 // PIN verify : remote call
                 alertDialog.dismiss();
-                phoneVerify(number, etPin.getText().toString());
+                verify(etIban.getText().toString(), number, etPin.getText().toString(), deterministicKey.getPubKeyHash());
 
 
             }
         });
     }
 
-    private void phoneVerify(String phone, String secret) {
+    private void verify(final String iban, final String phone, final String secret, final byte[] pubKeyHash) {
         progress(true);
-
         AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("api_key", EW_API_KEY);
+        client.addHeader("api_key", BitcoinEW.EW_API_KEY);
         RequestParams params = new RequestParams();
+        params.add("phone_number_hash", String.valueOf(Hex.encodeHex(Sha256Hash.hash(phone.getBytes()))));
         params.add("secret_code", secret);
-        params.add("genesis_address", wallet.currentReceiveAddress().toBase58().toString());
-        params.add("xpub", String.valueOf(Hex.encodeHex(BitcoinEW.getDeterministicKey(wallet).getPubKey())));
-        client.post(EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
+        params.add("iban_hash", String.valueOf(Hex.encodeHex( Sha256Hash.hash(iban.getBytes()))));
+        params.add("public_key_hash", String.valueOf(Hex.encodeHex(pubKeyHash)));
+
+        client.post(BitcoinEW.EW_URL + "/iban/verify", params, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -341,28 +360,22 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
                 try {
                     if(response.getString("status").equals("ko")){
-                        Toast.makeText(PhoneActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IbanValidationActivity.this, getString(R.string.phone_verification_invalid), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     // set preferences for UI
-                    SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
-                    prefs.edit().putBoolean("phone_verification", true).apply();
-
-                    // send coupon only if the phone number was not just registered
-                    if(numberIsDefined == false){
-                        RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
-                        registerTask.startLoading();
-                    }
+                    SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+                    prefs.edit().putString("iban", iban).apply();
 
                     // popup confirmation
-                    new AlertDialog.Builder(PhoneActivity.this)
+                    new AlertDialog.Builder(IbanValidationActivity.this)
                             .setTitle(getString(R.string.app_name))
-                            .setMessage(getString(R.string.verification_success))
+                            .setMessage(getString(R.string.iban_verification_success))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    PhoneActivity.this.finish();
+                                    IbanValidationActivity.this.finish();
                                 }
                             })
                             .setCancelable(false)
@@ -378,7 +391,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
                 progress(false);
-                Toast.makeText(PhoneActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(IbanValidationActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
             }
         });
     }

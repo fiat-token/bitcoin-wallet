@@ -50,7 +50,7 @@ import com.eternitywall.regtest.data.ExchangeRatesProvider;
 import com.eternitywall.regtest.service.BlockchainState;
 import com.eternitywall.regtest.service.BlockchainStateLoader;
 import com.eternitywall.regtest.ui.send.FeeCategory;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.R;
 
 /**

@@ -1,4 +1,4 @@
-package com.eternitywall.regtest.ui;
+package com.eternitywall.regtest.ui.eternitywall;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
 import com.eternitywall.regtest.util.Toast;
 
 import org.bitcoinj.wallet.Wallet;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by luca on 07/08/2017.
  */
 
-public class ExportActivity extends  AbstractBindServiceActivity{
+public class ExportActivity extends AbstractBindServiceActivity {
 
     static String LAST_RECHARGE = "LAST_RECHARGE";
 

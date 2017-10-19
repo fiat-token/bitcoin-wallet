@@ -19,42 +19,33 @@ package com.eternitywall.regtest.ui;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.core.VerificationException;
 import org.bitcoinj.core.VersionedChecksummedBytes;
 import org.bitcoinj.wallet.Wallet;
 import org.bitcoinj.wallet.Wallet.BalanceType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.eternitywall.regtest.data.DynamicFeeLoader;
-import com.eternitywall.regtest.ui.send.FeeCategory;
-import com.eternitywall.regtest.ui.send.SendIbanActivity;
+import com.eternitywall.regtest.BuildConfig;
+import com.eternitywall.regtest.ui.eternitywall.ExportActivity;
+import com.eternitywall.regtest.ui.eternitywall.IbanValidationActivity;
+import com.eternitywall.regtest.ui.eternitywall.ImportActivity;
+import com.eternitywall.regtest.ui.eternitywall.PhoneActivity;
+import com.eternitywall.regtest.ui.eternitywall.RechargeActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendIbanActivity;
 import com.google.common.base.Charsets;
-import com.google.common.base.Stopwatch;
-import com.squareup.okhttp.Call;
 import com.squareup.okhttp.HttpUrl;
 
 import com.eternitywall.regtest.Configuration;
@@ -64,7 +55,7 @@ import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.ui.InputParser.BinaryInputParser;
 import com.eternitywall.regtest.ui.InputParser.StringInputParser;
 import com.eternitywall.regtest.ui.preference.PreferenceActivity;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.ui.send.SweepWalletActivity;
 import com.eternitywall.regtest.util.CrashReporter;
 import com.eternitywall.regtest.util.Crypto;
@@ -73,18 +64,11 @@ import com.eternitywall.regtest.util.Io;
 import com.eternitywall.regtest.util.Nfc;
 import com.eternitywall.regtest.util.WalletUtils;
 import com.eternitywall.regtest.R;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
-import com.squareup.okhttp.internal.http.HttpDate;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.AsyncTaskLoader;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
@@ -93,7 +77,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -175,7 +158,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
         MaybeMaintenanceFragment.add(getFragmentManager());
 
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         if (prefs.getBoolean("firstrun", true)) {
             prefs.edit().putBoolean("firstrun", false).apply();
 
@@ -316,7 +299,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 : R.string.wallet_options_encrypt_keys_set);
 
         // top menu visibility
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         if (prefs.getBoolean("phone_verification", false) == true) {
             menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
         }
@@ -326,7 +309,7 @@ public final class WalletActivity extends AbstractBindServiceActivity
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        SharedPreferences prefs = getSharedPreferences("com.eternitywall.regtest", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         switch (item.getItemId()) {
             case R.id.wallet_options_request:
                 handleRequestCoins();

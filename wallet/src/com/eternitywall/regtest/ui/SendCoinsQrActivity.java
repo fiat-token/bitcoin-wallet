@@ -25,7 +25,7 @@ import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.data.PaymentIntent;
 import com.eternitywall.regtest.ui.InputParser.StringInputParser;
-import com.eternitywall.regtest.ui.send.SendCoinsActivity;
+import com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity;
 import com.eternitywall.regtest.ui.send.SweepWalletActivity;
 
 import android.app.Activity;

@@ -50,6 +50,7 @@ import org.bitcoinj.uri.BitcoinURIParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.google.common.hash.Hashing;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.UninitializedMessageException;
@@ -78,7 +79,7 @@ public abstract class InputParser {
 
         @Override
         public void parse() {
-            if (input.startsWith("VEUR:-")) {
+            if (input.startsWith("vtkn:-")) {
                 try {
                     final byte[] serializedPaymentRequest = Qr.decodeBinary(input.substring(9));
 
@@ -98,7 +99,7 @@ public abstract class InputParser {
                 }
             } else if (input.startsWith("vtkn:")) {
                 try {
-                    final BitcoinURI bitcoinUri = new BitcoinURI(null, input.replace("vtkn","bitcoin"));
+                    final BitcoinURI bitcoinUri = new BitcoinURI(BitcoinEW.NETWORK_PARAMETERS, input);
                     final Address address = bitcoinUri.getAddress();
                     if (address != null && !Constants.NETWORK_PARAMETERS.equals(address.getParameters()) && false)  //TODO added for Regtest
                         throw new BitcoinURIParseException("mismatched network");

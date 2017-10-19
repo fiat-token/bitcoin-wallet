@@ -15,7 +15,7 @@
         android:shortcutShortLabel="@string/button_send_coins" >
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.eternitywall.regtest.ui.send.SendCoinsActivity"
+            android:targetClass="com.eternitywall.regtest.ui.eternitywall.SendCoinsActivity"
             android:targetPackage="com.eternitywall.regtest" />
     </shortcut>
     <shortcut
