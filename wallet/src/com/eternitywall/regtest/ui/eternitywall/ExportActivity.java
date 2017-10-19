@@ -53,6 +53,7 @@ public class ExportActivity extends AbstractBindServiceActivity {
             return;
         }
 
+        setTitle(getString(R.string.export_seed_dialog_title));
         showSeed(null);
     }
 

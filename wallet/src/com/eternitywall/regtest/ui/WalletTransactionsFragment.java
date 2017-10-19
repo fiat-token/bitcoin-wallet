@@ -43,6 +43,7 @@ import com.eternitywall.regtest.Constants;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.data.AddressBookProvider;
 import com.eternitywall.regtest.ui.TransactionsAdapter.Warning;
+import com.eternitywall.regtest.ui.eternitywall.ExportActivity;
 import com.eternitywall.regtest.ui.send.RaiseFeeDialogFragment;
 import com.eternitywall.regtest.util.BitmapFragment;
 import com.eternitywall.regtest.util.CrashReporter;
@@ -413,7 +414,8 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
     public void onWarningClick() {
         switch (warning()) {
         case BACKUP:
-            ((WalletActivity) activity).handleBackupWallet();
+            //((WalletActivity) activity).handleBackupWallet();
+            ((WalletActivity) activity).startActivity(new Intent(activity, ExportActivity.class));
             break;
 
         case STORAGE_ENCRYPTION:
@@ -595,6 +597,7 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
 
     private Warning warning() {
         final int storageEncryptionStatus = devicePolicyManager.getStorageEncryptionStatus();
+
         if (config.remindBackup())
             return Warning.BACKUP;
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
