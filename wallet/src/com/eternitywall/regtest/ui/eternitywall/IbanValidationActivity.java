@@ -24,32 +24,29 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
-<<<<<<< HEAD:wallet/src/com/eternitywall/regtest/ui/IbanValidationActivity.java
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-=======
 import com.eternitywall.regtest.eternitywall.Utils;
 import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
->>>>>>> master:wallet/src/com/eternitywall/regtest/ui/eternitywall/IbanValidationActivity.java
+import com.eternitywall.regtest.ui.CountryCodesAdapter;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.commons.codec.binary.Hex;
 import org.bitcoinj.core.Sha256Hash;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cz.msebera.android.httpclient.Header;
-import nl.garvelink.iban.IBAN;
-
-import org.apache.commons.codec.binary.Hex;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import cz.msebera.android.httpclient.Header;
+import nl.garvelink.iban.IBAN;
 
 public class IbanValidationActivity extends AbstractBindServiceActivity {
 
