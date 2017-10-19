@@ -64,8 +64,7 @@ public final class Constants {
         private static final String FILENAME_NETWORK_SUFFIX = NETWORK_PARAMETERS.getId()
                 .equals(NetworkParameters.ID_MAINNET) ? "" : NETWORK_PARAMETERS.getId()
                 .equals(NetworkParameters.ID_REGTEST) ? "-regtest" : NETWORK_PARAMETERS.getId()
-                .equals(NetworkParameters.ID_TESTNET) ? "-testnet" : NETWORK_PARAMETERS.getId()
-                .equals(NetworkParameters.ID_VTKNTESTNET) ? "-vtkntest" : "-vtkn";
+                .equals(NetworkParameters.ID_TESTNET) ? "-testnet" :  "-vtkntest" ;
 
         /** Filename of the wallet. */
         public static final String WALLET_FILENAME_PROTOBUF = "wallet-protobuf" + FILENAME_NETWORK_SUFFIX;
