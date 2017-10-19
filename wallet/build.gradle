@@ -34,8 +34,9 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile 'com.loopj.android:android-async-http:1.4.9'
     testCompile 'junit:junit:4.12'
-    compile 'com.googlecode.libphonenumber:libphonenumber:8.8.0'
+    compile 'com.googlecode.libphonenumber:libphonenumber:8.8.4'
     compile 'commons-codec:commons-codec:20041127.091804'
+
 }
 
 ext {
@@ -43,8 +44,8 @@ ext {
 }
 
 android {
-    compileSdkVersion 'android-25'
-    buildToolsVersion '26'
+    compileSdkVersion 'android-26'
+    buildToolsVersion '26.0.1'
 
     lintOptions {
         abortOnError false

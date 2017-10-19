@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,17 +23,23 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.commons.codec.binary.Hex;
-import org.bitcoinj.core.Address;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.wallet.KeyChain;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -41,7 +49,7 @@ import static com.eternitywall.regtest.eternitywall.BitcoinEW.EW_URL;
 
 public class PhoneActivity extends AbstractBindServiceActivity {
 
-    EditText etPhone, etPrefix;
+    EditText etPhone;
     Button btnPhoneVerify, btnPhoneSkip;
     TextView tvTerms;
     CheckBox cbTerms;
@@ -52,6 +60,8 @@ public class PhoneActivity extends AbstractBindServiceActivity {
     String number;
 
     Boolean numberIsDefined = false;
+    private Spinner mCountryCode;
+
 
 
     @Override
@@ -59,8 +69,47 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.phone_activity);
 
+        mCountryCode = (Spinner) findViewById(R.id.phone_cc);
+
+// populate country codes
+        final CountryCodesAdapter ccList = new CountryCodesAdapter(this,
+                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_spinner_dropdown_item);
+        PhoneNumberUtil util = PhoneNumberUtil.getInstance();
+        Set<String> ccSet = util.getSupportedRegions();
+
+        for (String cc : ccSet) {
+            ccList.add(cc);
+        }
+
+        ccList.sort(new Comparator<CountryCodesAdapter.CountryCode>() {
+            public int compare(CountryCodesAdapter.CountryCode lhs, CountryCodesAdapter.CountryCode rhs) {
+                return lhs.regionName.compareTo(rhs.regionName);
+            }
+        });
+
+        List<String> ordered = new LinkedList<>(ccSet);
+        Collections.sort(ordered);
+        mCountryCode.setAdapter(ccList);
+        mCountryCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ccList.setSelected(position);
+                log.info("Selected " + ccList.getSelected());
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        CountryCodesAdapter.CountryCode cc = new CountryCodesAdapter.CountryCode();
+        cc.regionCode = "IT";
+        cc.countryCode = 39;
+        cc.regionName = "Italy";
+        mCountryCode.setSelection(ccList.getPositionForId(cc));
+
+
         etPhone = (EditText) findViewById(R.id.etPhone);
-        etPrefix = (EditText) findViewById(R.id.etPrefix);
         tvTerms = (TextView) findViewById(R.id.tvTerms);
         cbTerms = (CheckBox) findViewById(R.id.cbTerms);
         btnPhoneVerify = (Button) findViewById(R.id.btnPhoneVerify);
@@ -88,7 +137,10 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                     return;
                 }
 
-                number = etPrefix.getText().toString() + etPhone.getText().toString();
+                final CountryCodesAdapter.CountryCode selected = ccList.getSelected();
+
+                number = "00" + selected.countryCode + etPhone.getText().toString();
+                log.info("Number is " + number);
                 if (number != null && number.length() > 8) {
                     // pass checking
                     phoneValidNumber(number);
@@ -131,6 +183,38 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         });
 
     }
+
+    /**
+     * Compatibility method for {@link PhoneNumberUtil#getSupportedRegions()}.
+     * This was introduced because crappy Honeycomb has an old version of
+     * libphonenumber, therefore Dalvik will insist on we using it.
+     * In case getSupportedRegions doesn't exist, getSupportedCountries will be
+     * used.
+     */
+    @SuppressWarnings("unchecked")
+    private Set<String> getSupportedRegions(PhoneNumberUtil util) {
+
+        try {
+            return (Set<String>) util.getClass()
+                    .getMethod("getSupportedRegions")
+                    .invoke(util);
+        }
+        catch (NoSuchMethodException e) {
+            try {
+                return (Set<String>) util.getClass()
+                        .getMethod("getSupportedCountries")
+                        .invoke(util);
+            }
+            catch (Exception helpme) {
+                // ignored
+            }
+        }
+        catch (Exception e) {
+            // ignored
+        }
+        return new HashSet<>();
+    }
+
 
 
     @Override

@@ -10,10 +10,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.eternitywall.BitcoinEW;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -39,12 +42,19 @@ import nl.garvelink.iban.IBAN;
 
 import org.apache.commons.codec.binary.Hex;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 public class IbanValidationActivity extends AbstractBindServiceActivity {
 
-    EditText etPhone, etPrefix, etIban;
+    EditText etPhone, etIban;
     Button btnVerify, btnSkip;
     TextView tvTerms;
     CheckBox cbTerms;
+    Spinner mCountryCode;
 
     Wallet wallet;
     WalletApplication application;
@@ -58,7 +68,6 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
         setContentView(R.layout.iban_validation_activity);
 
         etPhone = (EditText) findViewById(R.id.etPhone);
-        etPrefix = (EditText) findViewById(R.id.etPrefix);
         etIban = (EditText) findViewById(R.id.etIban);
         tvTerms = (TextView) findViewById(R.id.tvTerms);
         cbTerms = (CheckBox) findViewById(R.id.cbTerms);
@@ -69,6 +78,47 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
         config = application.getConfiguration();
         wallet = application.getWallet();
         deterministicKey = BitcoinEW.getDeterministicKey(wallet);
+
+
+        mCountryCode = (Spinner) findViewById(R.id.phone_cc_iban);
+
+// populate country codes
+        final CountryCodesAdapter ccList = new CountryCodesAdapter(this,
+                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_spinner_dropdown_item);
+        PhoneNumberUtil util = PhoneNumberUtil.getInstance();
+        Set<String> ccSet = util.getSupportedRegions();
+
+        for (String cc : ccSet) {
+            ccList.add(cc);
+        }
+
+        ccList.sort(new Comparator<CountryCodesAdapter.CountryCode>() {
+            public int compare(CountryCodesAdapter.CountryCode lhs, CountryCodesAdapter.CountryCode rhs) {
+                return lhs.regionName.compareTo(rhs.regionName);
+            }
+        });
+
+        List<String> ordered = new LinkedList<>(ccSet);
+        Collections.sort(ordered);
+        mCountryCode.setAdapter(ccList);
+        mCountryCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ccList.setSelected(position);
+                log.info("Selected " + ccList.getSelected());
+            }
+
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        CountryCodesAdapter.CountryCode cc = new CountryCodesAdapter.CountryCode();
+        cc.regionCode = "IT";
+        cc.countryCode = 39;
+        cc.regionName = "Italy";
+        mCountryCode.setSelection(ccList.getPositionForId(cc));
+
 
         btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +138,9 @@ public class IbanValidationActivity extends AbstractBindServiceActivity {
                     return;
                 }
 
-                number = etPrefix.getText().toString() + etPhone.getText().toString();
+                final CountryCodesAdapter.CountryCode selected = ccList.getSelected();
+                number = "00" + selected.countryCode + etPhone.getText().toString();
+                log.info("Number is " + number);
                 iban = etIban.getText().toString();
                 if (number == null || number.length() < 8){
                     // phone invalid
