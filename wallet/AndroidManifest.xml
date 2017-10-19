@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.eternitywall.regtest"
     android:installLocation="internalOnly"
-    android:versionCode="323"
+    android:versionCode="324"
     android:versionName="beach" >
 
     <uses-sdk
