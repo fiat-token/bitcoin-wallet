@@ -36,8 +36,8 @@
   <string name="wallet_transactions_options_filter_received">Pagamenti ricevuti</string>
   <string name="wallet_transactions_options_filter_sent">Pagamenti inviati</string>
   <string name="wallet_options_safety_menu">Salvataggio</string>
-  <string name="wallet_options_encrypt_keys_set">Imposta il PIN per spendere.</string>
-  <string name="wallet_options_encrypt_keys_change">Cambia il PIN di spesa.</string>
+  <string name="wallet_options_encrypt_keys_set">Imposta il PIN per spendere</string>
+  <string name="wallet_options_encrypt_keys_change">Cambia il PIN di spesa</string>
   <string name="wallet_options_safety">Note di sicurezza</string>
   <string name="wallet_options_technical_notes_title">Note tecniche</string>
   <string name="wallet_options_donate">Mancia / donazione</string>
@@ -377,13 +377,35 @@
   <string name="phone_verification_sendcoins_popup">Utente non registrato. Notifica al tuo contatto l\'app VitualToken.</string>
   <string name="phone_verification_sendcoins_sms">Installa VirtualToken da Play Store http://bit.ly/2x95eS6</string>
 
-    <string name="phone_verification_terms_of_service">Accetta i Termini del Servizio</string>
-    <string name="phone_verification_link_terms_of_service">Clicca qui per visualizzare i Termini del Servizio</string>
-    <string name="phone_verification_popup_terms_of_service">Accetta i Termini del Servizio per continuare</string>
-    <string name="recharge_noregistration">Registra il numero di telefono per continuare</string>
-    <string name="register">Registra</string>
+  <string name="phone_verification_terms_of_service">Accetta i Termini del Servizio</string>
+  <string name="phone_verification_link_terms_of_service">Clicca qui per visualizzare i Termini del Servizio</string>
+  <string name="phone_verification_popup_terms_of_service">Accetta i Termini del Servizio per continuare</string>
+  <string name="recharge_noregistration">Registra il numero di telefono per continuare</string>
+  <string name="register">Registra</string>
 
 
-    <string name="tap_here_to_open_address_book">Clicca qui per accedere alla rubrica</string>
-    <string name="phone_number">Numero di telefono</string>
+  <string name="tap_here_to_open_address_book">Clicca qui per accedere alla rubrica</string>
+  <string name="phone_number">Numero di telefono</string>
+  <string name="sendtoiban">Invia a IBAN</string>
+  <string name="send_coins_fragment_note_too_long"><![CDATA[Nota lunghezza < 62 caratteri]]></string>
+  <string name="send_coins_fragment_note_hint">Inserisci una nota</string>
+  <string name="restore_wallet_dialog_success_encrypted">Attenzione: il tuo portafoglio è protetto da un PIN di spesa. Assicurati di ricordarlo prima di ricevere importi su questo portafoglio.</string>
+  <string name="phone_verification">Verifica il tuo numero di telefono</string>
+  <string name="import_text">Inserisci il tuo seed come una lista ordinata di parole</string>
+  <string name="import_seed_success">Importazione del seed avvenuta con successo. Esci dall\'app e riapri VirtualToken.</string>
+  <string name="import_seed_failure">Importazione fallita. Controlla il tuo seed e riprova.</string>
+  <string name="import_seed_dialog_title">Importa un seed</string>
+  <string name="import_seed_confirm">Il tuo wallet sarà sovfrascritto. Annulla se desideri prima salvare il wallet corrente. Sei sicuro di proseguire?</string>
+  <string name="import_button">IMPORTA WALLET</string>
+  <string name="iban_verification_success">Verifica IBAN avvenuta con successo</string>
+  <string name="iban_verification_no_found">Non hai impostato l\'IBAN dell\'account. Esegui la validazione dell\'IBAN prima di continuare.</string>
+  <string name="iban_verification_just_registered">IBAN già validato. Premi \"Continua\" per validarne uno nuovo.</string>
+  <string name="iban_verification_invalid">IBAN non valido</string>
+  <string name="iban_verification">Verifica IBAN</string>
+  <string name="iban_phone_select">Inserisci il tuo numero di telefono</string>
+  <string name="iban_number_select">Inserisci il tuo IBAN</string>
+  <string name="export_seed_error">Errore nell\'esportazione del seed</string>
+  <string name="export_seed_dialog_title">Esporta il seed</string>
+  <string name="next">continua</string>
+  <string name="send_coins_fragment_note">Nota</string>
 </resources>
