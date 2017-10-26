@@ -61,7 +61,7 @@
   <string name="send_coins_fragment_payee_verified_by">confermato da: %s</string>
   <string name="send_coins_fragment_payee_verified_by_unknown">sconosciuto</string>
   <string name="send_coins_fragment_receiving_address_label">Paga a</string>
-  <string name="send_coins_fragment_receiving_address_hint">VEUR address</string>
+  <string name="send_coins_fragment_receiving_address_hint">indirizzo vTKN</string>
   <string name="send_coins_fragment_receiving_address_error">Indirizzo errato!</string>
   <string name="send_coins_fragment_receiving_address_own">Stai per inviare a te stesso!</string>
   <string name="send_coins_fragment_receiving_address_complex">completo\nindirizzo</string>
