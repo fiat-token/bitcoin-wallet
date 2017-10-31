@@ -401,7 +401,7 @@
     <string name="import_seed_confirm">Your wallet will be overwritten. Save the current wallet. Are you sure to continue?</string>
     <string name="import_seed_success">Importing seed with success. Please quit and re-open VirtualToken.</string>
     <string name="import_seed_failure">Operation failure. Check your seed and retry.</string>
-    <string name="iban_verification">Iban validation</string>
+    <string name="iban_verification">User verification (KYC)</string>
     <string name="iban_phone_select">Insert Phone Number</string>
     <string name="iban_number_select">Insert IBAN address</string>
     <string name="iban_verification_invalid">Invalid IBAN address</string>
@@ -411,7 +411,7 @@
     <string name="send_coins_fragment_note_too_long"><![CDATA[Note length < 62 characters]]></string>
     <string name="iban_verification_just_registered">Iban just validated. Touch \"Continue\" to validate a new iban.</string>
     <string name="next">continue</string>
-    <string name="iban_verification_success">Iban validation success</string>
+    <string name="iban_verification_success">User successfully verified</string>
     <string name="iban_example">IT98A0000000000000000000000</string>
     <string name="validate">validate</string>
     <string name="iban_verification_no_found">You have not defined an Iban account. Validate an Iban account before continue.</string>

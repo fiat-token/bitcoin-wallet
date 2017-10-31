@@ -397,11 +397,11 @@
   <string name="import_seed_dialog_title">Importa un seed</string>
   <string name="import_seed_confirm">Il tuo wallet sarà sovrascritto. Annulla se desideri prima salvare il wallet corrente. Sei sicuro di proseguire?</string>
   <string name="import_button">IMPORTA WALLET</string>
-  <string name="iban_verification_success">Verifica IBAN avvenuta con successo</string>
+  <string name="iban_verification_success">Verifica utente avvenuta con successo</string>
   <string name="iban_verification_no_found">Non hai impostato l\'IBAN dell\'account. Esegui la validazione dell\'IBAN prima di continuare.</string>
   <string name="iban_verification_just_registered">IBAN già validato. Premi \"Continua\" per validarne uno nuovo.</string>
   <string name="iban_verification_invalid">IBAN non valido</string>
-  <string name="iban_verification">Verifica IBAN</string>
+  <string name="iban_verification">Verifica utente (KYC)</string>
   <string name="iban_phone_select">Inserisci il tuo numero di telefono</string>
   <string name="iban_number_select">Inserisci il tuo IBAN</string>
   <string name="export_seed_error">Errore nell\'esportazione del seed</string>
