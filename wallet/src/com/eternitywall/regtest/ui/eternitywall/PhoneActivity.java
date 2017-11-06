@@ -325,7 +325,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         });
     }
 
-    private void phoneVerify(String phone, String secret) {
+    private void phoneVerify(final String phone, String secret) {
         progress(true);
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -351,11 +351,8 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                     SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
                     prefs.edit().putBoolean("phone_verification", true).apply();
 
-                    // send coupon only if the phone number was not just registered
-                    if(numberIsDefined == false){
-                        RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, wallet.currentReceiveAddress());
-                        registerTask.startLoading();
-                    }
+                    RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, phone);
+                    registerTask.startLoading();
 
                     // popup confirmation
                     new AlertDialog.Builder(PhoneActivity.this)

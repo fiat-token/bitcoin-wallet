@@ -106,8 +106,10 @@ public class RechargeActivity extends AbstractBindServiceActivity {
 
 
     private void registerAddress(){
+        /*
         RegisterAddress registerTask = new RegisterAddress(this, wallet.currentReceiveAddress());
         registerTask.startLoading();
+        */
 
         new AlertDialog.Builder(RechargeActivity.this)
                 .setTitle(getString(R.string.app_name))
