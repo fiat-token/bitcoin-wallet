@@ -93,7 +93,7 @@ android {
             java.srcDirs = ['mainnet']
         }
         vtknTestNet {
-            java.srcDirs = ['regtest']
+            java.srcDirs = ['testnet']
         }
     }
 
