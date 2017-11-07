@@ -358,7 +358,7 @@
   <string name="itxxt1927501600393471018002">IBAN IT98A0000000000000000000000</string>
   <string name="iban_BIC">BIC BCITITMM</string>
   <string name="button_top_up">Ricarica</string>
-  <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">La funzionalità non è attiva in questa fase di alpha-test. Si può invece simulare gratuitamente una volta al giorno la ricarica di:</string>
+  <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">La funzionalità non è attiva in questa fase di alpha-test.</string>
   <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Ricordate che, per ora, sono soldi puramente fittizzi!</string>
   <string name="vtkn_10_00">vTKN 10.00</string>
 

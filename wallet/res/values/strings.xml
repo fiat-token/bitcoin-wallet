@@ -367,7 +367,7 @@
     <string name="iban_BIC">BIC BCITITMM</string>
     <string name="button_top_up">Top-Up</string>
 
-    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">This facility is not active during the current alpha-test. Instead, top-up can be simulated freely once per day with a fixed amount of:</string>
+    <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of">This facility is not active during the current alpha-test.</string>
     <string name="for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of_2">Please remember that, for the time being, this is just fictitious money!</string>
     <string name="vtkn_10_00">vTKN 10.00</string>
 

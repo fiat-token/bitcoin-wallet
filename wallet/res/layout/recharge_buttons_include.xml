@@ -27,6 +27,7 @@
         android:maxLines="2"
         android:textAllCaps="false"
         android:textSize="@dimen/font_size_small"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </LinearLayout>
