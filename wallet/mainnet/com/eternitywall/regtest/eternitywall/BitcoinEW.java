@@ -7,6 +7,7 @@ import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.crypto.MnemonicCode;
 import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.params.RegTestParams;
+import org.bitcoinj.params.VtknNetParams;
 import org.bitcoinj.script.Script;
 import org.bitcoinj.script.ScriptBuilder;
 import org.bitcoinj.utils.MonetaryFormat;
@@ -30,7 +31,7 @@ public class BitcoinEW {
     public static final MonetaryFormat vTKN = new MonetaryFormat().minDecimals(2).optionalDecimals(2, 1).repeatOptionalDecimals(2,0).code(4,"vTKN").shift(4);
 
     // Network & DNS peers
-    public static final NetworkParameters NETWORK_PARAMETERS = RegTestParams.get();
+    public static final NetworkParameters NETWORK_PARAMETERS = VtknNetParams.get();
     public static final String[] DNSPEERS = {
             "relay1.eternitywall.com",
             "relay2.eternitywall.com",

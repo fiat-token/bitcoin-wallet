@@ -34,6 +34,7 @@ public class BitcoinEW {
     // Network & DNS peers
     public static final NetworkParameters NETWORK_PARAMETERS = VtknTestNetParams.get();
     public static final String[] DNSPEERS = {
+            "test.signer1.eternitywall.com",
             "test.signer2.eternitywall.com"
     };
 }

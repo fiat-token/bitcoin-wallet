@@ -8,8 +8,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 'android-15'
-    buildToolsVersion '26'
+    compileSdkVersion 'android-26'
+    buildToolsVersion '26.0.1'
 
     lintOptions { abortOnError false }
 
