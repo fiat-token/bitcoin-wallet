@@ -91,9 +91,11 @@ android {
         }
         vtknMainNet {
             java.srcDirs = ['mainnet']
+            res.srcDirs = ['mainnet_res']
         }
         vtknTestNet {
             java.srcDirs = ['testnet']
+            res.srcDirs = ['testnet_res']
         }
     }
 
