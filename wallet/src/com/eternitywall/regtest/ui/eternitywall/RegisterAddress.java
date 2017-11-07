@@ -29,17 +29,16 @@ class RegisterAddress extends AsyncTaskLoader<Boolean> {
 
     private final HttpUrl url;
     private final String userAgent;
-    private final Address address;
     private final Logger log = LoggerFactory.getLogger(WalletActivity.class);
     private final String URL = BitcoinEW.EW_RECHARGE_URL;
 
-    public RegisterAddress(final Context context, Address address) {
+    public RegisterAddress(final Context context, String phoneNumber) {
         super(context);
         final PackageInfo packageInfo = WalletApplication.packageInfoFromContext(context);
-        this.url = HttpUrl.parse(URL+"/"+address.toBase58());
-        log.info("calling " + URL.toString());
+        final String url = URL + "/" + phoneNumber;
+        this.url = HttpUrl.parse(url);
+        log.info("calling " + url);
         this.userAgent = WalletApplication.httpUserAgent(packageInfo.versionName);
-        this.address = address;
     }
 
 
