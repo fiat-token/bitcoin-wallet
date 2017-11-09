@@ -381,7 +381,7 @@
     <string name="phone_back">back</string>
     <string name="network_error">Network error</string>
     <string name="verification_success">Phone registration success</string>
-    <string name="phone_verification_just_happened">Phone number just registered</string>
+    <string name="phone_verification_just_happened">Phone number looks already registered, you can register again if you want to relink your phone number to this wallet</string>
     <string name="phone_verification_user_not_found">User not registered</string>
     <string name="phone_verification_sendcoins_popup">User not registered. Notify VitualToken app to your contact.</string>
     <string name="phone_verification_sendcoins_sms">Install VirtualToken from Play Store http://bit.ly/2x95eS6</string>

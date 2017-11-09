@@ -299,10 +299,10 @@ public final class WalletActivity extends AbstractBindServiceActivity
                 : R.string.wallet_options_encrypt_keys_set);
 
         // top menu visibility
-        SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        /*SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
         if (prefs.getBoolean("phone_verification", false) == true) {
             menu.findItem(R.id.wallet_options_phone_verification).setVisible(false);
-        }
+        }*/
 
         return true;
     }
@@ -416,6 +416,12 @@ public final class WalletActivity extends AbstractBindServiceActivity
                             .setTitle(getString(R.string.app_name))
                             .setMessage(getString(R.string.phone_verification_just_happened))
                             .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    startActivity(new Intent(WalletActivity.this, PhoneActivity.class));
+                                }
+                            })
+                            .setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     ;

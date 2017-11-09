@@ -372,7 +372,7 @@
   <string name="network_error">Problema di rete</string>
   <string name="verification_success">Verifica telefonica effettuata con successo</string>
 
-  <string name="phone_verification_just_happened">Telefono già verificato</string>
+  <string name="phone_verification_just_happened">Il numero di telefono è già stato registrato, se vuoi riassociarlo a questo wallet puoi registrarlo di nuovo</string>
   <string name="phone_verification_user_not_found">Utente non registrato</string>
   <string name="phone_verification_sendcoins_popup">Utente non registrato. Notifica al tuo contatto l\'app VitualToken.</string>
   <string name="phone_verification_sendcoins_sms">Installa VirtualToken da Play Store http://bit.ly/2x95eS6</string>
