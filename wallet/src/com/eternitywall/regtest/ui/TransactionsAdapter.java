@@ -624,6 +624,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 messageView.setTextColor(colorInsignificant);
                 messageView.setSingleLine(!itemView.isActivated());
             }
+            extendMessageView.setVisibility(View.GONE);
 
             // menu
             //menuView.setVisibility(itemView.isActivated() ? View.VISIBLE : View.GONE);
