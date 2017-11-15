@@ -415,5 +415,6 @@
     <string name="iban_example">IT98A0000000000000000000000</string>
     <string name="validate">validate</string>
     <string name="iban_verification_no_found">You have not defined an Iban account. Validate an Iban account before continue.</string>
+    <string name="wallet_options_resync">Resync blockchain</string>
 
 </resources>

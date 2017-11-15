@@ -65,7 +65,8 @@
             <item
                 android:id="@+id/wallet_options_resync"
                 android:showAsAction="never"
-                android:title="@string/wallet_options_resync" />
+                android:title="@string/wallet_options_resync"
+                android:visible="false"/>
         </menu>
     </item>
     <item
