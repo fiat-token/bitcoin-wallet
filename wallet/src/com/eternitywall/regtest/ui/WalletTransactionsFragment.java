@@ -44,6 +44,7 @@ import com.eternitywall.regtest.WalletApplication;
 import com.eternitywall.regtest.data.AddressBookProvider;
 import com.eternitywall.regtest.ui.TransactionsAdapter.Warning;
 import com.eternitywall.regtest.ui.eternitywall.ExportActivity;
+import com.eternitywall.regtest.ui.eternitywall.PhoneActivity;
 import com.eternitywall.regtest.ui.send.RaiseFeeDialogFragment;
 import com.eternitywall.regtest.util.BitmapFragment;
 import com.eternitywall.regtest.util.CrashReporter;
@@ -434,6 +435,12 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
         final Direction direction = ((TransactionsLoader) loader).getDirection();
 
         adapter.replace(transactions);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         if (transactions.isEmpty()) {
             viewGroup.setDisplayedChild(1);
@@ -443,8 +450,15 @@ public class WalletTransactionsFragment extends Fragment implements LoaderCallba
                             : R.string.wallet_transactions_fragment_empty_text_received));
             emptyText.setSpan(new StyleSpan(Typeface.BOLD), 0, emptyText.length(),
                     SpannableStringBuilder.SPAN_POINT_MARK);
-            if (direction != Direction.SENT)
+            if (direction != Direction.SENT) {
                 emptyText.append("\n\n").append(getString(R.string.wallet_transactions_fragment_empty_text_howto));
+                emptyView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(activity, PhoneActivity.class));
+                    }
+                });
+            }
             emptyView.setText(emptyText);
         } else {
             viewGroup.setDisplayedChild(2);

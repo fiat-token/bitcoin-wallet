@@ -336,6 +336,15 @@ public final class CurrencyAmountView extends FrameLayout {
                 s.append(replaced);
             }
 
+            int pos = replaced.indexOf('.');
+            if (pos!=-1 && pos+3 < replaced.length()) {
+                String substring = replaced.substring(pos+1, replaced.length());
+                String decimal = (substring.length()>=2)?substring.substring(0,2):substring;
+                String explicit = replaced.replace(substring,decimal);
+                s.clear();
+                s.append(explicit);
+            }
+
             MonetarySpannable.applyMarkup(s, null, MonetarySpannable.STANDARD_SIGNIFICANT_SPANS,
                     MonetarySpannable.STANDARD_INSIGNIFICANT_SPANS);
         }

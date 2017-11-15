@@ -62,6 +62,10 @@
                 android:id="@+id/wallet_options_import_seed"
                 android:showAsAction="never"
                 android:title="@string/import_seed_dialog_title" />
+            <item
+                android:id="@+id/wallet_options_resync"
+                android:showAsAction="never"
+                android:title="@string/wallet_options_resync" />
         </menu>
     </item>
     <item

@@ -433,6 +433,12 @@ public final class WalletActivity extends AbstractBindServiceActivity
             case R.id.wallet_options_iban_validation:
                 startActivity(new Intent(WalletActivity.this, IbanValidationActivity.class));
                 return true;
+            case R.id.wallet_options_resync:
+                application.resetBlockchain();
+                application.replaceWallet(wallet);
+                return true;
+
+
         }
 
         return super.onOptionsItemSelected(item);
