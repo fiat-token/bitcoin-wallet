@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
@@ -33,13 +34,14 @@ public class RechargeActivity extends AbstractBindServiceActivity {
     Wallet wallet;
     WalletApplication application;
     Configuration config;
+    TextView telephone;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.recharge_content);
-
+        final SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
 
         application = getWalletApplication();
         config = application.getConfiguration();
@@ -50,6 +52,9 @@ public class RechargeActivity extends AbstractBindServiceActivity {
 
         btnRecharge.setText(getString(R.string.button_top_up));
         btnCancel.setText(getString(R.string.button_cancel));
+        telephone = (TextView) findViewById(R.id.textViewTelephone);
+        telephone.setText(prefs.getString("phone_number",""));
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +66,7 @@ public class RechargeActivity extends AbstractBindServiceActivity {
             @Override
             public void onClick(View view) {
 
-                final SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+
                 boolean phoneVerification = prefs.getBoolean("phone_verification",false);
                 if (phoneVerification == false){
                     new AlertDialog.Builder(RechargeActivity.this)

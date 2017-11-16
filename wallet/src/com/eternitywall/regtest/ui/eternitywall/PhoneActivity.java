@@ -349,7 +349,10 @@ public class PhoneActivity extends AbstractBindServiceActivity {
 
                     // set preferences for UI
                     SharedPreferences prefs = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
-                    prefs.edit().putBoolean("phone_verification", true).apply();
+                    prefs.edit()
+                            .putBoolean("phone_verification", true)
+                            .putString("phone_number",phone)
+                            .apply();
 
                     RegisterAddress registerTask = new RegisterAddress(PhoneActivity.this, phone);
                     registerTask.startLoading();
