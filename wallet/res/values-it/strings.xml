@@ -408,4 +408,5 @@
   <string name="export_seed_dialog_title">Esporta il seed</string>
   <string name="next">continua</string>
   <string name="send_coins_fragment_note">Nota</string>
+  <string name="remember_to_write_your_telephone_number_with_the_international_prefix_in_the_causation_of_the_transfer">Ricordati di scrivere il tuo numero di telefono registrato nella causale del bonifico</string>
 </resources>

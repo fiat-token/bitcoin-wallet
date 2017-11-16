@@ -416,5 +416,6 @@
     <string name="validate">validate</string>
     <string name="iban_verification_no_found">You have not defined an Iban account. Validate an Iban account before continue.</string>
     <string name="wallet_options_resync">Resync blockchain</string>
+    <string name="remember_to_write_your_telephone_number_with_the_international_prefix_in_the_causation_of_the_transfer">Remember to write your telephone number with the international prefix in the wire notes</string>
 
 </resources>
