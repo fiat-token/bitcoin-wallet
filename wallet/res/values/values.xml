@@ -4,8 +4,8 @@
     <string name="symbol_to" translatable="false">→</string>
     <string name="symbol_from" translatable="false">←</string>
     <string name="symbol_internal" translatable="false">⇄</string>
-    <string name="app_name" translatable="false">Virtual Token</string>
-    <string name="app_name_short" translatable="false">vTKN</string>
+    <string name="app_name">Virtual Token</string>
+    <string name="app_name_short">vTKN</string>
 
     <string-array name="preferences_precision_values">
         <item>8</item>
