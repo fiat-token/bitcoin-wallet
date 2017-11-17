@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Virtual Token Test</string>
     <string name="app_name_short">vTKN-TEST</string>
+
+    <string name="itxxt1927501600393471018002">IBAN IT42W0306912711100000047XXX</string>
 </resources>

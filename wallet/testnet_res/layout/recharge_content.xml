@@ -97,6 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:textStyle="bold"
             android:text="@string/for_test_we_provide_to_recharge_your_wallet_max_once_a_day_with_a_fixed_amount_of" />
 
 
