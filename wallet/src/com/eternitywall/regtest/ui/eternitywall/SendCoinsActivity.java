@@ -181,7 +181,13 @@ public final class SendCoinsActivity extends AbstractBindServiceActivity {
     }
 
     private boolean isMobileNumber(final String phone) {
-        if(phone.getBytes()[3]=='0'){
+        if(phone.startsWith("0039") && phone.getBytes()[4]=='0'){
+            return false;
+        }else if(phone.startsWith("+39") && phone.getBytes()[3]=='0'){
+            return false;
+        }else if(phone.startsWith("39") && phone.getBytes()[2]=='0'){
+            return false;
+        }else if(phone.getBytes()[0]=='0'){
             return false;
         }
         return true;
