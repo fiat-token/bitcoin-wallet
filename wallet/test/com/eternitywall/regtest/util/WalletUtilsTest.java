@@ -27,7 +27,7 @@ import org.junit.Test;
  * @author Andreas Schildbach
  */
 public class WalletUtilsTest {
-    @Test
+    /*@Test
     public void restoreWalletFromProtobufOrBase58() throws Exception {
         WalletUtils.restoreWalletFromProtobufOrBase58(getClass().getResourceAsStream("backup-protobuf-testnet"),
                 TestNet3Params.get());
@@ -45,5 +45,5 @@ public class WalletUtilsTest {
     public void restoreWalletFromBase58_wrongNetwork() throws Exception {
         WalletUtils.restoreWalletFromProtobufOrBase58(getClass().getResourceAsStream("backup-base58-testnet"),
                 MainNetParams.get());
-    }
+    }*/
 }
