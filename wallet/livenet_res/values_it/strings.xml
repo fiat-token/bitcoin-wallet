@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">Virtual Token Live</string>
+    <string name="app_name_short">vTKN-Live</string>
+    <string name="to_recharge_your_wallet_please">Durante il livetest la ricarica è disabilitata per il pubblico. Tester selezionati hanno ricevuto istruzioni specifiche. La ricarica funzionerebbe con un SEPA Credit Transfer (bonifico) a:</string>
+    <string name="iban_example">IT98A0000000000000000000000</string>
+    <string name="itxxt1927501600393471018002">IBAN IT98A0000000000000000000000</string>
+</resources>

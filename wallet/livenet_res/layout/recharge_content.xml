@@ -76,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="Remember to write your telephone number with the international prefix in the causation of the transfer"
+            android:visibility="gone"
             />
 
         <TextView
@@ -89,7 +90,8 @@
             android:text="number"
             android:textAlignment="center"
             android:textIsSelectable="true"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/textView3"

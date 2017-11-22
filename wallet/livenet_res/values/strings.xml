@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string name="app_name">Virtual Token Live</string>
+    <string name="app_name_short">vTKN-Live</string>
+    <string name="to_recharge_your_wallet_please">During livetest top-up is disabled for general public. Selected beta testers should have received instructions. Top-up would work with SEPA Credit Transfer (i.e. a wire transfer) to:</string>
+    <string name="iban_example">IT98A0000000000000000000000</string>
+    <string name="itxxt1927501600393471018002">IBAN IT98A0000000000000000000000</string>
+
+
+</resources>
