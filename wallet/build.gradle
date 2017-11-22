@@ -69,11 +69,14 @@ android {
     }
 
     productFlavors {
-        vtknMainNet {
+        /*vtknMainNet {
             applicationId "com.eternitywall.regtest"
-        }
+        }*/
         vtknTestNet {
             applicationId "com.eternitywall.regtesttest"
+        }
+        vtknLiveNet {
+            applicationId "com.eternitywall.live"
         }
     }
 
@@ -89,13 +92,17 @@ android {
             java.srcDirs = ['test']
             resources.srcDirs = ['test']
         }
-        vtknMainNet {
+        /*vtknMainNet {
             java.srcDirs = ['mainnet']
             res.srcDirs = ['mainnet_res']
-        }
+        }*/
         vtknTestNet {
             java.srcDirs = ['testnet']
             res.srcDirs = ['testnet_res']
+        }
+        vtknLiveNet {
+            java.srcDirs = ['livenet']
+            res.srcDirs = ['livenet_res']
         }
     }
 

@@ -39,7 +39,7 @@ public class CryptoTest {
     private static final String PLAIN_TEXT = "plain text";
     private static final byte[] PLAIN_BYTES = PLAIN_TEXT.getBytes();
     private static final char[] PASSWORD = "password".toCharArray();
-
+/*
     @Test
     public void roundtripText() throws Exception {
         final String plainText = Crypto.decrypt(Crypto.encrypt(PLAIN_TEXT, PASSWORD), PASSWORD);
@@ -107,5 +107,5 @@ public class CryptoTest {
         reader.close();
 
         return backup.toString();
-    }
+    }*/
 }
