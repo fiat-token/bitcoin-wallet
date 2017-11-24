@@ -142,6 +142,7 @@ public class PhoneActivity extends AbstractBindServiceActivity {
                 final CountryCodesAdapter.CountryCode selected = ccList.getSelected();
 
                 number = "00" + selected.countryCode + etPhone.getText().toString();
+                number = number.replace(" ","").replace("_","").replace("+","").replace(".","");
                 log.info("Number is " + number);
                 if (number != null && number.length() > 8) {
                     // pass checking

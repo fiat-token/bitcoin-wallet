@@ -43,7 +43,8 @@
             android:ems="10"
             android:inputType="phone"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="44dp" />
+            tools:layout_editor_absoluteY="44dp"
+            android:digits="0123456789"  />
 
     </LinearLayout>
 
