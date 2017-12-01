@@ -23,6 +23,7 @@ import com.eternitywall.regtest.BuildConfig;
 import com.eternitywall.regtest.Configuration;
 import com.eternitywall.regtest.R;
 import com.eternitywall.regtest.WalletApplication;
+import com.eternitywall.regtest.eternitywall.BitcoinEW;
 import com.eternitywall.regtest.eternitywall.Utils;
 import com.eternitywall.regtest.ui.AbstractBindServiceActivity;
 import com.eternitywall.regtest.ui.CountryCodesAdapter;
@@ -31,7 +32,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.commons.codec.binary.Hex;
+import org.bitcoinj.crypto.ChildNumber;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.crypto.HDKeyDerivation;
 import org.bitcoinj.wallet.Wallet;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -332,8 +335,14 @@ public class PhoneActivity extends AbstractBindServiceActivity {
         client.addHeader("api_key", EW_API_KEY);
         RequestParams params = new RequestParams();
         params.add("secret_code", secret);
-        params.add("genesis_address", wallet.currentReceiveAddress().toBase58().toString());
-        params.add("xpub", String.valueOf(Hex.encodeHex(Utils.getDeterministicKey(wallet).getPubKey())));
+        params.add("genesis_address", wallet.currentReceiveAddress().toBase58());
+
+        byte[] seed = wallet.getKeyChainSeed().getSeedBytes();
+        DeterministicKey deterministicKey = HDKeyDerivation.createMasterPrivateKey(seed);
+        final DeterministicKey zeroHard = HDKeyDerivation.deriveChildKey(deterministicKey, ChildNumber.ZERO_HARDENED);
+        final String xpub = zeroHard.serializePubB58(BitcoinEW.NETWORK_PARAMETERS);
+        params.add("xpub", xpub);
+        //final String xpub = deterministicKey.serializePubB58(BitcoinEW.NETWORK_PARAMETERS);
         client.post(EW_URL + "/verify/" + phone, params, new JsonHttpResponseHandler() {
 
             @Override
