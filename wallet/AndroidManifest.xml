@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.eternitywall.regtest"
     android:installLocation="internalOnly"
-    android:versionCode="332"
+    android:versionCode="333"
     android:versionName="main" >
 
     <uses-sdk
