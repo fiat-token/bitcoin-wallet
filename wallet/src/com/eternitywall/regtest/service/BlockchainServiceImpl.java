@@ -51,6 +51,7 @@ import com.eternitywall.regtest.ui.WalletActivity;
 import com.eternitywall.regtest.util.CrashReporter;
 import com.eternitywall.regtest.util.ThrottlingWalletChangeListener;
 import com.eternitywall.regtest.util.WalletUtils;
+import com.google.common.base.Optional;
 import com.google.common.base.Stopwatch;
 
 import org.bitcoinj.core.Address;
@@ -90,6 +91,13 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -388,32 +396,63 @@ public class BlockchainServiceImpl extends android.app.Service implements Blockc
                 peerGroup.setPeerDiscoveryTimeoutMillis(Constants.PEER_DISCOVERY_TIMEOUT_MS);
                 peerGroup.setMaxPeersToDiscoverCount(1);
                 try {
-                    // Resolve InetAddress of the peers
-                    final List<InetAddress> peers = new ArrayList<>();
-                    final List<Thread> threads = new ArrayList<>();
 
-                    for (final String dns : BitcoinEW.DNSPEERS){
-                        log.info("asking dns ip for " + dns );
-                        Thread thread = new Thread(new Runnable() {
-                            @Override
-                            public void run() {
+
+                    ExecutorService executor = Executors.newFixedThreadPool(4);
+                    ArrayBlockingQueue<Optional<InetAddress>> queue = new ArrayBlockingQueue<>(BitcoinEW.DNSPEERS.length);
+
+                    class ResolveAsync implements Callable<Optional<InetAddress>> {
+                        private BlockingQueue<Optional<InetAddress>> queue;
+                        private String dns;
+
+                        public ResolveAsync(String dns_) {
+                            this.dns = dns_;
+                        }
+                        public void setQueue(BlockingQueue<Optional<InetAddress>> queue) {
+                            this.queue = queue;
+                        }
+                        @Override
+                        public Optional<InetAddress> call() throws Exception {
+                            try{
+                                InetAddress address = InetAddress.getByName(dns);
+                                Optional<InetAddress> of = Optional.of(address);
+                                queue.add(of);
+                                return of;
+                            }catch (Exception e){
+                                queue.add(Optional.<InetAddress>absent());
+                                return Optional.absent();
+                            }
+                        }
+
+                    }
+                    for (final String dns : BitcoinEW.DNSPEERS) {
+                        log.info("asking dns ip for " + dns);
+                        try {
+                            ResolveAsync resolveAsync = new ResolveAsync(dns);
+                            resolveAsync.setQueue(queue);
+                            executor.submit(resolveAsync);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    final List<InetAddress> peers = new ArrayList<>();
+                    for (int i=0; i < BitcoinEW.DNSPEERS.length; i++) {
+                        try {
+                            Optional<InetAddress> optionalStamp = queue.take();
+                            if (optionalStamp.isPresent()) {
                                 try {
-                                    //byte[] ipAddr = new byte[] { 10, 0, 2, 2 };
-                                    //peers.add(InetAddress.getByAddress(ipAddr));
-                                    peers.add( InetAddress.getByName(dns) );
-                                } catch (UnknownHostException e) {
-                                    log.info("exception on dnsres " + e);
+                                    peers.add(optionalStamp.get());
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
-                        });
-                        thread.start();
-                        threads.add(thread);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                    for(Thread thread : threads){
-                        thread.join();
-                    }
                     log.info("Thread finishing");
 
                     for(InetAddress peer : peers){
